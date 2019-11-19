@@ -1,0 +1,170 @@
+#!/home/g4p/products/R-3.1.2/bin/Rscript
+####!/usr/bin/env Rscript
+
+###
+### This R script processes the data files in a single campaign
+### directory, and produces the standard dataframes for that
+### campaign. See the README file for details of what is included in
+### each dataframe and for a description of the canonical directory
+### structure.
+###
+### Syntax:  fastr/make_dataframes.rscript campaign-directory
+###
+
+args <- commandArgs(TRUE)
+### --> if (length(args) != 1) stop("You must supply the name of a directory to process")
+if (length(args) < 1) stop("You must supply at least the name of a directory to process")
+
+suppressPackageStartupMessages(source("analysis/src/oss_functions.R"))
+suppressPackageStartupMessages(source("analysis/src/oss_functions_memory.R"))
+
+dirname <- args[[1]]
+
+print("Creating RUNENVS dataframe...")
+runenvs <- load.runenvs(dirname)
+save(runenvs, file=file.path(dirname, "runenvs.rda"))
+
+print("Creating RUNMETA dataframe...")
+runmeta <- runmeta.from.runenvs(runenvs)
+save(runmeta, file = file.path(dirname, "runmeta.rda"))
+
+print("Creating TRIALS dataframe...")
+trials <- load.trials(dirname)
+save(trials, file = file.path(dirname, "trials-premerged.rda"))
+trials <- merge(trials, runmeta)
+save(trials, file = file.path(dirname, "trials.rda"))
+
+print("Creating EVENTS dataframe...")
+events <- load.events(dirname)
+save(events, file = file.path(dirname, "events-premerged.rda"))
+events <- merge(events, runmeta)
+save(events, file = file.path(dirname, "events.rda"))
+
+print("Creating MEMORY dataframe...")
+memory <- load.memory(dirname)
+save(memory, file = file.path(dirname, "memory-premerged.rda"))
+memory <- merge(memory, runmeta)
+save(memory, file = file.path(dirname, "memory.rda"))
+
+print("Creating RUNMEMORY dataframe...")
+runmemory <- load.runmemory(dirname)
+save(runmemory, file = file.path(dirname, "runmemory-premerged.rda"))
+runmemory <- merge(runmemory, runmeta)
+save(runmemory, file = file.path(dirname, "runmemory.rda"))
+
+print("Pausing to clean up...")
+rm(runenvs, trials, events, memory, runmemory)
+#rm(runenvs, trials, events, memory)
+gc()
+
+print("Creating FUNCTIONS dataframe...")
+functions <- load.functions(dirname)
+save(functions, file = file.path(dirname, "functions-premerged.rda"))
+functions <- merge(functions, runmeta)
+medians <- aggregate(  cbind(leaf, leaf.frac, path, path.frac)~mangled+lib+mname+g4version
+                     , data = functions
+                     , FUN = median
+                     )
+names(medians) <- c(  "mangled", "lib", "mname","g4version"
+                    , "leaf.median", "leaf.frac.median", "path.median", "path.frac.median"
+                    )
+functions <- merge(functions, medians)
+rm(medians)
+max.medians <- aggregate(  cbind(leaf.median, leaf.frac.median, path.median, path.frac.median)~mangled+lib
+                         , data = functions
+                         , FUN = max
+                         )
+names(max.medians) <- c("mangled", "lib", "max.leaf.median", "max.leaf.frac.median", "max.path.median", "max.path.frac.median")
+functions <- merge(functions, max.medians)
+rm(max.medians)
+save(functions, file = file.path(dirname, "functions.rda"))
+
+print("Pausing to clean up...")
+rm(functions)
+gc()
+
+print("Creating CALL PATHS dataframe...")
+callpaths <- load.callpaths(dirname)
+save(callpaths, file = file.path(dirname, "callpaths-premerged.rda"))
+callpaths <- merge(callpaths, runmeta)
+medians <- aggregate(  cbind(path, path.frac)~mangled+mname+g4version
+                     , data = callpaths
+                     , FUN = median
+                     )
+names(medians) <- c( "mangled","mname","g4version"
+                    , "path.median", "path.frac.median"
+                    )
+callpaths <- merge(callpaths, medians)
+rm(medians)
+max.medians <- aggregate(  cbind(path.median, path.frac.median)~mangled+mname+g4version
+                         , data = callpaths
+                         , FUN = max
+                         )
+names(max.medians) <- c("mangled", "max.leaf.median", "max.leaf.frac.median", "max.path.median", "max.path.frac.median")
+callpaths <- merge(callpaths, max.medians)
+rm(max.medians)
+save(callpaths, file = file.path(dirname, "callpaths.rda"))
+
+print("Pausing to clean up...")
+rm(callpaths)
+gc()
+
+
+print("Creating LIBRARIES dataframe...")
+libraries <- load.libraries(dirname)
+save(libraries, file = file.path(dirname, "libraries-premerged.rda"))
+libraries <- merge(libraries, runmeta)
+medians <- aggregate(  samples~lib+mname+g4version
+                     , data = libraries
+                     , FUN = median
+                     )
+
+names(medians) <- c("lib", "mname", "g4version", "samples.median")
+libraries <- merge(libraries, medians)
+rm(medians)
+max.medians <- aggregate(  samples.median~lib
+                         , data = libraries
+                         , FUN = max
+                         )
+names(max.medians) <- c("lib", "max.samples.median")
+libraries <- merge(libraries, max.medians)
+
+save(libraries, file = file.path(dirname, "libraries.rda"))
+
+print("Pausing to clean up...")
+rm(libraries)
+gc()
+
+# more than one input argument;
+# check if the 2nd one is "nohwcsamp"
+if ( length(args) > 1 )
+{
+if ( sapply(args[[2]],tolower) != "nohwcsamp" )
+{
+print("Creating HWCSAMP dataframe...")
+hwcsamp <- load.hwcsamp(dirname)
+save(hwcsamp, file = file.path(dirname, "hwcsamp-premerged.rda"))
+hwcsamp <- merge(hwcsamp, runmeta)
+
+medians <- aggregate(  cbind(ptime, cpi, cyc, ins, fp, ld)~mangled+mname+g4version, data = hwcsamp, FUN = median)
+names(medians) <- c(  "mangled", "mname", "g4version", "ptime.median", "cpi.median", "tot_cyc.median", "tot_ins.median", "fp_ops.median", "ld_ins.median")
+hwcsamp <- merge(hwcsamp, medians)
+rm(medians)
+
+max.medians <- aggregate( cbind(ptime.median,cpi.median,tot_cyc.median,tot_ins.median,fp_ops.median,ld_ins.median)~mangled, data = hwcsamp, FUN = max)
+names(max.medians) <- c(  "mangled", "ptime.max", "cpi.max", "tot_cyc.max", "tot_ins.max", "fp_ops.max", "ld_ins.max")
+
+hwcsamp <- merge(hwcsamp, max.medians)
+rm(max.medians)
+save(hwcsamp, file = file.path(dirname, "hwcsamp.rda"))
+
+print("Pausing to clean up...")
+rm(hwcsamp)
+gc()
+}
+}
+
+## This tells emacs to view this file in R mode.
+## Local Variables:
+## mode:R
+## End:

@@ -1,0 +1,15 @@
+# svn keywords:
+# $Rev: 604 $: Revision of last commit
+# $Author: paterno $: Author of last commit
+# $Date: 2010-04-11 15:20:47 -0500 (Sun, 11 Apr 2010) $: Date of last commit
+
+#
+# This configuration file has the files for clhep
+#
+
+# TODO: Move this to g4-specific directory, preparing for move out of perfdb.
+
+url_base: http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/
+
+files:
+ - clhep-2.1.0.1.tgz

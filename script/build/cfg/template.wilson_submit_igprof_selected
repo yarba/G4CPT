@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+#check where ups products are available and set necessary products
+export LD_LIBRARY_PATH=/usr/local/gcc-4.9.2/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/usr/local/gcc-4.9.2/lib64/:${LD_LIBRARY_PATH}
+
+tool_dir=G4P_EXP_DIR/igprof
+
+# --> sample_list=`ls -l ${tool_dir} | awk '{print $9}'` 
+
+#sample_list="higgs.FTFP_BERT.1400.4 
+#e-.FTFP_BERT.50.4 
+#pi-.FTFP_BERT.50.4 
+#proton.FTFP_BERT.50.4 
+#anti_proton.FTFP_BERT.50.4
+#e-.FTFP_BERT.1.4
+#pi-.FTFP_BERT.1.4
+#proton.FTFP_BERT.1.4
+#anti_proton.FTFP_BERT.1.4"
+
+sample_list="higgs.FTFP_BERT.1400.4 
+e-.FTFP_BERT.50.4 
+pi-.FTFP_BERT.50.4 
+proton.FTFP_BERT.50.4 
+e-.FTFP_BERT.1.4
+e-100MeV.FTFP_BERT.100MeV.4
+pi-.FTFP_BERT.1.4
+proton.FTFP_BERT.1.4"
+
+#copy tarball to /dev/shm
+RAMDISK_DIR=/dev/shm
+# --> migrate --> TARBALL_DIR=/g4/g4p/build/g4.G4P_VERSION
+# --> go back to hardcoded --> TARBALL_DIR=G4P_TARBALL_DIR
+TARBALL_DIR=/lfstev/g4p/g4p/build/g4.G4P_VERSION
+TARBALL_NAME=G4P_TARBALL_NAME
+
+cp ${TARBALL_DIR}/${TARBALL_NAME} ${RAMDISK_DIR}
+tar xzf ${RAMDISK_DIR}/${TARBALL_NAME} -C ${RAMDISK_DIR}
+
+nfailed=0
+for sample_dir in ${sample_list} ; do
+  unset nfile
+  echo "... Processing ... ${sample_dir} ..."
+  source ${tool_dir}/${sample_dir}/run_igprof.sh
+
+  #check any failure and try again (just once)
+  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
+  if [ x${nfile} != x"17" ]; then
+    echo "... Resubmit ... ${sample_dir} ..."
+    source ${tool_dir}/${sample_dir}/run_igprof.sh
+  fi
+
+  #final check (only for status)
+  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
+  if [ x${nfile} != x"17" ]; then
+    echo "... Failed Twice: check for a real error ... ${sample_dir} ..."
+    nfailed=`expr ${nfailed} + 1`
+  fi
+done
+
+#clean up everything on the ram disk before exit
+rm -rf ${RAMDISK_DIR}/*
+
+echo "... Done with the Number of Faied Samples = ${nfailed}"

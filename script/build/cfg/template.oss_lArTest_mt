@@ -1,0 +1,76 @@
+#!/bin/bash
+
+cd G4PMT_WORK_DIR
+
+source setenv.sh
+#export PATH=${PATH}:/usr/local/openspeedshop-2.1/bin
+#setup oss: version 2.3
+# --> migrate --> export KRELL_ROOT_DIR=/g4/g4p/products-gcc71/krellroot_v2.3
+# --> migrate --> export OPENSS_ROOT_DIR=/g4/g4p/products-gcc71/openspeedshop_v2.3
+export KRELL_ROOT_DIR=/lfstev/g4p/g4p/products/krellroot_v2.3
+export OPENSS_ROOT_DIR=/lfstev/g4p/g4p/products/openspeedshop_v2.3
+
+export PATH=${KRELL_ROOT_DIR}/bin:${PATH}
+export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+export DYNINSTAPI_RT_LIB=${KRELL_ROOT_DIR}/lib64/libdyninstAPI_RT.so
+
+export PATH=${OPENSS_ROOT_DIR}/bin:${PATH}
+export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+
+
+node=G4PMT_NODE
+particle=G4PMT_PID
+energy=G4PMT_ENERGY
+list_thread=`echo G4PMT_LIST_THREAD`
+
+g4mt_cfg="run_lArTestMT.g4"
+freq_oss=1000
+
+for nthread in ${list_thread} ; do
+  unset exe  
+  unset cmd
+  unset nevents
+  unset log_file
+
+  run_cfg="run_${particle}_${energy}_${nthread}.g4"
+
+  sed "s%G4P_PARTICLE_TYPE%${particle}%"  ${g4mt_cfg} > ${run_cfg}
+  sed -i "s%G4P_BEAM_ENERGY%${energy}%"   ${run_cfg}
+
+  if [ x"$nthread" == x"0" ]; then
+	nevents=`expr 1 \* 1024`
+    sed -i "s%G4P_NUMBER_BEAMON%${nevents}%" ${run_cfg}
+    exe=`echo ./bin/lArTest`
+    cmd=`echo lArBox.gdml ${run_cfg}`
+  else
+    nevents=`expr ${nthread} \* 1024`
+    sed -i "s%G4P_NUMBER_BEAMON%${nevents}%" ${run_cfg}
+    exe=`echo ./bin/lArTestMT`
+    cmd=`echo lArBox.gdml ${run_cfg} -t ${nthread}`
+  fi
+  log_file="./${node}_${particle}_E${energy}_t${nthread}.log" 
+  echo "... processing ${nevents} osspcsamp \"$exe ${cmd}\" >& ${log_file}"
+
+  export OPENSS_RAWDATA_DIR=G4PMT_WORK_DIR/raw_${node}_${particle}_${energy}_${nthread}
+  if [ -d ${OPENSS_RAWDATA_DIR} ]; then 
+    rm -rf ${OPENSS_RAWDATA_DIR}/*         
+  else
+    mkdir ${OPENSS_RAWDATA_DIR}
+  fi
+
+  export OPENSS_DB_DIR=G4PMT_WORK_DIR/db_${node}_${particle}_${energy}_${nthread}  
+  if [ -d ${OPENSS_DB_DIR} ]; then 
+    rm -rf ${OPENSS_DB_DIR}/*         
+  else
+    mkdir ${OPENSS_DB_DIR}
+  fi
+
+  SLT=$((${RANDOM}%60+1))
+  echo "Will sleep ${SLT} seconds before running"
+  sleep ${SLT}
+
+  osspcsamp "${exe} ${cmd}" ${freq_oss} >& ${log_file}
+  rm ${run_cfg}
+done

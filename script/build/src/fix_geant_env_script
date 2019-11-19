@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 732 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-04-05 11:33:42 -0500 (Tue, 05 Apr 2011) $: Date of last commit
+
+# run me like this:
+#    ruby script/fix_geant_env_script build_base output-dir geant-release
+#
+
+# a script to "fix" geant4 env.sh files to make sure env points to "our" geant4 area
+
+# effectively 
+# sed -i_orig90 "s/\/storage\/local\/data1\/geant4work/\/uscms_data\/d2\/genser\/geant4run/g" env.sh
+
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+class EnvFixer
+  @@our_rc = 0
+
+  attr_accessor :geant_release, :build_base, :run_base
+
+  def initialize(geant_release, build_base, run_base)
+    self.geant_release = geant_release
+    self.build_base    = build_base
+    self.run_base      = run_base
+  end
+
+  def write(which)
+    theFile = env_script_dir(which) + '/env.sh'
+    puts "will modify:   #{theFile}"
+   
+    File.open(theFile, 'r+') do |f|
+      f.write File.open(theFile).read.gsub(build_base,run_base)
+    end
+
+  end
+
+  private
+
+#   /uscms_data/d2/genser/geant4run/g4.9.4.p01/unmodified/geant4.9.4.p01
+
+  def env_script_dir(which)
+    run_base + '/g4.' + geant_release + '/' + which + '/geant4.' + geant_release
+  end
+
+  def geant_base(which)
+    build_base + which + '/geant4.' + geant_release
+  end
+end
+
+geant_release = ARGV[0] || '9.4.p01'
+build_base    = ARGV[1] || '/storage/local/data1/geant4work'
+run_base      = ARGV[2] || '/uscms_data/d2/genser/geant4run'
+
+fixer = EnvFixer.new(geant_release, build_base, run_base)
+
+fixer.write('unmodified')
+
+
+

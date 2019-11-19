@@ -1,0 +1,12 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/bin
+export PATH
+
+WORK_DIR=G4P_OUTPUT_DIR
+cd ${WORK_DIR}
+
+Executable=G4P_RUN_SHELL
+Queue=G4P_NUM_QUEUE
+
+sbatch --nodes=1 --qos=g4perf --partition amd32_g4perf --time=24:00:00 --array=1-${Queue} -A g4p $Executable

@@ -1,0 +1,73 @@
+#!/usr/bin/env Rscript
+
+### This R script reads all the dataframes from the single-campaign R
+### binary data files, rbinds the dataframes to span all campaigns,
+### and then writes all the dataframes to a single binary R data file.
+###
+### Syntax:  fastr/combine_campaign_dataframes.rscript
+###
+
+load.all.meta <- function()
+{
+  load("g4.9.3p01_cms_3_8_0/runmeta.rda")
+  tmp <- runmeta
+  rm(runmeta)
+  load("g4.9.3p02_cms_3_8_0/runmeta.rda")
+  rbind(tmp, runmeta)
+}
+
+load.all.trials <- function()
+{
+  load("g4.9.3p01_cms_3_8_0/trials.rda")
+  tmp <- trials
+  rm(trials)
+  load("g4.9.3p02_cms_3_8_0/trials.rda")
+  rbind(tmp, trials)
+}
+
+load.all.events <- function()
+{
+  load("g4.9.3p01_cms_3_8_0/events.rda")
+  tmp <- events
+  rm(events)
+  load("g4.9.3p02_cms_3_8_0/events.rda")
+  rbind(tmp, events)
+}
+
+load.all.functions <- function()
+{
+  load("g4.9.3p01_cms_3_8_0/functions.rda")
+  tmp <- functions
+  rm(functions)
+  load("g4.9.3p02_cms_3_8_0/functions.rda")
+  rbind(tmp, functions)
+}
+
+load.all.libraries <- function()
+{
+  load("g4.9.3p01_cms_3_8_0/libraries.rda")
+  tmp <- libraries
+  rm(libraries)
+  load("g4.9.3p02_cms_3_8_0/libraries.rda")
+  rbind(tmp, libraries)
+}
+
+print("Loading run metadata...")
+runmeta   = load.all.meta()
+
+print("Loading trials data...")
+trials    = load.all.trials()
+
+print("Loading event data...")
+events    = load.all.events()
+
+print("Loading function data...")
+functions = load.all.functions()
+
+print("Loading library data...")
+libraries = load.all.libraries()
+
+print("Saving all data to campaigns.rda ...")
+save( list = c("runmeta", "trials", "events", "functions", "libraries")
+     , file = "campaigns.rda"
+     )

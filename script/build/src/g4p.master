@@ -1,0 +1,363 @@
+#!/bin/bash
+
+# svn keywords:
+# $Rev: 1 $: Revision of last commit
+# $Author: syjun $: Author of last commit
+# $Date: 2011-10-18 16:10:28 -0500 (Thu, 24 Mar 2011) $: Date of last commit
+
+#------------------------------------------------------------------------------
+# master script for geant4 profiling 
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# initialization and functions
+#------------------------------------------------------------------------------
+. ./g4p.init
+
+#------------------------------------------------------------------------------
+# arguments for g4p.master [config|build|status] [geant4|application|condor]
+#------------------------------------------------------------------------------
+
+case x"$1" in  
+
+xconfigure) #configure all g4p related environment
+
+  #check env
+  echo -e "... Setting up g4p configuration ...\n"
+
+  if [ -f g4p.init ]; then
+
+    for g4p_env in `grep -v "^#" g4p.init | grep -v \\${G4P_ | grep "G4P_"` 
+    do
+      echo -e "... Defined ... ${g4p_env} "
+    done
+
+  #check whether working directories for a new process exist or not
+    echo -e "\n... Checking g4p working directories ...\n"
+    for g4p_dir in ${G4P_PROJECT_DIR} ${G4P_G4DATASETS} ${G4P_BLUEARC_DIR} ${RUBY_DIR} \
+      ${G4P_FAST_DIR} ${G4P_MY_DIR} ${SRC_DIR} ${LOG_DIR} ; do
+      g4p_func_dir -e `echo ${g4p_dir}`
+    done
+  fi
+
+  #configure other g4p related procedures
+
+  exit
+  ;;
+
+#------------------------------------------------------------------------------
+# Building Geant4 and Applications: geant4|application
+#------------------------------------------------------------------------------
+
+xbuild) : # Building Geant4 and other applications
+
+  #----------------------------------------------------------------------------
+  # Building Geant4
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"geant4" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Building Geant4 ..."
+    g4p_log=${LOG_DIR}/g4p_build_geant4_${G4P_GEANT4_RELEASE}.log_${G4PTIME}
+    
+    ${SRC_DIR}/g4p_build_geant4.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
+    ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
+  fi
+
+  #----------------------------------------------------------------------------
+  # Building Geant4MT                                                         
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"geant4mt" -o x"$2" = x"all" ]; then
+
+   $MESSAGE "... Building Geant4MT ..."
+   g4p_log=${LOG_DIR}/g4p_build_geant4mt_${G4P_GEANT4_RELEASE}.log_${G4PTIME}
+
+   ${SRC_DIR}/g4p_build_geant4mt.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
+   ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
+  fi
+
+
+  #----------------------------------------------------------------------------
+  # Building Geant4 Static Libraries
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"geant4static" -o x"$2" = x"all" ]; then
+
+   $MESSAGE "... Building Geant4 Static Libraries ..."
+   g4p_log=${LOG_DIR}/g4p_build_geant4static_${G4P_GEANT4_RELEASE}.log_${G4PTIME}
+
+   ${SRC_DIR}/g4p_build_geant4static.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
+   ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
+  fi
+
+  #----------------------------------------------------------------------------
+  # Building Geant4MT Static Libraries
+  #----------------------------------------------------------------------------
+  
+  if [ x"$2" = x"geant4mtstatic" -o x"$2" = x"all" ]; then
+
+   $MESSAGE "... Building Geant4MT Static Libraries ..."
+   g4p_log=${LOG_DIR}/g4p_build_geant4mtstatic_${G4P_GEANT4_RELEASE}.log_${G4PTIME}
+
+   ${SRC_DIR}/g4p_build_geant4mtstatic.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
+   ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
+  fi
+
+  #----------------------------------------------------------------------------
+  # Building Application
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"application" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "...Building ${G4P_APPLICATION_NAME} ..."
+    APP_LOG_TAG=${G4P_APPLICATION_NAME}_${G4P_GEANT4_RELEASE}
+    g4p_log=${LOG_DIR}/g4p_build_${APP_LOG_TAG}.log_${G4PTIME}
+
+# These were provisions for building in g4/g4p but running out of /lfstev/g4p/g4p
+# However, it's causing strange behaviour of VSIZE so we've reverted to original scheme
+#    if [  x"$G4P_APPLICATION_NAME" = x"cmsExpMT" ]; then
+#       ${SRC_DIR}/g4p_build_application_tev.sh ${G4P_PROJECT_DIR} ${G4P_BLUEARC_DIR} \
+#       ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+#       ${G4P_APPLICATION_RELEASE} ${G4P_APPLICATION_CVSTAG} 2>&1 | tee ${g4p_log}
+#    else
+       ${SRC_DIR}/g4p_build_application_tev.sh ${G4P_PROJECT_DIR} ${G4P_PROJECT_DIR} \
+       ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+       ${G4P_APPLICATION_RELEASE} ${G4P_APPLICATION_CVSTAG} 2>&1 | tee ${g4p_log}
+#    fi
+  fi
+
+  if [ x"$2" != x"geant4" -a x"$2" != x"geant4mt" -a x"$2" != x"geant4static" -a x"$2" != x"geant4mtstatic" -a x"$2" != x"application" -a x"$2" != x"all" ]; then
+    echo "Usage: g4p.master build [geant4|application] - Nothing will be built"
+  fi
+
+  exit
+  ;;
+
+#------------------------------------------------------------------------------
+# Copying Geant4 and Application to launch profiling jobs: 
+#------------------------------------------------------------------------------
+
+xcreate) : # Control Profiling Jobs on Condor
+
+  #----------------------------------------------------------------------------
+  # Create a tarball to be sent to the Work Node (local ram disk)
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"tarball" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Creating a tarball for pbs jobs ..." 
+
+    g4p_log=${LOG_DIR}/g4p_create_tarball.log_${G4PTIME}
+    
+    ${SRC_DIR}/g4p_create_tarball.sh ${G4P_PROJECT_DIR} ${G4P_BLUEARC_DIR} ${G4P_RAMDISK_DIR} \
+	${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} 2>&1 | tee ${g4p_log} 
+  fi
+
+  #----------------------------------------------------------------------------
+  # Copy Geant4 and Application to the Work Node
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"copy" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Copying Geant4 and Application to BlueArc ..." 
+
+    g4p_log=${LOG_DIR}/g4p_create_copy.log_${G4PTIME}
+  
+    ${SRC_DIR}/g4p_create_copy.sh ${G4P_PROJECT_DIR} ${G4P_BLUEARC_DIR} \
+	${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+        ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log} 
+  fi
+
+  #----------------------------------------------------------------------------
+  # Create a New Experiment
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"experiment" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Creating exp_${G4P_EXP_NUM} for ${G4P_APPLICATION_NAME} ..."
+    g4p_log=${LOG_DIR}/g4p_create_experiment_${G4P_EXP_NUM}.log_${G4PTIME}
+
+    ${SRC_DIR}/g4p_create_experiment.sh ${G4P_EXP_NUM} ${G4P_DATA_DIR} \
+      ${G4P_BLUEARC_DIR} ${G4P_SPOOL_DIR} ${G4P_RAMDISK_DIR} \
+      ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+      ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log} 
+  fi
+
+  #----------------------------------------------------------------------------
+  # Create a OSS Experiment
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"oss" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Creating exp_${G4P_EXP_NUM} for ${G4P_APPLICATION_NAME} ..."
+    g4p_log=${LOG_DIR}/g4p_create_experiment_${G4P_EXP_NUM}.log_${G4PTIME}
+
+#    echo " G4P_EXP_NUM = ${G4P_EXP_NUM} "
+#    echo " G4P_DATA_DIR = ${G4P_DATA_DIR} "
+#    echo " G4P_BLUEARC_DIR = ${G4P_BLUEARC_DIR} "
+#    echo " G4P_SPOOL_DIR = ${G4P_SPOOL_DIR} "
+#    echo " G4P_RAMDISK_DIR = ${G4P_RAMDISK_DIR} "
+#    echo " G4P_GEANT4_RELEASE = ${G4P_GEANT4_RELEASE} "
+#    echo " G4P_APPLICATION_NAME = ${G4P_APPLICATION_NAME} "
+#    echo " G4P_APPLICATION_RELEASE = ${G4P_APPLICATION_RELEASE} "
+    
+    if [ x"$3" = x"selected" ]; then
+    ${SRC_DIR}/g4p_create_oss_selected.sh ${G4P_EXP_NUM} ${G4P_DATA_DIR} \
+      ${G4P_BLUEARC_DIR} ${G4P_SPOOL_DIR} ${G4P_RAMDISK_DIR} \
+      ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+      ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log} 
+    else
+    ${SRC_DIR}/g4p_create_oss.sh ${G4P_EXP_NUM} ${G4P_DATA_DIR} \
+      ${G4P_BLUEARC_DIR} ${G4P_SPOOL_DIR} ${G4P_RAMDISK_DIR} \
+      ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+      ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}        
+    fi
+  fi
+
+  #----------------------------------------------------------------------------
+  # Submit Condor Jobs
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"submit" -o x"$2" = x"all" ]; then
+
+    $MESSAGE "... Submit ${G4P_APPLICATION_NAME} to Condor ..."
+    exp_dir=${G4P_BLUEARC_DIR}/exp_${G4P_APPLICATION_NAME}_${G4P_EXP_NUM}
+
+    if [ x"$3" = x"sprof" -o x"$3" = x"all" -o x"$2" = x"all" ]; then
+
+      g4p_log=${LOG_DIR}/condor_submit_${G4P_EXP_NUM}_sprof.log_${G4PTIME}
+      rsh cmslpc-sl5.fnal.gov -l ${USER} /opt/condor/bin/condor_submit \
+      ${exp_dir}/sprof/submit_sprof 2>&1 | tee ${g4p_log}
+
+    elif [ x"$3" = x"igprof" -o x"$3" = x"all" -o x"$2" = x"all" ]; then
+
+      g4p_log=${LOG_DIR}/condor_submit_${G4P_EXP_NUM}_igprof.log_${G4PTIME}
+      rsh cmslpc-sl5.fnal.gov -l ${USER} /opt/condor/bin/condor_submit \
+      ${exp_dir}/igprof/submit_igprof 2>&1 | tee ${g4p_log}
+
+    else
+      echo "Usage: ${0} condor submit [sprof|igprof|all] ..."
+    fi
+  fi
+
+  #----------------------------------------------------------------------------
+  # Check Condor Jobs
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"status" ]; then
+
+    $MESSAGE "... Status of Condor Jobs ..."
+
+    rsh cmslpc-sl5.fnal.gov -l ${USER} /opt/condor/bin/condor_q \
+    -submitter ${USER}
+
+  fi
+
+  #----------------------------------------------------------------------------
+  # Kill Condor Jobs
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"kill" ]; then
+
+    $MESSAGE "... Kill Condor Jobs ..."
+
+    #confirm condor kill
+    echo "Do you really want to kill condor jobs?" 
+    echo "Answer [no|yes]"
+    unset confirm; read confirm
+    if [ x"$confirm" = x"yes" ]; then 
+      #check addr <ip:port> 
+      rsh cmslpc-sl5.fnal.gov -l ${USER} /opt/condor/bin/condor_rm \
+      -addr ip-port
+    else 
+      echo "... Cancel condor kill ... "
+    fi
+  fi
+
+  if [ x"$2" != x"tarball" -a x"$2" != x"oss" -a  \
+       x"$2" != x"copy" -a x"$2" != x"experiment" -a  x"$2" != x"submit" -a \
+       x"$2" != x"all" -a  x"$2" != x"status" -a x"$2" != x"kill" ]; then
+    echo "Usage: ${0} condor [copy|create|submit|all|status|kill] ... Nothing will be Done"
+  fi
+
+  exit
+  ;;
+
+#------------------------------------------------------------------------------
+# Post G4P Profiling Analysis on the Webserver: (oink.fnal.gov) 
+#------------------------------------------------------------------------------
+
+xweb) : 
+
+  #----------------------------------------------------------------------------
+  # Copy Profiling Results to the Webserver 
+  #----------------------------------------------------------------------------
+
+  if [ x"$2" = x"copy" ]; then
+
+    $MESSAGE "... Copying to Webserver ..."
+    g4p_log=${LOG_DIR}/copy_exp_tarballs.log_${G4PTIME}
+
+    ${RUBY_DIR}/ruby ${SRC_DIR}/copy_exp_tarballs.rb ${G4P_EXP_NUM} \
+     ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} ${G4P_BLUEARC_DIR} \
+     ${WEB_DIR} 2>&1 | tee ${g4p_log} 
+
+  #----------------------------------------------------------------------------
+  # Copy Profiling Results to the Webserver 
+  #----------------------------------------------------------------------------
+
+  elif [ x"$2" = x"analysis" ]; then
+
+    $MESSAGE "... Need to make rsh work ..."
+
+  else 
+    echo "Usage: ${0} web [copy|analysis] ... Nothing will be done"
+  fi
+
+  exit
+  ;;
+
+#------------------------------------------------------------------------------
+# Clean g4p 
+#------------------------------------------------------------------------------
+
+xclean) #clean up all g4p related processes and directories
+
+  build_base=${G4P_PROJECT_DIR}/build/g4.${G4P_GEANT4_RELEASE}
+  remote_base=${G4P_BLUEARC_DIR}/g4.${G4P_GEANT4_RELEASE}
+
+  if [ x"$2" = x"geant4" ]; then
+
+    g4p_func_dir -d "${build_base}/geant4.${G4P_GEANT4_RELEASE}"
+    g4p_func_dir -d "${remote_base}/geant4.${G4P_GEANT4_RELEASE}"
+
+  elif [ x"$2" = x"application" ]; then
+
+    g4p_func_dir -d "${build_base}/application/${G4P_APPLICATION_NAME}"
+    g4p_func_dir -d "${remote_base}/application/${G4P_APPLICATION_NAME}"
+
+  elif [ x"$2" = x"condor" ]; then
+
+    g4p_func_dir -d "${G4P_BLUEARC_DIR}/exp_${G4P_EXP_NUM}"
+
+  elif [ x"$2" = x"web" ]; then
+
+    echo "... Not implimented yet - Please remove manually ..."
+
+  else
+    echo "Usage: ${0} clean [geant4|application|condor|web] ... Nothing will be copied"
+  fi
+
+  exit
+  ;;
+
+#-----------------------------------------------------------------------
+# Check Usage 
+#-----------------------------------------------------------------------
+
+*)
+  echo Usage: `basename $0` '[configure|build|condor|web|clean] [geant4|application|condor]'
+  exit 1
+  ;;
+
+esac

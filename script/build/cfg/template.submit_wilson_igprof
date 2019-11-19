@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+#check where ups products are available and set necessary products
+export LD_LIBRARY_PATH=/usr/local/gcc-4.9.2/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/usr/local/gcc-4.9.2/lib64/:${LD_LIBRARY_PATH}
+
+tool_dir=G4P_EXP_DIR/igprof
+sample_list=`ls -l ${tool_dir} | grep -v higgs |awk '{print $9}'` 
+
+for sample_dir in ${sample_list} ; do
+  echo "... Processing ... ${sample_dir} ..."
+  source ${tool_dir}/${sample_dir}/run_igprof.sh
+done
+
+echo "... Processing ... higgs.FTFP_BERT.1400.4 ..."
+source ${tool_dir}/higgs.FTFP_BERT.1400.4/run_igprof.sh
+
+echo "Done"

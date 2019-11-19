@@ -1,0 +1,279 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../cfg/environment'
+require File.dirname(__FILE__) + '/unpack_trial_tarballs'
+require 'getoptlong'
+
+$doc = <<ENDDOC
+unpack_daemon - unpack new taballs when signal is recieved
+
+SYNOPSIS
+unpacker_daemon [options]
+
+DESCRIPTION
+
+When the USR1 or ALRM signal is recieved, check the database for 
+new tarballs and unpack them.
+
+OPTIONS
+
+  -h, --help
+  Print this help and exit.
+
+  -v, --verbose
+  Use verbose logging.
+
+  -e, --environment [production, development]
+  Choose which environment you want to run your application in.
+
+  -a, --autopoke [seconds]
+  Check the database for new tarballs automatically.
+  If no argument is supplied the default is every 300 seconds.
+
+  -m, --mark [seconds]
+  Mark the log file periodically.
+  If no argument is supplied the default is every 1200 seconds.
+  
+Logging goes to log/unpack_daemon.log and is rolled over weekly
+
+ENDDOC
+
+def usage
+  puts $doc
+end
+
+# This script is meant to be run as a daemon. When the USR1 or ALRM signal is 
+# trapped, it checks for uploaded trial tarballs in the database and processes them.
+#
+class UnpackDaemon
+  def initialize
+    begin
+      @time = Time.now
+      @logger = Logger.new("#{RAILS_ROOT}/log/unpack_daemon_#{ENV["RAILS_ENV"]}.log", 'weekly')
+      handle_options
+
+      info "Initializing daemon..."
+
+      setup_traps
+
+      info "*** DAEMON STARTED - #{$$}"
+      detail "Waiting for signal or timeout..."
+      @state = :waiting
+    rescue SystemExit
+      # This silly rescue is necessary so that we
+      # don't print a message in response to calling exit elsewhere.
+      raise
+    rescue Exception => x
+      puts "Error while initializing: #{x}\nExiting..."
+      exit
+    end
+  end
+
+  # Sets up the signal handlers
+  #
+  def setup_traps
+    trap("TERM") { cleanup }
+    trap("HUP") { cleanup }
+    trap("INT") { cleanup }
+    trap("QUIT") { cleanup }
+    # will respond to either USR1 or ALRM
+    trap("USR1") { Process.kill("ALRM", $$) }
+    trap("ALRM") { }
+  end
+
+  # Checks for command line options and processes them
+  #
+  def handle_options
+    @verbose = false
+    @autopoke = 0
+    @mark_delay = 0
+    ENV["RAILS_ENV"] = nil
+
+    opts = GetoptLong.new([ '--help',   '-h', GetoptLong::NO_ARGUMENT ],
+                          [ '--verbose','-v', GetoptLong::NO_ARGUMENT ],
+                          [ '--environment','-e', GetoptLong::REQUIRED_ARGUMENT ],
+                          [ '--autopoke','-a', GetoptLong::REQUIRED_ARGUMENT ],
+                          [ '--mark','-m', GetoptLong::REQUIRED_ARGUMENT ])
+
+    opts.quiet = true
+
+    opts.each do | opt, arg |
+      case opt
+      when '-a', '--autopoke'
+        if arg == ''
+          @autopoke = 300  # default is 5 min
+        else
+          begin
+            @autopoke = Integer(arg)
+          rescue ArgumentError
+            puts 'Not a valid poke delay.'
+            usage
+            exit  
+          end
+        end
+      when '-e', '--environment'
+        if arg == 'production'
+          ENV["RAILS_ENV"] = 'production'
+        elsif arg == 'development'
+          ENV["RAILS_ENV"] = 'development'
+        else
+          # TODO: the next line, when run on the perfapp account on
+          # oink, ends up printing "production is not a valid
+          # environment". How can this be?
+          info "'#{arg}' is not a valid environment."
+          usage
+          exit
+        end
+      when '-m', '--mark'
+        if arg == ''
+          @mark_delay = 1200  # default is 20 min   
+        else
+          begin
+            @mark_delay = Integer(arg)
+          rescue ArgumentError
+            puts 'Not a valid mark delay.'
+            usage
+            exit  
+          end
+        end
+      when '-h', '--help'
+        usage
+        exit
+      when '-v', '--verbose'
+        @verbose = true
+      end
+    end
+  end
+  
+  # Performs a graceful shutdown of the daemon
+  #
+  def cleanup
+    begin
+      info "Exiting..."
+      @state = :shutting_down
+      Process.kill("ALRM", $$)  # Wake from sleep so we can shutdown now
+
+    rescue Exception => bang
+      error "Error while exiting: #{bang}"
+
+    ensure
+      info "*** DAEMON SHUTTING DOWN - PID #{$$}"
+    end
+  end
+
+  # print important messages
+  #
+  def info(msg)
+    @logger.info "#{Time.now} - #{msg}"
+  end
+
+  # print verbose messages
+  def detail(msg)
+    @logger.info "#{Time.now} - #{msg}" if @verbose
+  end
+
+  # print error messages
+  #
+  def error(msg)
+    @logger.error "#{Time.now} - #{msg}"
+  end
+
+  # marks log file every @mark_delay seconds 
+  #
+  def mark
+    unless @mark_delay == 0
+      if Time.now >= @time + @mark_delay
+        info "#{Time.now} -- MARK --"
+        @time = Time.now
+      end
+    end
+  end
+  
+  # Sleep for given amount of time; if no time given, sleep indefinitely
+  #
+  def wait
+    detail "Sleeping..."
+    if @autopoke > 0  
+      sleep @autopoke
+    else
+      sleep
+    end
+  end
+
+  # Check db for new tarballs
+  #
+  def check
+    #@state = :checking
+    detail "Checking for new tarballs..."
+
+    new_tarballs = TrialTarball.all_unprocessed
+    if new_tarballs.empty?
+      detail "No tarballs to unpack."
+    else
+      #@state = :processing
+      info "Processing new tarballs..."
+      process(new_tarballs)
+    end
+    #@state = :waiting
+  end
+      
+  # Unpack and process each of the tarballs in the array
+  #
+  def process(tarballs)
+    tarballs.each do |t|
+      begin
+        t.state = "processing"
+        t.save!
+        ups = UnpackScript.new(t.experiment_id, false)
+        ups.run_single(t.filename)
+        t.state = "unpacked"  # once confident, should to delete entry
+        t.save!
+        info "exp_#{t.experiment_id}, tarball #{t.filename} processed successfully."
+
+      rescue UnpackScriptError, SystemCallError => boom
+        error "unpack_trial_tarballs error: #{boom}"
+        t.state = "failed"
+        t.failure_message = boom.message
+        t.save!
+        info "exp_#{t.experiment_id}, tarball #{t.filename} failed during processing."
+
+      rescue ActiveRecord::RecordNotSaved => bang
+        error "Unable to save record for tarball #{t.filename}: #{bang}"
+        t.state = "failed"
+        t.failure_message = bang.message
+        t.save!
+        info "exp_#{t.experiment_id}, tarball #{t.filename} failed during processing."
+
+      rescue Exception => pow
+        error "Error when working on tarball #{t.filename}: #{pow}"
+        t.state = "failed"
+        t.failure_message = pow.message
+        t.save!
+        info "exp_#{t.experiment_id}, tarball #{t.filename} failed during processing."
+      end
+    end
+  end
+
+  # check and wait, check and wait...
+  #
+  def run
+    if ENV['RAILS_ENV'].nil?
+      error "RAILS_ENV is not set"
+      usage
+      exit
+    end
+    while(@state != :shutting_down)
+      check
+      wait
+      mark
+    end
+    info "*** DAEMON TERMINATED - PID #{$$}"
+    @logger.close
+  end
+end
+
+# main
+#if __FILE__ == $0
+ud = UnpackDaemon.new
+ud.run
+#end

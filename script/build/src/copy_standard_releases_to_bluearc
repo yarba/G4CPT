@@ -1,0 +1,150 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 604 $: Revision of last commit
+# $Author: paterno $: Author of last commit
+# $Date: 2010-04-11 15:20:47 -0500 (Sun, 11 Apr 2010) $: Date of last commit
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+$doc = <<ENDDOC
+copy_to_bluearc - copy Geant4, CLHEP & application to BlueArc space
+
+SYNOPSIS
+  ruby script/copy_to_bluearc GEANT4-release CLHEP-release [source [dest [config_file]]]
+
+  GEANT4-release should be in a form like 9.4.p01
+  CLHEP-release should be in a form like 2.1.0.1
+  source-dir, if not specified, is '/storage/local/data1/geant4work'
+  dest-dir, if not specified, is '/uscms_data/d2/genser/geant4run'
+
+ENDDOC
+
+require 'rubygems'
+require 'getoptlong'
+require 'fileutils'
+
+def usage
+  puts $doc
+end
+
+class MainScript
+  attr_accessor :geant_release, :clhep_release, :build_base, :run_base
+  def initialize
+    opts = 
+      GetoptLong.new( [ "--help", "-h", GetoptLong::NO_ARGUMENT ] )
+    opts.quiet = true
+    opts.each do |opt, arg|
+      case opt
+      when "-h", "--help"
+	usage
+	exit	
+      end
+    end
+
+    case ARGV.length
+    when 0..1
+      puts "Too few arguments"
+      usage
+      exit 1
+    else
+      self.geant_release = ARGV[0]
+      self.clhep_release = ARGV[1]
+      self.build_base    = ARGV[2] || '/storage/local/data1/geant4work'
+      self.run_base      = ARGV[3] || '/uscms_data/d2/genser/geant4run'
+    end  
+  end
+
+  def run
+    check_directories
+    copy_geant("g4.#{geant_release}", "clhep/#{clhep_release}")
+  end
+
+  private
+  def check_directories
+    unless File.directory?(build_base)
+      puts "Source directory '#{build_base}' does not exist"
+      exit 1
+    end
+    unless File.directory?(run_base)
+      puts "Destination directory '#{run_base}' does not exist"
+      exit 1
+    end
+  end
+
+  def copy_geant(*dirs)
+#   the version below is used to copy the geant4 areas; 
+#    dirs = ["g4.#{geant_release}"]
+    dirs.each do |dir|
+      fork do
+	puts "Process #{Process.pid} will copy #{dir} from #{build_base} to #{run_base}"
+	result = `umask 0002; cd #{build_base} && find #{dir} -path 'CVS' -prune -o -print | cpio -pdumL #{run_base}`
+#	result = `echo "cd #{build_base} && find #{dir} -path 'CVS' -prune -o -print | cpio -pdumL #{run_base}"`
+	status = $?.exitstatus
+	if status != 0
+	  puts "Process #{Process.pid} failed"
+	  puts result
+	end	
+      end
+    end
+    children = Process.waitall
+    children.each do |pid, status|
+      if status.exitstatus == 0
+	puts "Process #{pid} OK"
+      else
+	raise Exception.new("Process #{pid} FAILED")
+      end
+    end
+  end
+# note the copy & paste below
+  def copy_clhep
+#   the version below is used to copy the clhep AND geant4 areas; 
+    dirs = ["clhep/#{clhep_release}"]
+    dirs.each do |dir|
+      fork do
+	puts "Process #{Process.pid} will copy #{dir} from #{build_base} to #{run_base}"
+	result = `umask 0002; cd #{build_base} && find #{dir} -path 'CVS' -prune -o -print | cpio -pdumL #{run_base}`
+#	result = `echo "cd #{build_base} && find #{dir} -path 'CVS' -prune -o -print | cpio -pdumL #{run_base}"`
+	status = $?.exitstatus
+	if status != 0
+	  puts "Process #{Process.pid} failed"
+	  puts result
+	end	
+      end
+    end
+    children = Process.waitall
+    children.each do |pid, status|
+      if status.exitstatus == 0
+	puts "Process #{pid} OK"
+      else
+	raise Exception.new("Process #{pid} FAILED")
+      end
+    end
+  end
+end
+
+
+#-----------------------------------------------------------------------
+# Main program
+#-----------------------------------------------------------------------
+
+if __FILE__ == $0
+  begin
+    MainScript.new.run
+    puts "#{$0} ended"
+  rescue GetoptLong::Error => x
+    puts "copy_to_bluearc error: " + x
+    exit 1
+  end
+end
+
+
+
+
+
+
+
+
+
+
+

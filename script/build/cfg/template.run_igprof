@@ -1,0 +1,116 @@
+#!/bin/sh
+
+# svn keywords:
+# $Rev: 1 $: Revision of last commit
+# $Author: syjun $: Author of last commit
+# $Date: 2011-11-07 10:00:00 -0500 $: Date of last commit
+# $Id: igprof_shell.template 428 2011-11-07 10:00:00 syjun $
+
+# This is a template to create a shell script that will run 
+# igprof on geant4 applications.
+
+# argument is $PROCESS of condor jobs
+
+JOB=$1
+
+# excutables and configuration
+
+EXE_NAME=G4P_APPLICATION_EXE
+CFG_FILE=G4P_APPLICATION_CFG
+INPUT_FILE=G4P_INPUT_FILE
+OUTPUT_DIR=G4P_OUTPUT_DIR
+APPLICATION_ENV=G4P_APPLICATION_ENV
+
+if [ ! -d ${OUTPUT_DIR} ] 
+then
+  echo "... OUTPUT_DIR ${OUTPUT_DIR} does not exist ... Aborting..."
+  exit 1
+fi
+
+if [ -z ${_CONDOR_SCRATCH_DIR} ]; then
+  echo "... _CONDOR_SCRATCH_DIR not defined ..."
+  exit 2
+fi
+
+if [ ! -d ${_CONDOR_SCRATCH_DIR} ]; then
+  echo "_CONDOR_SCRATCH_DIR = ${_CONDOR_SCRATCH_DIR} does not exist ..."
+  exit 3
+fi
+
+#-----------------------------------------------------------------------
+ulimit -a
+if ulimit -c unlimited -H ; then
+    echo "ulimit -c unlimited -H worked"
+fi
+if ulimit -c unlimited -S ; then
+    echo "ulimit -c unlimited -S worked"
+fi
+
+# move to the working dir and run the memory profiler of igprof  
+cd ${_CONDOR_SCRATCH_DIR}
+
+#-----------------------------------------------------------------------
+# bin and lib path for igprof, and lib64 path for igprof-analysis 
+#-----------------------------------------------------------------------
+
+G4P_IGPROF_DIR=/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/igprof/5.9.2
+G4P_LIB64=/uscmst1/prod/sw/cms/slc5_amd64_gcc434/external/gcc/4.3.4-cms/lib64
+
+export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib:${G4P_LIB64} 
+
+# path for application
+source ${APPLICATION_ENV}
+
+# physics list
+export PHYSLIST=QGSP_BERT
+
+if [ ! -f ${INPUT_FILE} ]
+then
+  SLT=$((${RANDOM}%180+1))
+  echo "Will sleep ${SLT} seconds before copying ${INPUT_FILE}"
+  sleep ${SLT}
+  cp ${OUTPUT_DIR}/${INPUT_FILE} .
+fi
+
+if [ ! -f ${CFG_FILE} ]
+then
+  cp ${OUTPUT_DIR}/${CFG_FILE} .
+fi
+
+#-----------------------------------------------------------------------
+# run igprof on application
+#-----------------------------------------------------------------------
+
+IG_OUT="${OUTPUT_DIR}/IgProf_${SAMPLE}_final.gz"
+IG_LOG="${OUTPUT_DIR}/IgProf_${SAMPLE}.log"
+
+if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
+     x"${EXE_NAME}" = x"cmsExpMT" ]; then
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} 1 >& ${IG_LOG}
+else
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} >& ${IG_LOG}
+fi
+
+# run analyse of igprof
+
+IGPROF_ANAL="igprof-analyse --sqlite -d -v -g -r"
+
+if [ $? = 0 ]; then
+  for xmode in MEM_LIVE MEM_MAX MEM_TOTAL ; do
+    At_Event_1=${OUTPUT_DIR}/IgProf_${SAMPLE}_${xmode}_1.sql3
+    At_Event_101=${OUTPUT_DIR}/IgProf_${SAMPLE}_${xmode}_101.sql3
+    At_Event_END=${OUTPUT_DIR}/IgProf_${SAMPLE}_${xmode}_END.sql3
+    DIFF_101_1=${OUTPUT_DIR}/IgProf_${SAMPLE}_${xmode}_DIFF.sql3
+    ${IGPROF_ANAL} ${xmode} IgProf.1.gz   | sqlite3 ${At_Event_1}
+    ${IGPROF_ANAL} ${xmode} IgProf.101.gz | sqlite3 ${At_Event_101}
+    ${IGPROF_ANAL} ${xmode} ${IG_OUT}     | sqlite3 ${At_Event_END}
+    ${IGPROF_ANAL} ${xmode} -b IgProf.1.gz --diff-mode IgProf.101.gz |\
+	sqlite3 ${DIFF_101_1} 
+  done
+fi
+
+rm ${CFG_FILE}
+rm ${INPUT_FILE}
+
+exit

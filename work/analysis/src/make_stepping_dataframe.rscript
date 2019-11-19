@@ -1,0 +1,32 @@
+#!/home/g4p/products/R-3.1.2/bin/Rscript
+####!/usr/bin/env Rscript
+
+###
+### This R script processes the data files in a single campaign
+### directory, and produces the standard dataframes for that
+### campaign. See the README file for details of what is included in
+### each dataframe and for a description of the canonical directory
+### structure.
+###
+### Syntax:  fastr/make_dataframes.rscript campaign-directory
+###
+
+args <- commandArgs(TRUE)
+if (length(args) != 1) stop("You must supply the name of a directory to process")
+
+suppressPackageStartupMessages(source("./analysis/src/functions_stepping.R"))
+dirname <- args[[1]]
+
+print("Creating STEPPING dataframe...")
+stepping <- load.stepping(dirname)
+save(stepping, file = file.path(dirname, "stepping.rda"))
+
+print("Pausing to clean up...")
+rm(stepping)
+
+gc()
+
+## This tells emacs to view this file in R mode.
+## Local Variables:
+## mode:R
+## End:

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/bin
+#PATH=${PATH}:/usr/local/pbs/bin
+export PATH
+
+WORK_DIR=G4P_CMSEXPMT_DIR
+cd ${WORK_DIR}
+
+Queue=1
+node="intel"
+threads=`echo 0 1 2 4 6 8 10 12`
+
+for pid in pi- e- ; do 
+  for energy in 5 50 ; do 
+    Executable=`echo ${WORK_DIR}/cmsExpMT_${node}_${pid}_${energy}.sh`
+    echo $Executable
+    sed "s%G4PMT_WORK_DIR%${WORK_DIR}%" template.oss_cmsExpMT > ${Executable}
+    sed -i "s%G4PMT_NODE%${node}%"           ${Executable}
+    sed -i "s%G4PMT_PID%${pid}%"             ${Executable}
+    sed -i "s%G4PMT_ENERGY%${energy}%"       ${Executable}
+    sed -i "s%G4PMT_LIST_THREAD%${threads}%" ${Executable}
+#    qsub -q intel12_Geant4 -l nodes=1:intel12,walltime=24:00:00 -t 1-${Queue} -A g4p $Executable
+    sbatch --nodes=1 --partition intel12 --time=24:00:00 --array=1-${Queue} -A g4p $Executable
+  done
+done

@@ -1,0 +1,28 @@
+#
+# This is an automatically generated Condor submission script
+# that will run a set of  jobs.
+#
+# Do not modify this file directly; instead, modify profile.template to
+# produce your desired output.
+#
+
+# svn keywords:
+# $Rev: 759 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-08-31 16:12:40 -0500 (Wed, 31 Aug 2011) $: Date of last commit
+
+# TODO: Move this to profiling-specific directory, preparing for move out of perfdb.
+
+universe = vanilla
+Executable = <%= shell_script_name %>
+Requirements = (OpSys == "LINUX") && (Arch != "DUMMY" )
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+
+Output =<%= output_dir %>/queuing_$(Cluster)_$(Process).stdout
+Error  =<%= output_dir %>/queuing_$(Cluster)_$(Process).stderr
+Log    =<%= output_dir %>/queuing_$(Cluster)_$(Process).log
+
+notification = NEVER
+Arguments =  $(Process)
+Queue <%= num_queueings %>

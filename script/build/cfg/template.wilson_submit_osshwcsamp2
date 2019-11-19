@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+tool_dir=G4P_EXP_DIR/osshwcsamp2
+
+sample_list=`ls -l ${tool_dir} |awk '{print $9}'`
+
+for sample_dir in ${sample_list} ; do
+  echo "... Submitting ... ${sample_dir} ..."
+  source ${tool_dir}/${sample_dir}/submit_osshwcsamp2
+done

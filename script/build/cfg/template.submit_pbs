@@ -1,0 +1,12 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/local/pbs/bin
+export PATH
+
+WORK_DIR=G4P_OUTPUT_DIR
+cd ${WORK_DIR}
+
+Executable=G4P_RUN_SHELL
+Queue=G4P_NUM_QUEUE
+
+qsub -q amd32_Geant4 -l nodes=1:amd32,walltime=24:00:00 -t 1-${Queue} -A g4p $Executable

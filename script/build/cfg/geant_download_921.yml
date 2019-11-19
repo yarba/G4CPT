@@ -1,0 +1,14 @@
+#
+# This configuration file has the files for Geant4 9.2.p01
+#
+
+url_base: http://geant4.cern.ch/support/source/
+
+files:
+ - geant4.9.2.p01.tar.gz
+ - G4NDL.3.13.tar.gz
+ - G4NDL.0.2.tar.gz
+ - G4EMLOW.6.2.tar.gz
+ - PhotonEvaporation.2.0.tar.gz
+ - G4RadioactiveDecay.3.2.tar.gz
+ - G4ABLA.3.0.tar.gz

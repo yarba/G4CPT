@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# svn keywords:
+# $Rev: 1 $: Revision of last commit
+# $Author: syjun $: Author of last commit
+# $Date: 2011-11-07 10:00:00 -0500 $: Date of last commit
+# $Id: igprof_shell.template 428 2011-11-07 10:00:00 syjun $
+
+# This is a template to create a shell script that will run 
+# igprof on geant4 applications.
+
+# argument is $PBS ARRAY ID of pbs jobs
+
+JOB=${PBS_ARRAYID}
+
+# excutables and configuration
+
+EXE_NAME=G4P_APPLICATION_EXE
+CFG_FILE=G4P_APPLICATION_CFG
+INPUT_FILE=G4P_INPUT_FILE
+OUTPUT_DIR=G4P_OUTPUT_DIR
+APPLICATION_DIR=G4P_APPLICATION_DIR
+
+if [ ! -d ${OUTPUT_DIR} ] 
+then
+  echo "... OUTPUT_DIR ${OUTPUT_DIR} does not exist ... Aborting..."
+  exit 1
+fi
+
+# move to the working dir and run the memory profiler of igprof  
+cd ${OUTPUT_DIR}
+
+#-----------------------------------------------------------------------
+# bin and lib path for igprof, and lib64 path for igprof-analysis 
+#-----------------------------------------------------------------------
+
+#G4P_IGPROF_DIR=/home/syjun/products/igprof/5.9.3
+G4P_IGPROF_DIR=/home/g4p/products/igprof
+#G4P_LIB64=/usr/lib64
+
+export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib
+#:${G4P_LIB64} 
+
+# path for application
+source ${APPLICATION_DIR}/setenv.sh
+export PATH=${PATH}:${APPLICATION_DIR}/bin
+
+# physics list and PERFORMANCE flag
+export PHYSLIST=G4P_PHYSICS_LIST
+export PERFORMANCE=1
+
+#-----------------------------------------------------------------------
+# run igprof on application
+#-----------------------------------------------------------------------
+
+IG_OUT="${OUTPUT_DIR}/IgProf_G4P_SAMPLE_final.gz"
+IG_LOG="${OUTPUT_DIR}/IgProf_G4P_SAMPLE.log"
+
+if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
+     x"${EXE_NAME}" = x"cmsExpMT" ]; then
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} 1 >& ${IG_LOG}
+else
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} >& ${IG_LOG}
+fi
+
+# run analyse of igprof
+
+IGPROF_ANAL="igprof-analyse --sqlite -d -v -g -r"
+nidx=G4P_IGPROF_NEVENT
+
+if [ $? = 0 ]; then
+  for xmode in MEM_LIVE MEM_MAX MEM_TOTAL ; do
+    At_Event_1=${OUTPUT_DIR}/IgProf_G4P_SAMPLE_${xmode}_1.sql3
+    At_Event_N=${OUTPUT_DIR}/IgProf_G4P_SAMPLE_${xmode}_${nidx}.sql3
+    At_Event_END=${OUTPUT_DIR}/IgProf_G4P_SAMPLE_${xmode}_END.sql3
+    DIFF_N_1=${OUTPUT_DIR}/IgProf_G4P_SAMPLE_${xmode}_DIFF.sql3
+    ${IGPROF_ANAL} ${xmode} IgProf.1.gz   | sqlite3 ${At_Event_1}
+    ${IGPROF_ANAL} ${xmode} IgProf.${nidx}.gz | sqlite3 ${At_Event_N}
+    ${IGPROF_ANAL} ${xmode} ${IG_OUT}     | sqlite3 ${At_Event_END}
+    ${IGPROF_ANAL} ${xmode} -b IgProf.1.gz --diff-mode IgProf.${nidx}.gz |\
+	sqlite3 ${DIFF_N_1} 
+  done
+fi
+
+#clean up
+rm -f IgProf*.gz
+
+cd -
+#exit

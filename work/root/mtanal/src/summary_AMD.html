@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Geant4 MT CPU Performance - Single Pions</title>
+
+  <meta name="keywords" content="Geant4MT CPU Performance, profiling, fast, software performance, Fermilab" />
+  <style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+  </style>
+</head>
+
+  <body>
+  <h1> <font color=ff0080>Geant4 MT (G4P_VERSION_CMSEXPMT) Performance - Single Electrons/Pions</font></h1>
+<h2><font color=ff0080>cmsExpMT: PhysicsList = FTFP_BERT, Magnetic Field = 3.8T</font></h2>
+<h2>Processor: AMD Opteron(tm) Processor 6128 : 32 cores (4 CPU sockets x 8 cores) </h2><br>
+CPU: 2000 MHz, Cache: 512 KB, Total Memory: 66007532 kB<br>
+OS: Linux kernel 2.6.32-358.11.1.el6.x86_64 GCC 4.4.6 20120305 (Red Hat 4.4.6-4) <br> 
+
+<h2> <font color=ff0080> Weak Scaling (a fixed number of events per thread)</font></h2>
+The number of events per thread = 1024 <br>
+The total number of events processed = 1024*(number of threads)
+
+<h3>Electron Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="AMD/throughput_cmsExpMT_elec_E5.png" width="50%" height="60%"/> 
+<img src="AMD/cpu_cores_cmsExpMT_elec_E5.png" width="50%" height="60%"/> <br>
+<img src="AMD/meminfo_cmsExpMT_elec_E5.png" width="50%" height="60%"/>
+<img src="AMD/memeff_cmsExpMT_elec_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Electron Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="AMD/throughput_cmsExpMT_elec_E50.png" width="50%" height="60%"/> 
+<img src="AMD/cpu_cores_cmsExpMT_elec_E50.png" width="50%" height="60%"/> <br> 
+<img src="AMD/meminfo_cmsExpMT_elec_E50.png" width="50%" height="60%"/>
+<img src="AMD/memeff_cmsExpMT_elec_E50.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="AMD/throughput_cmsExpMT_pi_E5.png" width="50%" height="60%"/> 
+<img src="AMD/cpu_cores_cmsExpMT_pi_E5.png" width="50%" height="60%"/> <br>
+<img src="AMD/meminfo_cmsExpMT_pi_E5.png" width="50%" height="60%"/>
+<img src="AMD/memeff_cmsExpMT_pi_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="AMD/throughput_cmsExpMT_pi_E50.png" width="50%" height="60%"/> 
+<img src="AMD/cpu_cores_cmsExpMT_pi_E50.png" width="50%" height="60%"/> <br>
+<img src="AMD/meminfo_cmsExpMT_pi_E50.png" width="50%" height="60%"/>
+<img src="AMD/memeff_cmsExpMT_pi_E50.png" width="50%" height="60%"/>
+</nobr>
+
+<!---
+<h2> <font color=ff0080> Strong Scaling (a fixed total number of events)</font></h2>
+The number of events per thread = 2048/(number of threads) <br>
+The total number of events processed = 2048
+
+<h3>Electron Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="AMD/sthroughput_cmsExpMT_elec_E5.png" width="50%" height="60%"/> 
+<img src="AMD/smeminfo_cmsExpMT_elec_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Electron Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="AMD/sthroughput_cmsExpMT_elec_E50.png" width="50%" height="60%"/> 
+<img src="AMD/smeminfo_cmsExpMT_elec_E50.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="AMD/sthroughput_cmsExpMT_pi_E5.png" width="50%" height="60%"/> 
+<img src="AMD/smeminfo_cmsExpMT_pi_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="AMD/sthroughput_cmsExpMT_pi_E50.png" width="50%" height="60%"/> 
+<img src="AMD/smeminfo_cmsExpMT_pi_E50.png" width="50%" height="60%"/>
+</nobr>
+--->
+
+</body><html>

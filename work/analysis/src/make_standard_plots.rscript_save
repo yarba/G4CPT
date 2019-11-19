@@ -1,0 +1,103 @@
+#!/usr/bin/env Rscript
+
+###
+### This R script makes g4profiling standard plots assuming make_dataframes.rscript was run
+###
+### Syntax:  make_standard_plots.rscript campaign-directory
+###
+
+library(lattice)
+library(stringr)
+library(doBy)
+
+
+args <- commandArgs(TRUE)
+if (length(args) != 1) stop("You must supply the name of a directory to process")
+
+suppressPackageStartupMessages(source("fastr/plots.R"))
+dirname <- args[[1]]
+
+load(file.path(dirname,"trials.rda"))
+load(file.path(dirname,"events.rda"))
+#load(file.path(dirname,"runmeta.rda"))
+#load(file.path(dirname,"runenvs.rda"))
+#load(file.path(dirname,"libraries.rda"))
+load(file.path(dirname,"functions.rda"))
+
+generate.png <- function(plot, filename) {
+  png(filename,width = 1400, height = 800, units = "px")
+  print(plot)
+  dev.off()
+}
+
+#print(sprintf("%s created test",fname))
+
+# par(ask=TRUE)
+
+#all.events.plot()
+
+fname=file.path(dirname,"prof_basic_trial_times_plot.png")
+
+generate.png(basic.trial.times.plot(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_basic_trial_times_histogram.png")
+generate.png(basic.trial.times.histogram(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_early_events_plot.png")
+generate.png(early.events.plot(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_all_events_plot.png")
+generate.png(all.events.plot(),fname)
+print(sprintf("%s created",fname))
+
+#we change the plot cuts depending on the sample
+
+if(length(grep("cms",dirname))>0){
+  fname=file.path(dirname,"prof_big_functions_count_plot_0180.png")
+  generate.png(big.functions.count.plot(minfrac = 0.0180),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_plot_0180.png")
+  generate.png(big.functions.frac.plot(minfrac = 0.0180),fname)
+  print(sprintf("%s created",fname))
+}else{
+  fname=file.path(dirname,"prof_big_functions_count_plot_01.png")
+  generate.png(big.functions.count.plot(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_plot_01.png")
+  generate.png(big.functions.frac.plot(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+}
+
+fname=file.path(dirname,"prof_big_paths_count_plot_05_95.png")
+generate.png(big.paths.count.plot(minfrac = 0.05, maxfrac = 0.95),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_paths_count_plot_15_99.png")
+generate.png(big.paths.count.plot(minfrac = 0.15, maxfrac = 0.99),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_paths_count_plot_15_95.png")
+generate.png(big.paths.count.plot(minfrac = 0.15, maxfrac = 0.95),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_paths_frac_plot_05_95.png")
+generate.png(big.paths.frac.plot(minfrac = 0.05, maxfrac = 0.95),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_paths_frac_plot_15_99.png")
+generate.png(big.paths.frac.plot(minfrac = 0.15, maxfrac = 0.99),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_paths_frac_plot_15_95.png")
+generate.png(big.paths.frac.plot(minfrac = 0.15, maxfrac = 0.95),fname)
+print(sprintf("%s created",fname))
+
+
+## This tells emacs to view this file in R mode.
+## Local Variables:
+## mode:R
+## End:
+

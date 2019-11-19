@@ -1,0 +1,350 @@
+#!/bin/sh
+
+#------------------------------------------------------------------------------
+# Things that a user define: g4p initialization, called by g4p.master 
+#------------------------------------------------------------------------------
+#geant4 version for this process of g4p
+#G4P_GEANT4_RELEASE=10.4.r05
+#
+#  Before Mihaly's changes
+#
+# G4P_GEANT4_RELEASE=10.5.b869fe2
+#
+# After Mihaly's changes
+#
+#G4P_GEANT4_RELEASE=10.5.cf274b0
+#
+G4P_GEANT4_RELEASE=10.6.c00
+
+#application name
+#G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
+#G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp]
+# G4P_APPLICATION_NAME=cmsExp
+G4P_APPLICATION_NAME=cmsExpMT
+#G4P_APPLICATION_NAME=lArTest
+# G4P_APPLICATION_NAME=SimplifiedCalo
+
+#clhep version
+#
+# 10.1.p03
+#G4P_CLHEP_RELEASE=2.2.0.4
+# 10.2.p03
+# G4P_CLHEP_RELEASE=2.3.1.1
+# 10.3.p03
+# G4P_CLHEP_RELEASE=2.3.4.3
+# 10.4.p02
+# G4P_CLHEP_RELEASE=2.4.0.0
+# 10.5-series
+# G4P_CLHEP_RELEASE=2.4.1.0
+# 10.5.beta
+G4P_CLHEP_RELEASE=2.4.1.2
+
+#g4p experiment number:
+G4P_EXP_NUM=01
+
+# my working directory where the build dir of g4p is checked out
+#
+#G4P_MY_DIR=/your_working_dir
+#G4P_MY_DIR=/home/g4p/pbs/script/build
+#
+# --> migrate --> G4P_MY_DIR=/g4/g4p/script/build
+G4P_MY_DIR=/lfstev/g4p/g4p/script/build
+#------------------------------------------------------------------------------
+# Directory Definition: Usally no need to change
+#------------------------------------------------------------------------------
+
+SRC_DIR=${G4P_MY_DIR}/src 
+export SRC_DIR
+LOG_DIR=${G4P_MY_DIR}/log 
+[ ! -d ${LOG_DIR} ] && mkdir -p ${LOG_DIR}
+
+#g4p project dir on the local node
+#G4P_PROJECT_DIR=/home/g4p/pbs
+#
+G4P_PROJECT_DIR=/g4/g4p
+# --> NOTE(Oct.2018, JVY): do NOT migrate this one ! instead, build on /g4/g4p due to issues with OSS --> G4P_PROJECT_DIR=/lfstev/g4p/g4p
+
+# separate env.variable for the location of G4 datasets 
+G4P_G4DATASETS=/lfstev/g4p/g4p/download/g4data
+
+#g4p working dir on the pbs node 
+#
+# NOTE(Oct.2018, JVY): this is the area that we'll submit jobs from,
+#                      and where the outputs will go, so as of Oct.2018,
+#                      it should be on the /lfsetv disk space
+#
+#G4P_BLUEARC_DIR=/home/g4p/pbs/build
+# NOTE: this is now a) "base" destination for tarball and b) oss work area 
+# --> migrate --> G4P_BLUEARC_DIR=/g4/g4p
+G4P_BLUEARC_DIR=/lfstev/g4p/g4p
+
+#G4P_RAMDISK_DIR=/mnt/rd
+G4P_RAMDISK_DIR=/dev/shm
+G4P_SPOOL_DIR=/scratch
+
+# directory where input mc file are stored (e.g. input event files)
+# --> migrate --> G4P_DATA_DIR=/g4/g4p/mcdata
+G4P_DATA_DIR=/lfstev/g4p/g4p/mcdata
+
+#g4p analysis directory on the webserver (oink.fnal.gov)
+WEB_DIR=/home/g4p/
+
+#------------------------------------------------------------------------------
+# The current Geant4 cmake needs to make a manual Link to Geant4 data
+# for manual setup to link geant4 data, set variables as follows if needed
+#
+# 10.1.p03
+# G4EMLOW6.41
+# PhotonEvaporation3.1
+# G4NDL4.5
+# RadioactiveDecay4.2
+# G4ABLA3.0
+# RealSurface1.0
+# G4NEUTRONXS1.4
+# G4PII1.3
+# G4SAIDDATA1.1
+# G4ENSDFSTATE1.0
+#
+# 10.2.p03
+# G4EMLOW6.48
+# PhotonEvaporation3.2
+# G4NDL4.5
+# RadioactiveDecay4.3.2
+# G4ABLA3.0
+# RealSurface1.0
+# G4NEUTRONXS1.4
+# G4PII1.3
+# G4SAIDDATA1.1
+# G4ENSDFSTATE1.2.3
+#
+# 10.3.p03
+# G4EMLOW6.50
+# PhotonEvaporation4.3.2
+# G4NDL4.5
+# RadioactiveDecay5.1.1
+# G4ABLA3.0
+# RealSurface1.0
+# G4NEUTRONXS1.4
+# G4PII1.3
+# G4SAIDDATA1.1
+# G4ENSDFSTATE2.1
+# G4TENDL1.3
+#
+# 10.4.p02/p03
+# G4EMLOW7.3
+# PhotonEvaporation5.2
+# G4NDL4.5
+# RadioactiveDecay5.2
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4NEUTRONXS1.4
+# G4PII1.3
+# G4SAIDDATA1.1
+# G4ENSDFSTATE2.2
+# G4TENDL1.3.2
+#
+# NOTE: as of 10.5.cand00, G4NEUTRONXSDATA (G4NEUTRONXS2.0) is obsolete
+#       it's replaced by G4PARTICLEXSDATA /  G4PARTICLEXS1.0 datasets;
+#       also, G4INCL1.0 has been added late in the 10.4.refXX dev. cycle
+#
+# 10.5
+# G4EMLOW7.7
+# PhotonEvaporation5.3
+# G4NDL4.5
+# RadioactiveDecay5.3
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS1.1
+#
+# 10.5.ref05
+# G4EMLOW7.7
+# PhotonEvaporation5.3
+# G4NDL4.5
+# RadioactiveDecay5.3
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS2.0
+#
+# 10.5.ref08
+# G4EMLOW7.7
+# PhotonEvaporation5.3
+# G4NDL4.5
+# RadioactiveDecay5.3
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS2.1
+#
+# 10.5.ref10
+# G4EMLOW7.9
+# PhotonEvaporation5.3
+# G4NDL4.6
+# RadioactiveDecay5.3
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS2.1
+#
+# 10.6.c00
+# G4EMLOW7.9
+# PhotonEvaporation5.3
+# G4NDL4.6
+# RadioactiveDecay5.4
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS2.1
+#
+#------------------------------------------------------------------------------
+# set G4LEDATA  path-to-data/G4EMLOW7.9
+# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.3
+# set G4NEUTRONHPDATA path-to-data/G4NDL4.6
+# set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.4
+# set G4ABLADATA path-to-data/G4ABLA3.1
+# set G4REALSURFACEDATA path-to-data/RealSurface2.1.1
+# set G4NEUTRONXSDATA path-to-data/G4NEUTRONXS1.4
+# set G4PIIDATA path-to-data/G4PII1.3
+# set G4SAIDXSDATA path-to-data/G4SAIDDATA2.0
+# set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.2
+# set G4TENDL path-to-data/G4TENDL1.4
+# set G4INCLDATA path-to-data/G4INCL1.0
+# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS2.1
+#------------------------------------------------------------------------------
+# The list of samples for Standalone Applications
+# index particle.physics.energy.Bfield.nqueue.events
+#------------------------------------------------------------------------------
+# G4P_NUM_LOOPS_HEPEVT    30
+# G4P_NUM_LOOPS_PGUN      30
+# G4P_NUM_QUEUE_HEPEVT     3
+# G4P_NUM_QUEUE_PGUN       3
+# G4P_NUM_EVENT_HEPEVT    50
+# G4P_NUM_EVENT_PGUN    2000
+
+# G4P_SAMPLE_001 higgs.FTFP_BERT.1400.4
+# G4P_SAMPLE_002 e-.FTFP_BERT.1.0
+# G4P_SAMPLE_003 e-.FTFP_BERT.5.0
+# G4P_SAMPLE_004 e-.FTFP_BERT.10.0
+# G4P_SAMPLE_005 e-.FTFP_BERT.50.0
+# G4P_SAMPLE_006 e-.FTFP_BERT.1.4
+# G4P_SAMPLE_007 e-.FTFP_BERT.5.4
+# G4P_SAMPLE_008 e-.FTFP_BERT.10.4
+# G4P_SAMPLE_009 e-.FTFP_BERT.50.4
+# G4P_SAMPLE_010 pi-.FTFP_BERT.1.0
+# G4P_SAMPLE_011 pi-.FTFP_BERT.5.0
+# G4P_SAMPLE_012 pi-.FTFP_BERT.10.0
+# G4P_SAMPLE_013 pi-.FTFP_BERT.50.0
+# G4P_SAMPLE_014 pi-.FTFP_BERT.1.4
+# G4P_SAMPLE_015 pi-.FTFP_BERT.5.4
+# G4P_SAMPLE_016 pi-.FTFP_BERT.10.4
+# G4P_SAMPLE_017 pi-.FTFP_BERT.50.4
+# G4P_SAMPLE_018 pi-.FTFP_INCLXX.1.4
+# G4P_SAMPLE_019 pi-.FTFP_INCLXX.5.4
+# G4P_SAMPLE_020 pi-.FTFP_INCLXX.10.4
+# G4P_SAMPLE_021 pi-.FTFP_INCLXX.15.4
+# G4P_SAMPLE_022 pi-.QGSP_BERT.1.4
+# G4P_SAMPLE_023 pi-.QGSP_BERT.5.4
+# G4P_SAMPLE_024 pi-.QGSP_BERT.10.4
+# G4P_SAMPLE_025 pi-.QGSP_BERT.50.4
+# G4P_SAMPLE_026 pi-.QGSP_BIC.1.4
+# G4P_SAMPLE_027 pi-.QGSP_BIC.5.4
+# G4P_SAMPLE_028 pi-.QGSP_BIC.10.4
+# G4P_SAMPLE_029 pi-.QGSP_BIC.50.4
+# G4P_SAMPLE_030 proton.FTFP_BERT.1.4
+# G4P_SAMPLE_031 proton.FTFP_BERT.5.4
+# G4P_SAMPLE_032 proton.FTFP_BERT.10.4
+# G4P_SAMPLE_033 proton.FTFP_BERT.50.4
+# G4P_SAMPLE_034 proton.FTFP_INCLXX.1.4
+# G4P_SAMPLE_035 proton.FTFP_INCLXX.5.4
+# G4P_SAMPLE_036 proton.FTFP_INCLXX.10.4
+# G4P_SAMPLE_037 proton.FTFP_INCLXX.15.4
+# G4P_SAMPLE_038 anti_proton.FTFP_BERT.1.4
+# G4P_SAMPLE_039 anti_proton.FTFP_BERT.5.4
+# G4P_SAMPLE_040 anti_proton.FTFP_BERT.10.4
+# G4P_SAMPLE_041 anti_proton.FTFP_BERT.50.4
+# G4P_SAMPLE_042 proton.FTFP_BERT_HP.1.4
+# G4P_SAMPLE_043 proton.FTFP_BERT_HP.5.4
+# G4P_SAMPLE_044 proton.Shielding.1.4
+# G4P_SAMPLE_045 proton.Shielding.5.4
+# G4P_SAMPLE_046 e-100MeV.FTFP_BERT.100MeV.4
+# G4P_SAMPLE_047 e-100MeV.Shielding.100MeV.4
+# G4P_SAMPLE_048 e-100MeV.Shielding_EMZ.100MeV.4
+# G4P_SAMPLE_049 gamma.FTFP_BERT_EMZ_AugerOff.250MeV.0
+# G4P_SAMPLE_050 gamma.FTFP_BERT_EMZ_AugerOn.250MeV.0
+# G4P_SAMPLE_051 gamma.FTFP_BERT_EMZ_AugerOff.1.0
+# G4P_SAMPLE_052 gamma.FTFP_BERT_EMZ_AugerOn.1.0
+#------------------------------------------------------------------------------
+# Sample for lArTest
+#------------------------------------------------------------------------------
+# G4P_LARTEST_001 e-.FTFP_BERT.1.0
+# G4P_LARTEST_002 e-.FTFP_BERT.5.0
+# G4P_LARTEST_003 mu-.FTFP_BERT.1.0
+# G4P_LARTEST_004 mu-.FTFP_BERT.5.0
+# G4P_LARTEST_005 pi-.FTFP_BERT.1.0
+# G4P_LARTEST_006 pi-.FTFP_BERT.5.0
+# G4P_LARTEST_007 proton.FTFP_BERT.1.0
+# G4P_LARTEST_008 proton.FTFP_BERT.5.0
+# G4P_LARTEST_009 optical+e-.FTFP_BERT.1.0
+# G4P_LARTEST_010 optical+mu-.FTFP_BERT.1.0
+# G4P_LARTEST_011 optical+pi-.FTFP_BERT.1.0
+# G4P_LARTEST_012 optical+proton.FTFP_BERT.1.0
+#------------------------------------------------------------------------------
+# Other Utilities 
+#------------------------------------------------------------------------------
+MESSAGE=/bin/echo
+G4PTIME=`date +%Y-%m-%d-%H-%M-%S`
+
+g4p_func_dir() {
+
+ myoption=$1
+ mydir=$2
+
+ if [ x${myoption} = x"-d" ]; then
+   if [ -d ${mydir} ];then
+     echo -e "\nDo you really want to remove the following directory?\n" 
+     echo -e "${mydir}\n"
+     echo "Answer [no|yes]"
+     unset confirm; read confirm
+     if [ x"$confirm" = x"yes" ]; then 
+       rm -rf $mydir && echo "Directory ${mydir} Removed"
+     else 
+       echo "... Removing Directory Cancelled ... "
+     fi
+   else
+     echo "... Directory, $mydir does not exist! ..."
+   fi
+ elif [ x${myoption} = x"-e" ]; then
+   if [ -d ${mydir} ];then
+     echo "... GOOD ... ${mydir} exist ..."
+   else
+     echo "... FAIL ... ${mydir} does not exist ..."
+   fi
+ else
+   echo Usage: g4p_remove_dir -d dir_name    
+ fi
+
+}
+#------------------------------------------------------------------------------
+# End of g4p configuration file
+#------------------------------------------------------------------------------

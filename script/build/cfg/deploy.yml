@@ -1,0 +1,12 @@
+<% local_dir_mapping = Hash.new(RAILS_ROOT + '/tmp/tarballs')
+#<% local_dir_mapping = Hash.new('/uscms_data/d1/paterno/scratch')
+#   local_dir_mapping['whcdf03.fnal.gov'] = '/pox/perfdb/tarballs'
+#   local_dir_mapping['pox.fnal.gov']     = '/home/perfdb/tarballs'
+#   local_dir_mapping['MFPATERNO']        = '/tmp/perfdb'
+#   local_dir_mapping['marc-ubuntu']      = '/tmp/perfdb'
+#   local_dir_mapping['monk.local']       = ENV['HOME']+'/tmp/perfdb'
+	 
+%>
+
+tarball_base: <%= local_dir_mapping[ENV['HOSTNAME']] %>
+

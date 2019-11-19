@@ -1,0 +1,138 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 604 $: Revision of last commit
+# $Author: paterno $: Author of last commit
+# $Date: 2010-04-11 15:20:47 -0500 (Sun, 11 Apr 2010) $: Date of last commit
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+$doc = <<ENDDOC
+copy_to_bluearc - copy a CMSSW sandbox to BlueArc space, also copy the config file
+
+SYNOPSIS
+  ruby script/copy_to_bluearc GEANT4-release CMSSW-release [source [dest [config_file]]]
+
+  GEANT4-release should be in a form like 9.2.p01
+  CMSSW-release should be in a form like 3_0_0_pre10
+  source-dir, if not specified, is '/storage/local/data1/geant4work'
+  dest-dir, if not specified, is '/uscms_data/d2/genser/geant4run'
+  config-file, if not specified, is 'run_sim_cfg.py'
+
+ENDDOC
+
+require 'rubygems'
+require 'getoptlong'
+require 'fileutils'
+
+def usage
+  puts $doc
+end
+
+class MainScript
+  attr_accessor :geant_release, :cmssw_release, :build_base, :run_base, :config_file, :which_variant
+  def initialize
+    opts = 
+      GetoptLong.new( [ "--help", "-h", GetoptLong::NO_ARGUMENT ] )
+    opts.quiet = true
+    opts.each do |opt, arg|
+      case opt
+      when "-h", "--help"
+	usage
+	exit	
+      end
+    end
+
+    case ARGV.length
+    when 0..1
+      puts "Too few arguments"
+      usage
+      exit 1
+    else
+      self.geant_release = ARGV[0]
+      self.cmssw_release = ARGV[1]
+      self.build_base    = ARGV[2] || '/storage/local/data1/geant4work'
+      self.run_base      = ARGV[3] || '/uscms_data/d2/genser/geant4run'
+      self.config_file   = ARGV[4] || 'run_sim_cfg.py'
+      self.which_variant   = ARGV[5] || 'modified unmodified'
+    end  
+  end
+
+  def run
+    check_directories
+    copy_files
+    copy_config_file
+# fix the geant xml files
+  end
+
+  private
+  def check_directories
+    unless File.directory?(build_base)
+      puts "Source directory '#{build_base}' does not exist"
+      exit 1
+    end
+    unless File.directory?(run_base)
+      puts "Destination directory '#{run_base}' does not exist"
+      exit 1
+    end
+  end
+
+  def copy_config_file
+    puts "about to copy #{config_file}"
+    dirs = which_variant.split.collect { |e| "#{run_base}/g4.#{geant_release}_cms_#{cmssw_release}/#{e}/CMSSW_#{cmssw_release}/src" }
+    dirs.each do |dir|
+      puts "to #{dir}"
+	FileUtils.copy_file("./cfg/#{config_file}","#{dir}/#{config_file}")
+    end
+  end
+
+  def copy_files
+#   the version below is used to copy the cmssw AND geant4 araes; note the corresponding change below inside `` in second cd command
+    dirs = which_variant.split.collect { |e| "g4.#{geant_release}_cms_#{cmssw_release}/#{e}" }
+    dirs.each do |dir|
+      fork do
+	puts "Process #{Process.pid} will copy #{dir} from #{build_base} to #{run_base}"
+	result = `umask 0002; cd #{build_base} && find #{dir} -path 'CVS' -prune -o -print | cpio -pdumL #{run_base} && cd #{run_base}/#{dir}/CMSSW_#{cmssw_release} && if ! type -p scramv1; then source /uscmst1/prod/sw/cms/bashrc prod;fi; scramv1 b ProjectRename`
+	status = $?.exitstatus
+	if status != 0
+	  puts "Process #{Process.pid} failed"
+	  puts result
+	end	
+      end
+    end
+    children = Process.waitall
+    children.each do |pid, status|
+      if status.exitstatus == 0
+	puts "Process #{pid} OK"
+      else
+	raise Exception.new("Process #{pid} FAILED")
+      end
+    end
+  end
+end
+
+
+#-----------------------------------------------------------------------
+# Main program
+#-----------------------------------------------------------------------
+
+if __FILE__ == $0
+  begin
+    MainScript.new.run
+    puts "#{$0} ended"
+  rescue GetoptLong::Error => x
+    puts "copy_to_bluearc error: " + x
+    exit 1
+  end
+end
+
+
+
+
+
+
+
+
+
+
+

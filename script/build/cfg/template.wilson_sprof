@@ -1,0 +1,296 @@
+#!/usr/bin/env bash
+
+# This is an automatically generated shell script that will run a
+# series of g4 executables.
+#
+# Do not modify this file directly; instead, modify profile_shell.template 
+# to produce your desired output.
+#
+
+# svn keywords:
+# $Rev: 725 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-03-24 16:33:24 -0500 (Thu, 24 Mar 2011) $: Date of last commit
+# $Id: profile_shell.template 428 2010-02-04 23:07:03Z genser $
+
+#-----------------------------------------------------------------------
+# function g4p_run_profile ${PBS_ARRAYID} LOOP_INDEX
+#          profile exe on each CPU core with --numactl=LOOP_INDEX
+#-----------------------------------------------------------------------
+g4p_run_profile () {
+
+#input args
+JOBS_ID=$1
+LOOP_ID=$2
+NUMA_ID=`expr ${LOOP_ID} - 1`
+
+#file control index
+QLOOP=${JOBS_ID}_${LOOP_ID}
+
+#parameters of template envs
+EXE_NAME=G4P_APPLICATION_EXE
+CFG_FILE=G4P_APPLICATION_CFG
+INPUT_FILE=G4P_INPUT_FILE
+OUTPUT_DIR=G4P_OUTPUT_DIR
+SPOOL_DIR=G4P_SPOOL_DIR
+APPLICATION_DIR=G4P_APPLICATION_DIR
+
+if [ ! -d ${OUTPUT_DIR} ] 
+then
+  echo "OUTPUT_DIRECTORY ${OUTPUT_DIR} does not exist, aborting."
+  exit 2
+fi
+
+#-----------------------------------------------------------------------
+# set up fcp, fast and application
+#-----------------------------------------------------------------------
+#source  /fnal/ups/etc/setups.sh
+#setup fcp
+source /home/g4p/products/fast.6.2/etc/setup
+
+#SimplifiedCalo will take this environment variable
+export PERFORMANCE=G4P_PERFORMANCE_FLAG
+export PHYSLIST=G4P_PHYSICS_LIST
+
+cd ${OUTPUT_DIR}
+
+#pbs work dir for each job - multiple jobs running on the same worker node
+PBS_WORK_DIR=${SPOOL_DIR}_${QLOOP}
+
+[ -d ${PBS_WORK_DIR} ] && rm -r ${PBS_WORK_DIR} 
+mkdir -p ${PBS_WORK_DIR}
+cd ${PBS_WORK_DIR}
+
+# setup for application
+source ${APPLICATION_DIR}/setenv_pbs.sh
+
+#copy exe to the local disk
+#cp ${APPLICATION_DIR}/bin/${EXE_NAME} ${PBS_WORK_DIR}/${EXE_NAME}
+#export PATH=${PBS_WORK_DIR}:${PATH}
+export PATH=${APPLICATION_DIR}/bin:${PATH}
+
+if [ ! -f ${INPUT_FILE} ]
+then
+  SLT=$((${RANDOM}%180+1))
+  echo "Will sleep ${SLT} seconds before copying ${INPUT_FILE}"
+  sleep ${SLT}
+  cp /home/g4p/pbs/mcdata/pythia_event.data ${INPUT_FILE}
+  if [ x"${EXE_NAME}" = x"cmsExp" -o x"${EXE_NAME}" = x"cmsExpMT" ]; then
+    ln -s ../cmsExp.gdml cmsExp.gdml
+  fi
+fi
+
+if [ ! -f ${CFG_FILE} ]
+then
+  cp ${OUTPUT_DIR}/${CFG_FILE} .
+fi
+
+#old loop running one job per worker node
+#for LOOP in $(seq ${NUM_LOOP})
+#do
+QLOOP=${QUEUE_ID}_${LOOP}
+NOTE_FILE=${PBS_WORK_DIR}/note_g4profiling_${QLOOP}
+echo "Loop begin at: `date`"            > ${NOTE_FILE}
+echo "Scratch dir is: ${PBS_WORK_DIR}" >> ${NOTE_FILE}
+
+cat /proc/cpuinfo /proc/meminfo    > run_env_${QLOOP}.txt
+echo "nodename: `uname -n`"       >> run_env_${QLOOP}.txt
+echo "kernel_version: `uname -r`" >> run_env_${QLOOP}.txt
+echo  -n "os:                   " >> run_env_${QLOOP}.txt
+cat /etc/redhat-release           >> run_env_${QLOOP}.txt
+echo "processor_type: `uname -p`" >> run_env_${QLOOP}.txt
+printenv                          >> run_env_${QLOOP}.txt
+
+echo "${EXE_NAME} begin: `date`" > tmp_trialdata.txt
+if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
+     x"${EXE_NAME}" = x"cmsExpMT" ]; then
+  profrun -s --numactl=${NUMA_ID} ${EXE_NAME} ${CFG_FILE} 1 > tmp.stdout 2> tmp.stderr &
+else
+  profrun -s --numactl=${NUMA_ID} ${EXE_NAME} ${CFG_FILE} > tmp.stdout 2> tmp.stderr &
+fi
+PROC_ID=$!
+
+echo "${EXE_NAME} process id is: ${PROC_ID}"       >> ${NOTE_FILE}
+
+ps xjfwww                         >> run_env_${QLOOP}.txt
+
+mv tmp_trialdata.txt trialdata_${QLOOP}.txt
+mv tmp.stdout stdout_${QLOOP}.txt
+mv tmp.stderr stderr_${QLOOP}.txt
+
+wait ${PROC_ID}
+echo "${EXE_NAME} end: `date`"         >> trialdata_${QLOOP}.txt
+
+echo "doing ls -la" >> stdout_${QLOOP}.txt
+ls -la        >> stdout_${QLOOP}.txt
+
+echo "doing ls -la" >> run_env_${QLOOP}.txt
+ls -la        >> run_env_${QLOOP}.txt
+
+# standard profiling data
+suffixes="debugging libraries maps names paths timing totals"
+
+for suffix in $suffixes
+  do
+  for ff in profdata_*_*_*_${suffix}
+    do
+    fff=${ff#profdata_${QLOOP}_${suffix}}
+    if [ $ff = $fff ] 
+	  then
+	  if [ -f ${fff} ]
+	      then
+	      echo "doing mv ${fff} profdata_${QLOOP}_${suffix}" >> run_env_${QLOOP}.txt
+	      mv ${fff} profdata_${QLOOP}_${suffix}
+	  else
+	      touch     profdata_${QLOOP}_${suffix}
+	  fi
+    fi
+  done
+done
+
+# sar data
+
+suffixes="cpu ctxswitch interrupts io load memory memrates paging sar swapping"
+for suffix in $suffixes
+  do
+  for ff in profdata_*_${suffix}
+    do
+    fff=${ff#profdata_${QLOOP}_${suffix}}
+    if [ $ff = $fff ] 
+	  then
+	  if [ -f ${fff} ]
+	      then
+	      echo "doing mv ${fff} profdata_${QLOOP}_${suffix}" >> run_env_${QLOOP}.txt
+	      mv ${fff} profdata_${QLOOP}_${suffix}
+	  else
+	      touch     profdata_${QLOOP}_${suffix}
+	  fi
+    fi
+  done
+done
+
+# need to make sure to not to rename previosly renamed files...
+
+for ff in profdata_*_*
+  do
+  fff=${ff#profdata_${QLOOP}}
+  if [ $ff = $fff ]
+	then
+	if [ -f ${fff} ]
+	    then
+	    echo "doing mv ${ff}  profdata_${QLOOP}" >> run_env_${QLOOP}.txt
+	    mv ${ff}  profdata_${QLOOP}
+	else
+	    touch  profdata_${QLOOP}
+	fi
+  fi
+done
+
+# one still needs to mv output root file the name needs to be the same as in the _cfg.py file
+
+if [ -f output_sim.root ]
+then
+    mv output_sim.root   output_sim_${QLOOP}.root
+fi
+
+if [ -f seed_save_one.txt ]
+then
+    mv seed_save_one.txt seed_save_one_${QLOOP}.root
+fi
+
+grep 'TimeModule>' stdout_${QLOOP}.txt  > moduledata_${QLOOP}.txt
+grep 'TimeEvent>'  stdout_${QLOOP}.txt  > eventdata_${QLOOP}.txt
+grep 'TimeReport>' stdout_${QLOOP}.txt >> trialdata_${QLOOP}.txt
+grep 'NodeLoad>'   stdout_${QLOOP}.txt  > nodeload_${QLOOP}.txt
+
+grep 'MemoryEvt>'  stdout_${QLOOP}.txt  > memorydata_${QLOOP}.txt
+if [ x"${PERFORMANCE}" = x"EXTENDED" ]; then
+  grep 'NStepping>' stdout_${QLOOP}.txt  > steppingdata_${QLOOP}.txt
+fi
+
+echo "after run"                       >> run_env_${QLOOP}.txt
+printenv                               >> run_env_${QLOOP}.txt
+
+# output tar file
+TAR_FILE=${PBS_WORK_DIR}/g4profiling_${QLOOP}.tgz
+tar zcf ${TAR_FILE}  profdata_${QLOOP}_* profdata_${QLOOP} *.txt
+rm -f *.txt
+rm -f profdata_${QLOOP}_*
+rm  profdata_${QLOOP}
+
+echo "tar file for this loop: ${TAR_FILE}" >> ${NOTE_FILE}
+echo "PID for this loop: ${PROC_ID}"       >> ${NOTE_FILE}
+echo "Loop end at: `date`"                 >> ${NOTE_FILE}
+
+#copy output tar files from the local disk to the shared disk and clean up
+#  cp ${TAR_FILE} ${OUTPUT_DIR}
+#fcp output tar files from the local disk to the output disk and clean up
+#fcp -c /usr/bin/rcp ${TAR_FILE} ibtev0510:${OUTPUT_DIR}
+fcp -c /usr/bin/rcp ${TAR_FILE} ibtevnfsg4:${OUTPUT_DIR}
+rm ${TAR_FILE}
+
+#done
+#end old loop running one job per worker node
+
+rm ${INPUT_FILE}
+
+#assuming only one core file
+for ff in core.*
+  do
+  fff=${ff#core_${QLOOP}}
+  if [ $ff = $fff ]
+      then
+      if [ -f ${fff} ]
+	  then
+	  mv ${ff}  core_${QLOOP}
+      fi
+  fi
+done
+
+cd ${OUTPUT_DIR}
+rm -rf ${PBS_WORK_DIR}
+
+} 
+#end function g4p_run_profile
+
+#-----------------------------------------------------------------------
+# run_sprof.sh
+#-----------------------------------------------------------------------
+
+QUEUE_ID=${PBS_ARRAYID}
+
+# Make sure we have the expected arguments and environment variables
+if [ -z ${QUEUE_ID} ]
+then
+  echo "One argument (queue id) is required"
+  exit 1
+fi
+
+#copy and unwind the tarball of experiment
+source  /fnal/ups/etc/setups.sh
+setup fcp
+
+RAMDISK_DIR=G4P_RAMDISK_DIR
+TARBALL_DIR=G4P_TARBALL_DIR
+TARBALL_NAME=G4P_TARBALL_NAME
+
+fcp -c /usr/bin/rcp ibtevnfsg4:${TARBALL_DIR}/${TARBALL_NAME} ${RAMDISK_DIR}
+tar xzf ${RAMDISK_DIR}/${TARBALL_NAME} -C ${RAMDISK_DIR}
+
+# get the number of jobs (should be less than the number of CPU cores)
+NUM_LOOP=G4P_NUM_LOOP
+
+for LOOP in $(seq ${NUM_LOOP})
+do
+   g4p_run_profile ${QUEUE_ID} ${LOOP} &
+done
+
+#wait until all background jobs complete
+wait
+
+#clean up everything on the ram disk before exit
+rm -rf ${RAMDISK_DIR}/*
+
+exit
+
+#end run_sprof.sh

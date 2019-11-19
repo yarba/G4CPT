@@ -1,0 +1,13 @@
+universe = vanilla
+Executable = G4P_RUN_SHELL
+Requirements = (OpSys == "LINUX") && (Arch != "DUMMY" )
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+
+Output =G4P_OUTPUT_DIR/queuing_$(Cluster)_$(Process).stdout
+Error  =G4P_OUTPUT_DIR/queuing_$(Cluster)_$(Process).stderr
+Log    =G4P_OUTPUT_DIR/queuing_$(Cluster)_$(Process).log
+
+notification = NEVER
+Arguments =  $(Process)
+Queue G4P_NUM_QUEUE

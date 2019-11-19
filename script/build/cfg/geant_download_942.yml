@@ -1,0 +1,15 @@
+# svn keywords:
+# $Rev: 604 $: Revision of last commit
+# $Author: paterno $: Author of last commit
+# $Date: 2010-04-11 15:20:47 -0500 (Sun, 11 Apr 2010) $: Date of last commit
+
+#
+# This configuration file has the files for Geant4 9.3.p01
+#
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+url_base: http://geant4.cern.ch/support/source/
+
+files:
+ - geant4.9.4.p02.tar.gz

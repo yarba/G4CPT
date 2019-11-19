@@ -1,0 +1,211 @@
+<html>
+
+<meta name="keywords" content="Geant4 Performance, Simple Profiler, Fast, Fermilab" />
+<style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+</style>
+
+<head>
+<title>Geant4 Memory Profiler/IgProf</title>
+<base href="https://g4cpt.fnal.gov/cgi-bin/igprof-navigator/G4P_PROJECT_NAME/" target="_self" />
+</head>
+
+<body>
+
+<h1><font color=ff0080> Memory Profiler/IgProf</font></h1>
+
+<h2>Memory profiling reports</h2>
+<ul>
+<li>MEM_LIVE: memory that has not been freed - snapshot of the heap, i.e. a heap profile. </li>
+<li>MEM_MAX: the largest single allocation by any function</li>
+<li>MEM_TOTAL: the total amount of memory allocated by any function - a snapshot of poor memory locality</li><br>
+<li>N: memory snapshot at the end of N-th event</li>
+<li>Diff(N-M): memory difference between N-th and M-th event - direct memory leakage</li>
+<li>End of Run: memory snapshot at the End of Run</li>
+</ul>
+
+<h2>Geant4.G4P_VERSION G4P_APPLICATION B=4.0T</h2>
+
+<table cellspacing="0px" border=1>
+             <tr bgcolor="#aaeeaa">
+             <th>Sample</th>
+             <th>Physics List</th>
+             <th>Energy</th>
+             <th>MEM_LIVE</th>
+             <th>MEM_MAX</th>
+             <th>MEM_TOTAL</th>
+             </tr>
+
+<!-- e- -->
+
+<tr bgcolor="pink">
+<td rowspan="2">e-</td>
+<td rowspan="2">FTFP_BERT</td>
+
+<td>1 GeV</td> 
+<td>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.1.0/IgProf_e-.FTFP_BERT.1.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+<tr bgcolor="pink">
+<td>5 GeV</td> 
+<td>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="e-.FTFP_BERT.5.0/IgProf_e-.FTFP_BERT.5.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+
+<!-- mu- -->
+
+<tr bgcolor="pink">
+<td rowspan="2">mu-</td>
+<td rowspan="2">FTFP_BERT</td>
+
+<td>1 GeV</td> 
+<td>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.1.0/IgProf_mu-.FTFP_BERT.1.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+<tr bgcolor="pink">
+<td>5 GeV</td> 
+<td>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="mu-.FTFP_BERT.5.0/IgProf_mu-.FTFP_BERT.5.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+
+<!-- pi- -->
+
+<tr bgcolor="pink">
+<td rowspan="2">pi-</td>
+<td rowspan="2">FTFP_BERT</td>
+
+<td>1 GeV</td> 
+<td>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.1.0/IgProf_pi-.FTFP_BERT.1.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+<tr bgcolor="pink">
+<td>5 GeV</td> 
+<td>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="pi-.FTFP_BERT.5.0/IgProf_pi-.FTFP_BERT.5.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+
+
+<!-- proton -->
+
+<tr bgcolor="pink">
+<td rowspan="2">Proton</td>
+<td rowspan="2">FTFP_BERT</td>
+
+<td>1 GeV</td> 
+<td>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.1.0/IgProf_proton.FTFP_BERT.1.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+<tr bgcolor="pink">
+<td>5 GeV</td> 
+<td>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_LIVE_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_LIVE_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_LIVE_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_LIVE_END/">End of Run</a>
+</td>
+<td>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_MAX_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_MAX_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_MAX_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_MAX_END/">End of Run</a>
+</td>
+<td>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_TOTAL_1/">&nbsp&nbsp&nbsp 1</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_TOTAL_DIFF/">Diff(1001-1)</a><br>
+<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_TOTAL_1001/">1001</a>&nbsp&nbsp<a href="proton.FTFP_BERT.5.0/IgProf_proton.FTFP_BERT.5.0_MEM_TOTAL_END/">End of Run</a>
+</td>
+</tr>
+
+
+</table>
+
+</body><html>

@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 743 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-07-14 14:11:05 -0500 (Thu, 14 Jul 2011) $: Date of last commit
+
+# TODO: Move this to g4-specific directory, preparing for move out of perfdb.
+
+require 'yaml'
+require 'open-uri'
+
+output_dir = ARGV[0] || '/storage/local/data2/geant4work/download'
+iconfigfile = ARGV[1] 
+
+unless File.directory?(output_dir)
+  puts "Output directory '#{output_dir}' does not exist"
+  exit 1
+end
+
+puts "Downloading files to #{output_dir}"
+
+configfile = File.dirname(__FILE__) + '/../cfg/' + iconfigfile
+config = YAML.load(File.open(configfile))
+
+base =  config['url_base']
+files =  config['files']
+
+
+files.each do |filename|
+  puts "Working on #{filename}..."
+  
+  open(base + filename) do |input|
+    puts "URI: #{input.base_uri}"
+    status = input.status[1]
+    puts "Status: #{status}"
+    unless status == "OK"
+      puts "Aborting"
+      exit 1
+    end
+    puts "Writing output file for #{filename}"
+    output_filename = File.join(output_dir, filename)
+    File.open(output_filename, "wb") {  |output| output.write(input.read) }
+  end
+end	

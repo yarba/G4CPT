@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+tool_dir=G4P_EXP_DIR/ossusertime
+
+# --> sample_list=`ls -l ${tool_dir} |awk '{print $9}'`
+
+#sample_list="higgs.FTFP_BERT.1400.4 
+#e-.FTFP_BERT.50.4 
+#pi-.FTFP_BERT.50.4 
+#proton.FTFP_BERT.50.4 
+#anti_proton.FTFP_BERT.50.4
+#e-.FTFP_BERT.1.4
+#pi-.FTFP_BERT.1.4
+#proton.FTFP_BERT.1.4
+#anti_proton.FTFP_BERT.1.4"
+
+sample_list="higgs.FTFP_BERT.1400.4 
+e-.FTFP_BERT.50.4 
+pi-.FTFP_BERT.50.4 
+proton.FTFP_BERT.50.4 
+e-.FTFP_BERT.1.4
+e-100MeV.FTFP_BERT.100MeV.4
+pi-.FTFP_BERT.1.4
+proton.FTFP_BERT.1.4"
+
+for sample_dir in ${sample_list} ; do
+  echo "... Submitting ... ${sample_dir} ..."
+  source ${tool_dir}/${sample_dir}/submit_ossusertime
+done

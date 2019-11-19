@@ -1,0 +1,200 @@
+#!/usr/bin/env ruby
+# svn keywords:
+# $Rev: 718 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-03-24 16:17:33 -0500 (Thu, 24 Mar 2011) $: Date of last commit
+
+$doc = <<ENDDOC
+upload_trial_tarballs - upload the trials for a given experiment
+
+SYNOPSIS
+  upload_trial_tarballs [options] experiment-id
+
+DESCRIPTION
+
+  upload the trials (in tarball form) for the experiment with the given
+  ID.
+
+OPTIONS
+
+  -h, --help
+  Print this help and exit.
+
+  -t, --tarball_dir=DIR
+  Experiments are expected to be found under the specified directory. If
+  not specified, the current directory is used.
+
+  -e, --environment = <rails_env>
+  Use rails_env as the Rails environment. If not specified, then
+  the value of RAILS_ENV is used; if this is not set, then 'production'
+  is used.
+
+  -n, --host = <hostname>
+  Upload tarballs to the application running on host <hostname>. If not
+  specified, the default is to use the application on oink.fnal.gov.
+
+ENDDOC
+
+require 'erb'
+require 'fileutils'
+require 'getoptlong'
+require 'yaml'
+
+def usage
+  puts $doc
+end
+
+
+class UploadScript
+  attr_accessor :experiment_id, :environment, :tarball_dir, :host, :num_failed_tarballs, :num_uploaded_tarballs
+
+  # Read the deployment YAML file, run it through ERB, and return the
+  # resulting hash.
+  def self.initialize_deployment_params
+    template = ERB.new((File.read(File.dirname(__FILE__) + '/../cfg/deploy.yml')))
+    YAML.load(template.result(binding))
+  end
+
+  def self.deployment_params
+    @@deployment_params ||= UploadScript.initialize_deployment_params
+  end
+
+  #  def tarball_dir
+  #    # "#{UploadScript.deployment_params['tarball_base']}"
+  #    "/uscms_data/d1/jbk/geant_output"
+  #  end
+
+  def handle_program_options(opts)
+    opts.each do | opt, arg |
+      case opt
+      when '-h', '--help'
+        usage
+        exit
+      when '-t', '--tarball_dir'
+        self.tarball_dir = arg
+      when '-e', '--environment'
+        self.environment = arg
+      when '-n', '--host'
+        self.host = arg
+      end
+    end
+  end
+
+  def establish_defaults
+    self.num_failed_tarballs = 0
+    self.num_uploaded_tarballs = 0
+    self.environment = ENV['RAILS_ENV'] || 'production'
+    self.host        = "oink.fnal.gov"
+    self.tarball_dir = Dir.pwd
+  end
+
+  def url
+
+    case self.environment
+    when 'production'
+      port = 3333
+    when 'development'
+      port = 3000      
+    else
+      raise Exception.new("Environment #{self.environment} not recognized by upload_trial_tarballs")
+    end
+    "http://#{self.host}:#{port}/trial_tarballs/update_experiment"
+  end
+
+  def handle_program_arguments
+    self.experiment_id  =   ARGV[0]
+  end    
+
+  def initialize
+    opts = 
+    GetoptLong.new([ '--help',        '-h', GetoptLong::NO_ARGUMENT ],
+                   [ '--environment', '-e', GetoptLong::REQUIRED_ARGUMENT],
+                   [ '--tarball_dir', '-t', GetoptLong::REQUIRED_ARGUMENT],
+                   [ '--host',        '-n', GetoptLong::REQUIRED_ARGUMENT])
+    opts.quiet = false
+
+    establish_defaults
+    handle_program_options(opts)
+
+    if ARGV.length != 1
+      puts "Incorrect number of arguments\n\n"
+      usage
+      exit 1
+    end
+
+    handle_program_arguments
+  end
+  
+  # Return the name of the directory in which the tarballs for the given
+  # experiment are found.
+  def experiment_dir
+    @experiment_dir ||= File.join(tarball_dir, "exp_#{experiment_id}")
+  end
+  
+  # Return the name of the directory into which processed tarballs are moved.
+  def uploaded_dir
+    @uploaded_dir ||= create_or_find_processed_tarball_dir
+  end
+  
+  # Create the directory to hold processed tarballs, if necessary. Return the
+  # name of the directory. If you want to change the name of the directory,
+  # this is the place to make the change.
+  def create_or_find_processed_tarball_dir
+    uploaded_dir = File.join(experiment_dir, "uploaded")
+    FileUtils.mkdir(uploaded_dir) unless File.directory?(uploaded_dir)
+    uploaded_dir
+  end
+  
+  def cd_to_experiment_dir
+    unless File.directory?(experiment_dir)
+      raise RuntimeError.new("Experiment directory #{experiment_dir} does not exist.")
+    end
+    Dir.chdir(experiment_dir)
+  end
+  
+  def process_tarballs
+    Dir.glob('*.tgz').each do |tarball|
+      process_one_tarball(tarball)
+    end
+  end
+  
+  def process_one_tarball(tarball)
+    print "Processing #{tarball}... "
+    the_command = "curl --silent --form trial_tarball[tarball]=@#{tarball} --form trial_tarball[experiment_id]=#{experiment_id} #{url}"
+    result = `#{the_command}`
+    status = $?.exitstatus
+    print "done\n"
+
+    if status == 0
+      FileUtils.mv(tarball, File.join(uploaded_dir, tarball))
+      self.num_uploaded_tarballs += 1
+    else
+      puts "Failed to upload #{tarball}."
+      self.num_failed_tarballs += 1
+    end
+  end
+
+  def run
+    puts "Uploading tarballs to #{url} from #{tarball_dir}.\nProcessed files will be moved to #{uploaded_dir}."
+    cd_to_experiment_dir
+    process_tarballs
+  end
+end
+
+if __FILE__ == $0
+  rc = 0
+  begin
+    script = UploadScript.new
+    script.run
+    rc = script.num_failed_tarballs
+    puts "Done processing. Uploaded #{script.num_uploaded_tarballs}; #{script.num_failed_tarballs} failed to upload."
+    if script.num_failed_tarballs > 0
+      puts "Tarballs we failed to upload are left in #{tarball_dir}."
+    end
+  rescue RuntimeError => x
+    puts 'upload_trial_tarballs error: ' + x
+    rc = -1
+  end
+  exit rc
+end
+

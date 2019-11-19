@@ -1,0 +1,111 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'daemons'
+require 'getoptlong'
+
+$doc = <<ENDDOC
+SYNOPSIS
+run_unpacker_daemon [options]
+
+DESCRIPTION
+
+OPTIONS
+
+  -h, --help
+  Print this help and exit.
+
+  -c, --command [start, stop, restart]
+  start, stop or restart application.
+
+  -e, --environment [production, development]
+  Choose which environment you want to run your application in.
+
+  -a, --autopoke [seconds]
+  Check the database for new tarballs automatically.
+  If no argument is supplied the default is every 300 seconds.
+
+  -m, --mark [seconds]
+  Mark the log file periodically.
+  If no argument is supplied the default is every 1200 seconds.
+  
+Logging goes to log/unpack_daemon.log and is rolled over weekly
+
+ENDDOC
+
+def usage
+  puts $doc
+end
+
+opts = GetoptLong.new(
+  [ '--help',   '-h', GetoptLong::NO_ARGUMENT ],
+  [ '--command',   '-c', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--environment','-e', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--autopoke','-a', GetoptLong::REQUIRED_ARGUMENT ],
+  [ '--mark','-m', GetoptLong::REQUIRED_ARGUMENT ])
+
+m_command  = 'start'
+m_env      = nil
+m_autopoke = 300
+m_mark     = 1200
+
+opts.quiet = true
+
+opts.each do | opt, arg |
+  case opt
+  when '-h', '--help'
+    usage
+  when '-a', '--autopoke'
+    if arg == ''
+      m_autopoke = 300  # default is 5 min
+    else
+      begin
+        m_autopoke = Integer(arg)
+      rescue ArgumentError
+        puts arg
+        puts 'Not a valid poke delay.'
+        usage
+        exit
+      end
+    end
+  when '-m', '--mark'
+    if arg == ''
+      m_mark = 1200  # default is 20 min   
+    else
+      begin
+        m_mark = Integer(arg)
+      rescue ArgumentError
+        puts 'Not a valid mark delay.'
+        usage
+        exit
+      end
+    end
+  when '-c', '--command'
+    if arg == 'start' || arg == 'stop'
+      m_command = arg
+    else
+      puts "Not a valid command: '#{arg}'"
+      usage
+      exit
+    end
+  when '-e', '--environment'
+    if arg == 'production' || arg == 'development'
+      m_env = arg
+    else
+      puts "Invalid environment '#{arg}' specified"
+      usage
+      exit
+    end
+  end
+end
+
+Dir.mkdir("../tmp") unless File.directory? "../tmp"
+Dir.mkdir("../tmp/pids") unless File.directory? "../tmp/pids"
+Dir.mkdir("../tmp/pids/#{m_env}") unless File.directory? "../tmp/pids/#{m_env}"
+
+ENV["RAILS_ENV"]=m_env
+puts "Running in environment: '#{m_env}'"
+
+#Daemons.run('./unpack_daemon', :ARGV => ["#{m_command}", '--', "-a #{m_autopoke}", "-m #{m_mark}", "-e #{m_env}"], :dir => "../tmp/pids/#{m_env}")
+Daemons.run('./unpack_daemon', :ARGV => ["#{m_command}", '--', "-a #{m_autopoke} -m #{m_mark} -e #{m_env}"], :dir => "../tmp/pids/#{m_env}")
+

@@ -1,0 +1,1059 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 4 0 R
+ /F4 5 0 R
+ /F5 6 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Times-Roman
+<< /BaseFont /Times-Roman
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Times-Bold
+<< /BaseFont /Times-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F3': class PDFType1Font 
+4 0 obj
+% Font Times-BoldItalic
+<< /BaseFont /Times-BoldItalic
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F4': class PDFType1Font 
+5 0 obj
+% Font Times-Italic
+<< /BaseFont /Times-Italic
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F5': class PDFType1Font 
+6 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F5
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+7 0 obj
+% Page dictionary
+<< /Contents 27 0 R
+ /MediaBox [ 0
+ 0
+ 612
+ 792 ]
+ /Parent 26 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page2': class PDFPage 
+8 0 obj
+% Page dictionary
+<< /Contents 28 0 R
+ /MediaBox [ 0
+ 0
+ 612
+ 792 ]
+ /Parent 26 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page3': class PDFPage 
+9 0 obj
+% Page dictionary
+<< /Contents 29 0 R
+ /MediaBox [ 0
+ 0
+ 612
+ 792 ]
+ /Parent 26 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page4': class PDFPage 
+10 0 obj
+% Page dictionary
+<< /Contents 30 0 R
+ /MediaBox [ 0
+ 0
+ 612
+ 792 ]
+ /Parent 26 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R11': class PDFCatalog 
+11 0 obj
+% Document Root
+<< /Outlines 13 0 R
+ /PageLabels 31 0 R
+ /PageMode /UseNone
+ /Pages 26 0 R
+ /Type /Catalog >>
+endobj
+% 'R12': class PDFInfo 
+12 0 obj
+<< /Author ()
+ /CreationDate (D:20110408115337+06'00')
+ /Creator (\(unspecified\))
+ /Keywords ()
+ /Producer (ReportLab PDF Library - www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (The fastr package) >>
+endobj
+% 'R13': class PDFOutlines 
+13 0 obj
+<< /Count 13
+ /First 14 0 R
+ /Last 25 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+14 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 679.1339
+ 0 ]
+ /Next 15 0 R
+ /Parent 13 0 R
+ /Title (Purpose of this document) >>
+endobj
+% 'Outline.1': class OutlineEntryObject 
+15 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 508.1339
+ 0 ]
+ /Next 16 0 R
+ /Parent 13 0 R
+ /Prev 14 0 R
+ /Title (Expected directory structure) >>
+endobj
+% 'Outline.2': class OutlineEntryObject 
+16 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 284.7339
+ 0 ]
+ /Next 17 0 R
+ /Parent 13 0 R
+ /Prev 15 0 R
+ /Title (Cleaning the data files) >>
+endobj
+% 'Outline.3': class OutlineEntryObject 
+17 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 143.7339
+ 0 ]
+ /Next 18 0 R
+ /Parent 13 0 R
+ /Prev 16 0 R
+ /Title (Expected working environment) >>
+endobj
+% 'Outline.4': class OutlineEntryObject 
+18 0 obj
+<< /Count 6
+ /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 715.1339
+ 0 ]
+ /First 19 0 R
+ /Last 24 0 R
+ /Next 25 0 R
+ /Parent 13 0 R
+ /Prev 17 0 R
+ /Title (Dataframes generated) >>
+endobj
+% 'Outline.13.0': class OutlineEntryObject 
+19 0 obj
+<< /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 628.1339
+ 0 ]
+ /Next 20 0 R
+ /Parent 18 0 R
+ /Title (Run environments dataframe) >>
+endobj
+% 'Outline.13.1': class OutlineEntryObject 
+20 0 obj
+<< /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 406.9339
+ 0 ]
+ /Next 21 0 R
+ /Parent 18 0 R
+ /Prev 19 0 R
+ /Title (Runmeta dataframe) >>
+endobj
+% 'Outline.13.2': class OutlineEntryObject 
+21 0 obj
+<< /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 241.7339
+ 0 ]
+ /Next 22 0 R
+ /Parent 18 0 R
+ /Prev 20 0 R
+ /Title (Trials dataframe) >>
+endobj
+% 'Outline.13.3': class OutlineEntryObject 
+22 0 obj
+<< /Dest [ 9 0 R
+ /XYZ
+ 62.69291
+ 661.1339
+ 0 ]
+ /Next 23 0 R
+ /Parent 18 0 R
+ /Prev 21 0 R
+ /Title (Events dataframe) >>
+endobj
+% 'Outline.13.4': class OutlineEntryObject 
+23 0 obj
+<< /Dest [ 9 0 R
+ /XYZ
+ 62.69291
+ 475.9339
+ 0 ]
+ /Next 24 0 R
+ /Parent 18 0 R
+ /Prev 22 0 R
+ /Title (Functions dataframe) >>
+endobj
+% 'Outline.13.5': class OutlineEntryObject 
+24 0 obj
+<< /Dest [ 9 0 R
+ /XYZ
+ 62.69291
+ 206.7339
+ 0 ]
+ /Parent 18 0 R
+ /Prev 23 0 R
+ /Title (Libraries dataframe) >>
+endobj
+% 'Outline.5': class OutlineEntryObject 
+25 0 obj
+<< /Dest [ 10 0 R
+ /XYZ
+ 62.69291
+ 621.9339
+ 0 ]
+ /Parent 13 0 R
+ /Prev 18 0 R
+ /Title (Output data structure) >>
+endobj
+% 'R26': class PDFPages 
+26 0 obj
+% page tree
+<< /Count 4
+ /Kids [ 7 0 R
+ 8 0 R
+ 9 0 R
+ 10 0 R ]
+ /Type /Pages >>
+endobj
+% 'R27': class PDFStream 
+27 0 obj
+% page stream
+<< /Length 6879 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 691.1339 cm
+q
+BT 1 0 0 1 0 4 Tm 167.7471 0 Td 24 TL /F2 20 Tf 0 0 0 rg (The ) Tj /F3 20 Tf (fastr ) Tj /F2 20 Tf (package) Tj T* -167.7471 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 658.1339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Purpose of this document) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 628.1339 cm
+q
+BT 1 0 0 1 0 14 Tm .899723 Tw 12 TL /F1 10 Tf 0 0 0 rg (This document describes the ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (package. ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (is a set of R functions for the analysis of data collected by the ) Tj /F4 10 Tf (FAST) Tj T* 0 Tw /F1 10 Tf (performance tools. ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (concentrates on the analysis of GEANT4-based simulations run in the CMSSW framework.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 610.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (This document describes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 604.1339 cm
+Q
+q
+1 0 0 1 62.69291 604.1339 cm
+Q
+q
+1 0 0 1 62.69291 592.1339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (1.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The directory structure in which the raw data files from the profiling must be deployed.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 586.1339 cm
+Q
+q
+1 0 0 1 62.69291 574.1339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (2.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (How the data files must be ) Tj /F4 10 Tf (cleaned) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 568.1339 cm
+Q
+q
+1 0 0 1 62.69291 556.1339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (3.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The working environment relied upon by the analysis software.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 550.1339 cm
+Q
+q
+1 0 0 1 62.69291 538.1339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (4.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The dataframes generated by the analysis software.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 532.1339 cm
+Q
+q
+1 0 0 1 62.69291 520.1339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (5.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The files into which the analysis dataframes are written for use in later analysis.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 520.1339 cm
+Q
+q
+1 0 0 1 62.69291 487.1339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Expected directory structure) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 469.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (We will call the top-level directory, under which the entire directory structure defined here is found, TOP.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 451.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Under TOP, each combination of Geant4 version and CMSSW version is given a directory, e.g.:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 405.9339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 36 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F5 10 Tf 12 TL (TOP/g4.9.3p01_cms_3_8_0) Tj T* (TOP/g4.9.3p02_cms_3_8_0) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 373.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .844676 Tw (We call the set of output contained in each of these directories a CAMPAIGN. Under each compaign's directory there) Tj T* 0 Tw (will be zero or more EXPERIMENT directories:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 316.7339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 48 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F5 10 Tf 12 TL (TOP/g4.9.3p01_cms_3_8_0/exp_7) Tj T* (TOP/g4.9.3p02_cms_3_8_0/exp_10) Tj T* (TOP/g4.9.3p02_cms_3_8_0/exp_11) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 296.7339 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (In each experiment's directory are the ) Tj /F4 10 Tf (profdata_ ) Tj /F1 10 Tf (and ) Tj /F4 10 Tf (txt ) Tj /F1 10 Tf (files from running the profiler.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 263.7339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Cleaning the data files) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 221.7339 cm
+q
+BT 1 0 0 1 0 26 Tm 1.964636 Tw 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (scripts expect to process only correctly-formed data files. Because various failures of the data collection) Tj T* 0 Tw .30366 Tw (process can result in defective data files, cleaning of the files must be done. Any trial for which any defect is found is to) Tj T* 0 Tw (be removed in its entirety. A trial is defective if:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 215.7339 cm
+Q
+q
+1 0 0 1 62.69291 215.7339 cm
+Q
+q
+1 0 0 1 62.69291 203.7339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (1.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Its ) Tj /F4 10 Tf (names ) Tj /F1 10 Tf (file is of size zero. This indicates a failure to collect profiling results.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 197.7339 cm
+Q
+q
+1 0 0 1 62.69291 173.7339 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 9 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 6.5 0 Td (2.) Tj T* -6.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 14 Tm .368641 Tw 12 TL /F1 10 Tf 0 0 0 rg (Its ) Tj /F4 10 Tf (eventdata ) Tj /F1 10 Tf (file does not contain 100 event time reports. This indicates a failure of the simulation program to run) Tj T* 0 Tw (to completion.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 173.7339 cm
+Q
+q
+1 0 0 1 62.69291 155.7339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (This cleaning is done "by hand". Failure to do the cleaning can result in mismatching dataframes, and spurious results.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 122.7339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Expected working environment) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 104.7339 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (scripts expect to be run with TOP as the current working directory.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 56.69291 56.69291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 246.8071 0 Td (1) Tj T* -246.8071 0 Td ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R28': class PDFStream 
+28 0 obj
+% page stream
+<< /Length 4247 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 694.1339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Dataframes generated) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 640.1339 cm
+q
+BT 1 0 0 1 0 38 Tm 2.226343 Tw 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F4 10 Tf (fastr ) Tj /F1 10 Tf (code produces a set of dataframes for each campaign, and saves these dataframes to files. To compare) Tj T* 0 Tw 1.007342 Tw (campaigns, it is necessary to load the data for the compaigns to be compared from the several files in which they are) Tj T* 0 Tw .657304 Tw (stored. The independence of campaign data files helps to reduce the processing time and computer resources needed to) Tj T* 0 Tw (process a new campaign, avoiding a linear expansion of time and memory needed to process a series of campaigns.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 610.1339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Run environments dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 580.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .60301 Tw (The RUNENVS contains one row per trial in a campaign. It contains information about the environment in which each) Tj T* 0 Tw (trial was run. It has columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 438.9339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 132 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 110 Tm /F5 10 Tf 12 TL (exp        experiment id) Tj T* (run        run id) Tj T* (vendor     the manufacturer of the processor) Tj T* (family     the processor family) Tj T* (model      the processor model) Tj T* (stepping   the procesor stepping) Tj T* (name       the process name, as reported in /proc/cpuinfo) Tj T* (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 418.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The 'modified' column tells whether the Geant4 code being profiled has been locally modified or not.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 388.9339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Runmeta dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 346.9339 cm
+q
+BT 1 0 0 1 0 26 Tm .16554 Tw 12 TL /F1 10 Tf 0 0 0 rg (The RUNMETA dataframe is a truncated form of the RUNENVS dataframe, suitable for using in ) Tj /F4 10 Tf (merge ) Tj /F1 10 Tf (commands with) Tj T* 0 Tw .233565 Tw (other dataframes carrying the ) Tj /F4 10 Tf (exp ) Tj /F1 10 Tf (and ) Tj /F4 10 Tf (run ) Tj /F1 10 Tf (columns. It includes the parts of the RUNENVS dataframe most important for) Tj T* 0 Tw (identifying the conditions under which a trial was executed. It includes columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 253.7339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 84 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 62 Tm /F5 10 Tf 12 TL (exp        experiment id) Tj T* (run        run id) Tj T* (vendor     the manufacturer of the processor) Tj T* (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 223.7339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Trials dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 205.7339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The TRIALS dataframe contains one row per trial in a campaign. It has columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 100.5339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 96 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 74 Tm /F5 10 Tf 12 TL (exp       experiment id) Tj T* (run       run id) Tj T* (trial.t   total time reported in the "trials_*.txt" data file) Tj T* (vendor     the manufacturer of the processor) Tj T* (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 56.69291 56.69291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 246.8071 0 Td (2) Tj T* -246.8071 0 Td ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R29': class PDFStream 
+29 0 obj
+% page stream
+<< /Length 3954 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 703.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Note that trial.t includes program startup and shutdown time, not just the time taken for event processing itself.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 673.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.199636 Tw (For any campaign, the RUNENVS, RUNMETA and TRIALS dataframes should have equal row counts, one row for) Tj T* 0 Tw (each trial in the campaign.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 643.1339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Events dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 625.1339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The EVENTS dataframe contains now row per event per trial in a campaign. It has columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 507.9339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 108 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 86 Tm /F5 10 Tf 12 TL (exp       experiment id) Tj T* (run       run id) Tj T* (event     the id of the event being timed) Tj T* (t         the time in seconds to process this event) Tj T* (vendor     the manufacturer of the processor) Tj T* (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 487.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (There should be the same number of events for each trial \(exp+run pair\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 457.9339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Functions dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 439.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The FUNCTIONS dataframe contains one row per function per trial in a campaign. It has columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 250.7339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 180 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 158 Tm /F5 10 Tf 12 TL (exp       experiment id) Tj T* (run       run id) Tj T* (leaf      function's leaf count) Tj T* (path      function's path count) Tj T* (leaf.frac function's leaf fraction) Tj T* (path.frac function's path fraction) Tj T* (lib       name of the library this function is in) Tj T* (mangled   mangled name of the function) Tj T* (name      unmangled name of the function) Tj T* (short     name of the function, stripped of argument list) Tj T* (vendor     the manufacturer of the processor) Tj T* (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 218.7339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .954636 Tw (There may be a different number of functions for each trial \(exp+run pair\), because infrequently-called functions may) Tj T* 0 Tw (appear in some, but not other, trials.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 188.7339 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Libraries dataframe) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 170.7339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The LIBRARIES dataframe contains one row per library per trial in a campaign. It has columns:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 89.53386 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 72 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 50 Tm /F5 10 Tf 12 TL (exp       experiment id) Tj T* (run       run id) Tj T* (lib       library name) Tj T* (samples   sum of leaf counts for all functions in the library) Tj T* (vendor     the manufacturer of the processor) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 56.69291 56.69291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 246.8071 0 Td (3) Tj T* -246.8071 0 Td ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R30': class PDFStream 
+30 0 obj
+% page stream
+<< /Length 1325 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 665.9339 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 485.4142 48 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F5 10 Tf 12 TL (g4version  the version of Geant4 used) Tj T* (cmsversion the version of CMSSW used) Tj T* (modified   either "unmodified" or "modified") Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 633.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.510886 Tw (There may be a different number of libraries for each trial \(exp+run pair\), because infrequently-called libraries may) Tj T* 0 Tw (appear in some, but not other, trials.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 600.9339 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Output data structure) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 570.9339 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .134961 Tw (Each dataframe from each campaign is written to its own binary data file in the directory for that campaign. The data file) Tj T* 0 Tw (for each dataframe is named after the dataframe, e.g. the TRIALS dataframe is written to a file named "trials.rda".) Tj T* ET
+Q
+Q
+q
+1 0 0 1 56.69291 56.69291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 246.8071 0 Td (4) Tj T* -246.8071 0 Td ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R31': class PDFPageLabels 
+31 0 obj
+% Document Root
+<< /Nums [ 0
+ 32 0 R
+ 1
+ 33 0 R
+ 2
+ 34 0 R
+ 3
+ 35 0 R ] >>
+endobj
+% 'R32': class PDFPageLabel 
+32 0 obj
+% None
+<< /S /D
+ /St 1 >>
+endobj
+% 'R33': class PDFPageLabel 
+33 0 obj
+% None
+<< /S /D
+ /St 2 >>
+endobj
+% 'R34': class PDFPageLabel 
+34 0 obj
+% None
+<< /S /D
+ /St 3 >>
+endobj
+% 'R35': class PDFPageLabel 
+35 0 obj
+% None
+<< /S /D
+ /St 4 >>
+endobj
+xref
+0 36
+0000000000 65535 f
+0000000113 00000 n
+0000000257 00000 n
+0000000426 00000 n
+0000000593 00000 n
+0000000772 00000 n
+0000000943 00000 n
+0000001102 00000 n
+0000001371 00000 n
+0000001640 00000 n
+0000001909 00000 n
+0000002180 00000 n
+0000002339 00000 n
+0000002604 00000 n
+0000002730 00000 n
+0000002914 00000 n
+0000003117 00000 n
+0000003315 00000 n
+0000003518 00000 n
+0000003758 00000 n
+0000003947 00000 n
+0000004142 00000 n
+0000004336 00000 n
+0000004530 00000 n
+0000004727 00000 n
+0000004906 00000 n
+0000005072 00000 n
+0000005204 00000 n
+0000012182 00000 n
+0000016528 00000 n
+0000020581 00000 n
+0000022009 00000 n
+0000022141 00000 n
+0000022218 00000 n
+0000022295 00000 n
+0000022372 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(\012\227\302P\023\221PP#\273\361\311B\203\015T) (\012\227\302P\023\221PP#\273\361\311B\203\015T)] 
+
+ /Info 12 0 R
+ /Root 11 0 R
+ /Size 36 >>
+startxref
+22419
+%%EOF

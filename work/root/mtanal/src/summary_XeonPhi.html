@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Geant4 MT CPU Performance - Single Pions</title>
+
+  <meta name="keywords" content="Geant4MT CPU Performance, profiling, fast, software performance, Fermilab" />
+  <style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+  </style>
+</head>
+
+<body>
+
+<h1><font color=ff0080>Geant4 (G4P_VERSION_CMSEXPMT) MT Performance on Intel Xeon Phi (from SLAC)</font></h1>
+<h2><font color=ff0080>ParFullCMS: PhysicsList = FTFP_BERT, Uniform Magnetic Field = 4.0T, CMS GDML, Single Pions</font></h2>
+<h2>Processor: Intel Xeon Phi 3120A (57 Cores)</h2>
+CPU: 1100 MHz, Cache: Total Memory: 6 GB<br>
+
+<h3> <font color=ff0080> Weak Scaling (a fixed number of events per thread)</font></h3>
+The number of events per thread = 10 <br>
+The total number of events processed = 10*(number of threads)
+<h3> <font color=ff0080> Strong Scaling (a fixed number of events per job)</font></h3>
+The number of events per thread = 2000/(number of threads) <br>
+The total number of events processed = 2000
+<h3> <font color=ff0080> memory vs. Time</font></h3>
+restrict to 100 threads, 5000 events
+
+<h3>Electron Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="XeonPhi/weakscaling.png" width="50%" height="60%"/> 
+<img src="XeonPhi/strongscaling.png" width="50%" height="60%"/> <br>
+<img src="XeonPhi/rss.png" width="50%" height="60%"/>
+<img src="XeonPhi/mem_vs_time.png" width="50%" height="60%"/> <br>
+<img src="XeonPhi/Memory-LongTest.png" width="50%" height="60%"/>
+</nobr>
+
+
+
+</body><html>

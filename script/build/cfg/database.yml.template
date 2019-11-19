@@ -1,0 +1,30 @@
+defaults: &defaults
+  adapter: mysql 
+  username: paterno
+  password: doglips101
+  host: oink.fnal.gov
+
+development:
+  adapter: sqlite3
+  database: db/devel.sqlite3
+
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  
+production:
+  adapter: sqlite3
+  database: db/production.sqlite3
+
+
+# test:
+#   database: marc_perfdb_test
+#   <<: *defaults
+
+# development:
+#   database: marc_perfdb_dev
+#   <<: *defaults
+
+# production:
+#   database: marc_perfdb_prod
+#   <<: *defaults

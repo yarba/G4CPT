@@ -1,0 +1,17 @@
+defaults: &defaults
+  adapter: mysql 
+  username: paterno
+  password: doglips101
+  host: oink.fnal.gov
+
+test:
+  database: marc_perfdb_test
+  <<: *defaults
+
+development:
+  database: marc_perfdb_dev
+  <<: *defaults
+
+production:
+  database: marc_perfdb_prod
+  <<: *defaults

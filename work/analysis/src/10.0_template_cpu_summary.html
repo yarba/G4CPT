@@ -1,0 +1,166 @@
+<html>
+
+<head>
+<title>Geant4.G4P_WEB_TITLE CPU Summary</title>
+
+<meta name="keywords" content="Geant4 Performance, Simple Profiler, Fast, Fermilab" />
+<style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1><font color=ff0080> CPU Time in seconds/event</font></h1>
+
+<h2>Geant4.G4P_WEB_TITLE</h2>
+
+<table cellspacing="0px" border=1>
+             <tr bgcolor="#aaeeaa">
+             <th>Sample</th>
+             <th>Physics List</th>
+             <th>B-Field</th>
+             <th>Energy</th>
+             <th>CPU/event</th>
+             </tr>
+
+<tr bgcolor="#ccffcc">
+<td>Higgs->ZZ</td>
+<td>FTFP_BERT</td>
+<td>4.0T</td>
+<td>14 TeV </a></td>
+<td>higgs.FTFP_BERT.1400.4.AMDOpteronProcessor6128</td>
+</tr>
+
+</table>
+
+<table cellspacing="0px" border=1>
+             <tr bgcolor="#aaeeaa">
+             <th rowspan="2">Sample</th>
+             <th rowspan="2">Physics List</th>
+             <th rowspan="2">B-Field</th>
+             <th colspan="4">Beam Energy</th>
+
+             <tr bgcolor="#aaeeaa">
+             <th>1 GeV</th>
+             <th>5 GeV</th>
+             <th>10 GeV</th>
+             <th>50 GeV</th>
+             </tr>
+
+<!-- electron -->
+
+<tr bgcolor="yellow">
+<td rowspan="2">Electron</td>
+<td rowspan="2">FTFP_BERT</td>
+<td>0.0T</td>
+<td>e-.FTFP_BERT.1.0.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.5.0.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.10.0.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.50.0.AMDOpteronProcessor6128</td>
+</tr>
+
+<tr bgcolor="yellow">
+<td>4.0T</td>
+<td>e-.FTFP_BERT.1.4.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.5.4.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.10.4.AMDOpteronProcessor6128</td>
+<td>e-.FTFP_BERT.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+<!-- pion- -->
+
+<tr bgcolor="#ccffcc">
+<td rowspan="4">Pion-</td>
+<td rowspan="2">FTFP_BERT</td>
+<td>0.0T</td>
+<td>pi-.FTFP_BERT.1.0.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.5.0.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.10.0.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.50.0.AMDOpteronProcessor6128</td>
+</tr>
+
+<tr bgcolor="#ccffcc">
+<td>4.0T</td>
+<td>pi-.FTFP_BERT.1.4.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.5.4.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.10.4.AMDOpteronProcessor6128</td>
+<td>pi-.FTFP_BERT.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+<tr bgcolor="#ccffcc">
+<td>QGSP_BERT</td>
+<td>4.0T</td>
+<td>pi-.QGSP_BERT.1.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BERT.5.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BERT.10.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BERT.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+<tr bgcolor="#ccffcc">
+<td>QGSP_BIC</td>
+<td>4.0T</td>
+<td>pi-.QGSP_BIC.1.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BIC.5.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BIC.10.4.AMDOpteronProcessor6128</td>
+<td>pi-.QGSP_BIC.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+<!---
+<tr bgcolor="#ccffcc">
+<td>LHEP</td>
+<td>4.0T</td>
+<td>pi-.LHEP.1.4.AMDOpteronProcessor6128</td>
+<td>pi-.LHEP.5.4.AMDOpteronProcessor6128</td>
+<td>pi-.LHEP.10.4.AMDOpteronProcessor6128</td>
+<td>pi-.LHEP.50.4.AMDOpteronProcessor6128</td>
+</tr>
+--->
+
+<!-- proton -->
+
+<tr bgcolor="#9999ff">
+<td>Proton</td>
+<td>FTFP_BERT</td>
+<td>4.0T</td>
+<td>proton.FTFP_BERT.1.4.AMDOpteronProcessor6128</td>
+<td>proton.FTFP_BERT.5.4.AMDOpteronProcessor6128</td>
+<td>proton.FTFP_BERT.10.4.AMDOpteronProcessor6128</td>
+<td>proton.FTFP_BERT.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+<!-- anti proton -->
+
+<tr bgcolor="pink">
+<td>Anti-Anti_Proton</td>
+<td>FTFP_BERT</td>
+<td>4.0T</td>
+<td>anti_proton.FTFP_BERT.1.4.AMDOpteronProcessor6128</td>
+<td>anti_proton.FTFP_BERT.5.4.AMDOpteronProcessor6128</td>
+<td>anti_proton.FTFP_BERT.10.4.AMDOpteronProcessor6128</td>
+<td>anti_proton.FTFP_BERT.50.4.AMDOpteronProcessor6128</td>
+</tr>
+
+</table>
+Processor: AMD Opteron(tm) Processor 6128 (CPU: 2000 MHz, Cache: 512 KB) <br>
+Total Memory: 66007532 kB<br><br>
+
+</body><html>

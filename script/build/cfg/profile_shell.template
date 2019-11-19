@@ -1,0 +1,250 @@
+#!/usr/bin/env bash
+
+# This is an automatically generated shell script that will run a
+# series of cmsRun executables.
+#
+# Do not modify this file directly; instead, modify profile_shell.template 
+# to produce your desired output.
+#
+
+# svn keywords:
+# $Rev: 761 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-09-27 14:20:38 -0500 (Tue, 27 Sep 2011) $: Date of last commit
+# $Id: profile_shell.template 428 2010-02-04 23:07:03Z genser $
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+QUEUE_ID=$1
+
+#-----------------------------------------------------------------------
+#
+# Make sure we have the expected arguments and environment variables
+#
+if [ -z ${QUEUE_ID} ]
+then
+  echo "One argument (queue id) is required"
+  exit 1
+fi
+
+export REL_DIR=<%= run_dir %>
+export OUTPUT_DIR=<%= output_dir %>
+export SCRAM_ARCH=<%= arch_string %>
+
+if [ -z ${_CONDOR_SCRATCH_DIR} ] 
+then
+  echo "_CONDOR_SCRATCH_DIR not defined"
+  exit 2
+fi
+
+if [ ! -d <%= output_dir %> ] 
+then
+  echo "OUTPUT_DIRECTORY <%= output_dir %> does not exist, aborting."
+  exit 3
+fi
+
+if [ ! -d ${_CONDOR_SCRATCH_DIR} ]
+then
+  echo "Directory _CONDOR_SCRATCH_DIR = ${_CONDOR_SCRATCH_DIR} does not exist, aborting."
+  exit 4
+fi
+#-----------------------------------------------------------------------
+ulimit -a
+
+if ulimit -c unlimited -H
+then
+    echo "ulimit -c unlimited -H worked"
+fi
+
+if ulimit -c unlimited -S
+then
+    echo "ulimit -c unlimited -S worked"
+fi
+
+##-----------------------------------------------------------------------
+# Set up correct environment in which to run a fraction of the 
+# experiment.
+
+source /uscmst1/prod/sw/cms/bashrc prod
+
+cd ${REL_DIR}
+eval `scramv1 runtime -sh`
+
+(type cmsRun > /dev/null 2>&1 ) || ( echo "cmsRun not available. Perhaps the release setup failed?" && printenv && exit 5)
+
+# the setup below will change once the fast product is released
+#source /uscms/home/paterno/fast/etc/setup
+#source /uscms_data/d2/paterno/SimpleProfiler/test/fast/etc/setup 
+#source /uscms/home/ron/p/setup
+#setup libunwind 
+source /uscms_data/d2/genser/fast/bin/etc/setup
+
+cd ${_CONDOR_SCRATCH_DIR}
+
+#-----------------------------------------------------------------------
+#
+# Run several trials.
+
+INPFILE=events_zprime_g4.<%= geant_version %>_cms_<%= cmssw_version %>.root
+
+if [ ! -f ${INPFILE} ]
+then
+  SLT=$((${RANDOM}%180+1))
+  echo "Will sleep ${SLT} seconds before copying ${INPFILE}"
+  sleep ${SLT}
+  cp <%= run_base %>/../run/${INPFILE} .
+fi
+
+<% range = (1..num_repeats).to_a.join(" ") %>
+for LOOP in <%= range %>
+do
+  QLOOP=${QUEUE_ID}_${LOOP}
+  NOTE_FILE=<%= output_dir %>/note_<%= purpose_name %>_${QLOOP}
+  echo "Loop begin at: `date`"                   > ${NOTE_FILE}
+  echo "Scratch dir is: ${_CONDOR_SCRATCH_DIR}" >> ${NOTE_FILE}
+
+  cat /proc/cpuinfo /proc/meminfo    > run_env_${QLOOP}.txt
+  echo "nodename: `uname -n`"       >> run_env_${QLOOP}.txt
+  echo "kernel_version: `uname -r`" >> run_env_${QLOOP}.txt
+  echo  -n "os:                   " >> run_env_${QLOOP}.txt
+  cat /etc/redhat-release           >> run_env_${QLOOP}.txt
+  echo "processor_type: `uname -p`" >> run_env_${QLOOP}.txt
+  printenv                          >> run_env_${QLOOP}.txt
+
+  echo "cmsRun begin: `date`" > tmp_trialdata.txt
+  profrun -s cmsRun <%= target_config_file %>   > tmp.stdout 2> tmp.stderr &
+  PROC_ID=$!
+
+  echo "cmsRun process id is: ${PROC_ID}"       >> ${NOTE_FILE}
+
+  ps xjfwww                         >> run_env_${QLOOP}.txt
+
+  mv tmp_trialdata.txt trialdata_${QLOOP}.txt
+  mv tmp.stdout stdout_${QLOOP}.txt
+  mv tmp.stderr stderr_${QLOOP}.txt
+
+  wait ${PROC_ID}
+  echo "cmsRun end: `date`"         >> trialdata_${QLOOP}.txt
+
+  echo "doing ls -la" >> stdout_${QLOOP}.txt
+  ls -la        >> stdout_${QLOOP}.txt
+
+  echo "doing ls -la" >> run_env_${QLOOP}.txt
+  ls -la        >> run_env_${QLOOP}.txt
+
+
+  # well ${PROC_ID} is a parent id, not the actuall process itself...; 
+
+  # standard profiling data
+  suffixes="debugging libraries maps names paths timing totals"
+
+  for suffix in $suffixes
+    do
+    for ff in profdata_*_*_*_${suffix}
+      do
+      fff=${ff#profdata_${QLOOP}_${suffix}}
+      if [ $ff = $fff ] 
+	  then
+	  if [ -f ${fff} ]
+	      then
+	      echo "doing mv ${fff} profdata_${QLOOP}_${suffix}" >> run_env_${QLOOP}.txt
+	      mv ${fff} profdata_${QLOOP}_${suffix}
+	  else
+	      touch     profdata_${QLOOP}_${suffix}
+	  fi
+      fi
+    done
+  done
+
+  # sar data
+
+  suffixes="cpu ctxswitch interrupts io load memory memrates paging sar swapping"
+  for suffix in $suffixes
+    do
+    for ff in profdata_*_${suffix}
+      do
+      fff=${ff#profdata_${QLOOP}_${suffix}}
+      if [ $ff = $fff ] 
+	  then
+	  if [ -f ${fff} ]
+	      then
+	      echo "doing mv ${fff} profdata_${QLOOP}_${suffix}" >> run_env_${QLOOP}.txt
+	      mv ${fff} profdata_${QLOOP}_${suffix}
+	  else
+	      touch     profdata_${QLOOP}_${suffix}
+	  fi
+      fi
+    done
+  done
+
+  # need to make sure to not to rename previosly renamed files...
+
+  for ff in profdata_*_*
+    do
+    fff=${ff#profdata_${QLOOP}}
+    if [ $ff = $fff ]
+	then
+	if [ -f ${fff} ]
+	    then
+	    echo "doing mv ${ff}  profdata_${QLOOP}" >> run_env_${QLOOP}.txt
+	    mv ${ff}  profdata_${QLOOP}
+	else
+	    touch  profdata_${QLOOP}
+	fi
+    fi
+  done
+
+  # one still needs to mv output root file the name needs to be the same as in the _cfg.py file
+
+  if [ -f output_sim.root ]
+  then
+      mv output_sim.root   output_sim_${QLOOP}.root
+  fi
+
+  if [ -f seed_save_one.txt ]
+  then
+      mv seed_save_one.txt seed_save_one_${QLOOP}.root
+  fi
+
+#  # test for non-empty names file
+#  if [ -s profdata_${QLOOP}_names ]; then
+#    # unmangle the function names and tack them on the end of each line
+#    cut -f 9 profdata_${QLOOP}_names | c++filt | paste profdata_${QLOOP}_names - > profdata_${QLOOP}_temp
+#    mv profdata_${QLOOP}_temp profdata_${QLOOP}_names
+#  fi
+
+  grep 'TimeModule>' stdout_${QLOOP}.txt  > moduledata_${QLOOP}.txt
+  grep 'TimeEvent>'  stdout_${QLOOP}.txt  > eventdata_${QLOOP}.txt
+  grep 'TimeReport>' stdout_${QLOOP}.txt >> trialdata_${QLOOP}.txt
+  grep 'NodeLoad>'   stdout_${QLOOP}.txt  > nodeload_${QLOOP}.txt
+
+  echo "after run"                       >> run_env_${QLOOP}.txt
+  printenv                               >> run_env_${QLOOP}.txt
+
+  TAR_FILE=<%= output_dir %>/<%= purpose_name %>_${QLOOP}.tgz
+  tar zcf ${TAR_FILE}  profdata_${QLOOP}_* *.txt profdata_${QLOOP}
+  rm -f *.txt
+  rm -f profdata_${QLOOP}_*
+  rm -f profdata_${QLOOP}
+
+  echo "tar file for this loop: ${TAR_FILE}" >> ${NOTE_FILE}
+  echo "PID for this loop: ${PROC_ID}"       >> ${NOTE_FILE}
+  echo "Loop end at: `date`"                 >> ${NOTE_FILE}
+done
+
+rm ${INPFILE}
+
+#assuming only one core file
+for ff in core.*
+  do
+  fff=${ff#core_${QLOOP}}
+  if [ $ff = $fff ]
+      then
+      if [ -f ${fff} ]
+	  then
+	  mv ${ff}  core_${QLOOP}
+      fi
+  fi
+done
+
+exit

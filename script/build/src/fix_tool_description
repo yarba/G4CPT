@@ -1,0 +1,111 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 745 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-08-12 13:04:32 -0500 (Fri, 12 Aug 2011) $: Date of last commit
+
+# run me like this:
+#    ruby src/fix_tool_description <output-dir <geant-release <cmssw-release>>>
+#
+
+# a script to "fix" geant4 related xml files to make sure they point to "our" geant4 area
+# it looks like there are at least two of them as of 2009 04:
+# geant4.xml & geant4core.xml
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+class ToolFixer
+  @@our_rc = 0
+
+  attr_accessor :base_dir, :geant_release, :cmssw_release
+
+  def initialize(base, geant, cmssw)
+    self.base_dir = base + "/g4.#{geant}_cms_#{cmssw}/"
+    self.geant_release = geant
+    self.cmssw_release = cmssw    
+  end
+
+  def write(which,what)
+
+# the template file may need to be versioned for various versions of geant or taken from the specific tool description area
+    template = File.dirname(__FILE__) + '/../cfg/' + what + '_tool_description.template.xml'
+    puts "write template:   #{template}"
+   
+    File.open(cmssw_sel_tool_dir(which) + what + '.xml', 'w') do |f|
+      f.write File.open(template).read.gsub('OUR_GEANT4_BASE', geant_base(which)).gsub('OUR_GEANT4_VERSION',geant_release)
+    end
+  end
+
+  def setup(places)
+    places.each do |which|
+      where = cmssw_sel_tool_dir(which)
+      puts "which: #{which}"
+      puts "where: #{where}"
+      puts "pwd:   #{ENV['PWD']}"
+      fork do
+	result = `./src/do_setup_stuff.sh #{where} #{geant_release};`
+        our_rc=$?.exitstatus
+	puts "pid: #{Process.pid}"
+	puts "#{result}"
+        exit our_rc
+      end
+    end
+    children = Process.waitall
+    children.each do |pid, status|
+      if status.exitstatus == 0
+	puts "Process #{pid} OK"
+      else
+        puts "Process #{pid} FAILED, return code is " + status.exitstatus
+        @@our_rc += status.exitstatus
+        #raise Exception.new("Process #{pid} FAILED")
+      end
+    end
+    @@our_rc
+  end
+
+  def get_rc
+    @@our_rc
+  end
+
+  private
+  def get_architecture
+    scram_arch=`./src/get_architecture.sh;`
+    scram_arch.strip
+  end    
+
+  def cmssw_base(which)
+    base_dir + which + '/CMSSW_' + cmssw_release + '/'    
+  end
+
+  def cmssw_sel_tool_dir(which)
+#    base_dir + which + '/CMSSW_' + cmssw_release + '/config/toolbox/slc4_ia32_gcc345/tools/selected/'
+    base_dir + which + '/CMSSW_' + cmssw_release + '/config/toolbox/' + get_architecture + '/tools/selected/'
+  end
+
+  def geant_base(which)
+    base_dir + which + '/geant4.' + geant_release
+  end
+end
+
+base_dir      = ARGV[0] || '/storage/local/data1/geant4work'
+geant_release = ARGV[1] || '9.4.p01'
+cmssw_release = ARGV[2] || '4_1_3'
+
+puts "$0 called with #{base_dir}, #{geant_release}, #{cmssw_release}"
+ 
+fixer = ToolFixer.new(base_dir, geant_release, cmssw_release)
+
+fixer.write('modified','geant4')
+fixer.write('unmodified','geant4')
+
+fixer.write('modified','geant4core')
+fixer.write('unmodified','geant4core')
+
+fixer.write('modified','geant4data')
+fixer.write('unmodified','geant4data')
+
+fixer.setup(['unmodified', 'modified'])
+
+exit fixer.get_rc
+

@@ -1,0 +1,208 @@
+#!/home/g4p/products/R-3.1.2/bin/Rscript
+#####!/usr/bin/env Rscript
+
+###
+### This R script makes g4profiling standard plots assuming make_dataframes.rscript was run
+###
+### Syntax:  make_standard_plots.rscript campaign-directory
+###
+
+library(lattice)
+library(stringr)
+suppressPackageStartupMessages(library(doBy))
+suppressPackageStartupMessages(library(Hmisc))
+
+args <- commandArgs(TRUE)
+if (length(args) != 1) stop("You must supply the name of a directory to process")
+
+##myBigFunction<-function(thedir) {
+dirname <- args[[1]]
+#dirname <- getwd()
+
+suppressPackageStartupMessages(source("analysis/src/plots.R"))
+
+load(file.path(dirname,"trials.rda"))
+load(file.path(dirname,"events.rda"))
+#load(file.path(dirname,"runmeta.rda"))
+#load(file.path(dirname,"runenvs.rda"))
+load(file.path(dirname,"libraries.rda"))
+load(file.path(dirname,"functions.rda"))
+
+generate.png <- function(plot, filename) {
+  png(filename,width = 1400, height = 400, units = "px")
+  print(plot)
+  dev.off()
+}
+
+generate.html <- function(dframe, filename) {
+  a<-html(dframe,file=filename,dcolumn=TRUE)
+  # last arg is passed to format.df; see its handling of $ signs etc...
+}
+
+basic.trial.times.df <-function( nevents = 100, ...) {
+  acpu <- aggregate(  trial.t/nevents~mname, data = trials, FUN = median )
+  names(acpu)<- c("Machine Name","CPU Time per Event")
+  print(acpu)
+}
+
+big.functions.count.df <- function( minfrac = 0.01, ...)  {
+  bigfuncs <- subset(functions, max.leaf.frac.median > minfrac)
+  afv<-summaryBy(leaf~short+mname, data=bigfuncs, FUN=fivenum)
+  names(afv) <- c("short", "mname",
+                  "leaf.lw", "leaf.lh", "leaf.median", "leaf.uh", "leaf.uw"
+                  )
+  afm<-summaryBy(max.leaf.median~short+mname, data=bigfuncs,FUN=median)
+  names(afm) <- c("short", "mname", "max.leaf.median")
+  bigfuncsf <- merge(afm,afv)
+  orderBy(~-max.leaf.median,data=bigfuncsf)  
+}
+
+big.functions.frac.df <- function( minfrac = 0.01, ...)  {
+  bigfuncs <- subset(functions, max.leaf.frac.median > minfrac)
+  afv<-summaryBy(leaf.frac~short+mname, data=bigfuncs, FUN=fivenum)
+  names(afv) <- c("short", "mname",
+                  "leaf.frac.lw", "leaf.frac.lh", "leaf.frac.median", "leaf.frac.uh", "leaf.frac.uw"
+                  )
+  afm<-summaryBy(max.leaf.frac.median~short+mname, data=bigfuncs,FUN=median)
+  names(afm) <- c("short", "mname", "max.leaf.frac.median")
+  bigfuncsf <- merge(afm,afv)
+  orderBy(~-max.leaf.frac.median,data=bigfuncsf)  
+}
+
+big.libraries.count.df <- function( minmed = 10, ...)  {
+  biglibs <- subset(libraries, max.samples.median > minmed)
+  alv<-summaryBy(samples~lib+mname, data=biglibs, FUN=fivenum)
+  names(alv) <- c("lib", "mname",
+                  "samples.lw", "samples.lh", "samples.median", "samples.uh", "samples.uw"
+                  )
+  alm<-summaryBy(max.samples.median~lib+mname, data=biglibs,FUN=median)
+  names(alm) <- c("lib", "mname", "max.samples.median")
+  biglibsf <- merge(alm,alv)
+  orderBy(~-max.samples.median,data=biglibsf)  
+}
+
+#print(sprintf("%s created test",fname))
+
+# par(ask=TRUE)
+
+#all.events.plot()
+
+
+fname=file.path(dirname,"prof_basic_trial_times_plot.png")
+generate.png(basic.trial.times.plot(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_basic_trial_times_list.html")
+generate.html(basic.trial.times.df(nevents = 100),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_basic_trial_times_histogram.png")
+generate.png(basic.trial.times.histogram(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_early_events_plot.png")
+generate.png(early.events.plot(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_100_events_plot.png")
+generate.png(all.events.plot(),fname)
+print(sprintf("%s created",fname))
+
+fname=file.path(dirname,"prof_big_libraries_count_plot_400.png")
+generate.png(big.libraries.count.plot(minmed = 400),fname)
+print(sprintf("%s created",fname))
+
+#we change the plot cuts depending on the sample
+
+if(length(grep("cms",dirname))>0){
+  fname=file.path(dirname,"prof_big_functions_count_plot_01.png")
+  generate.png(big.functions.count.plot(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_plot_01.png")
+  generate.png(big.functions.frac.plot(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_functions_count_list_01.html")
+  generate.html(big.functions.count.df(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_list_01.html")
+  generate.html(big.functions.frac.df(minfrac = 0.01),fname)
+  print(sprintf("%s created",fname))
+}else{
+  maxfracscale=0.1
+  if(length(grep("mu2e",dirname))>0){
+    maxfracscale=0.2
+  }
+  fname=file.path(dirname,"prof_big_functions_count_plot_01.png")
+  generate.png(big.functions.count.plot(minfrac = 0.02),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_plot_01.png")
+  generate.png(big.functions.frac.plot(minfrac = 0.02, maxfracsc = maxfracscale),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_functions_count_list_01.html")
+  generate.html(big.functions.count.df(minfrac = 0.02),fname)
+  print(sprintf("%s created",fname))
+  fname=file.path(dirname,"prof_big_functions_frac_list_01.html")
+  generate.html(big.functions.frac.df(minfrac = 0.02),fname)
+  print(sprintf("%s created",fname))
+}
+
+if(length(grep("mu2e",dirname))>0){
+  print(sprintf("%s contains mu2e",dirname))
+  fname=file.path(dirname,"prof_big_paths_count_plot_20_75.png")
+  generate.png(big.paths.count.plot(minfrac = 0.20, maxfrac = 0.75),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_count_plot_50_99.png")
+  generate.png(big.paths.count.plot(minfrac = 0.50, maxfrac = 0.99),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_count_plot_15_60.png")
+  generate.png(big.paths.count.plot(minfrac = 0.15, maxfrac = 0.60),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_20_75.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.20, maxfrac = 0.75),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_50_99.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.50, maxfrac = 0.99),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_15_60.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.15, maxfrac = 0.60),fname)
+  print(sprintf("%s created",fname))
+}else{
+  fname=file.path(dirname,"prof_big_paths_count_plot_05_95.png")
+  generate.png(big.paths.count.plot(minfrac = 0.05, maxfrac = 0.95),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_count_plot_15_99.png")
+  generate.png(big.paths.count.plot(minfrac = 0.15, maxfrac = 0.99),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_count_plot_15_95.png")
+  generate.png(big.paths.count.plot(minfrac = 0.15, maxfrac = 0.95),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_05_95.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.05, maxfrac = 0.95),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_15_99.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.15, maxfrac = 0.99),fname)
+  print(sprintf("%s created",fname))
+
+  fname=file.path(dirname,"prof_big_paths_frac_plot_15_95.png")
+  generate.png(big.paths.frac.plot(minfrac = 0.15, maxfrac = 0.95),fname)
+  print(sprintf("%s created",fname))
+}
+
+##}
+
+## This tells emacs to view this file in R mode.
+## Local Variables:
+## mode:R
+## End:
+

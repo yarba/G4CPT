@@ -1,0 +1,355 @@
+#!/usr/bin/env ruby
+
+# svn keywords:
+# $Rev: 717 $: Revision of last commit
+# $Author: genser $: Author of last commit
+# $Date: 2011-03-24 16:12:58 -0500 (Thu, 24 Mar 2011) $: Date of last commit
+
+# TODO: Move this to CMS-specific directory, preparing for move out of perfdb.
+
+require 'digest/sha1'
+
+$doc = <<ENDDOC
+profile_cmsRun - write a Condor submission script to profile cmsRun.
+
+SYNOPSIS
+ruby profile_cmsRun [options] purpose-name geant-version cmssw-version build-type configfile numrepeats numqueueings
+
+DESCRIPTION
+
+Write a submission script (to be submitted with condor_sumbit) that
+will run cmsRun using the configuration file named by configfile, and
+create the output directories to which the jobs run by this submission
+script will write. The script will submit an experiment that does
+numqueueings queueing of the same script; each queueing will run a
+shell script that runs cmsRun numrepeats times.
+The script will also copy the configfile to the sandbox area
+
+ * purpose-name must be one already recognized by the database.
+ * geant-version must be in a format like 9.2.p01
+ * cmssw-version must be in a form like 3_0_0_pre10
+ * build-type must be 'modified' or 'unmodified'
+
+OPTIONS
+
+  -h, --help
+  Print this help and exit.
+
+  -e, --environment = <rails_env>
+  Use rails_env as the Rails environment. If not specified, then
+  the value of 'production' is used.
+
+  -n, --dry-run
+  Print what would be done, but do not actually do it.
+
+  -o, --output=DIR
+  Create output directory DIR. If not specified, a default appropriate
+  for the Fermilab BlueArc space is used.
+
+  -r, --runbase=DIR
+  The name of the directory from which we run the cmsRun program. If not
+  specified, a default appropriate for the Fermilab BlueArc space is 
+  used.
+
+  -v, --version
+  Print the version number and exit.
+
+ENDDOC
+
+$vers = '1.2.1'
+require 'erb'
+require 'fileutils'
+require 'getoptlong'
+require 'rubygems'
+require 'active_resource'
+
+def usage
+  puts $doc
+end
+
+def version
+  puts $vers
+end
+
+class Experiment < ActiveResource::Base
+  self.site = '' #'http://oink.fnal.gov:3333'
+
+  def self.set_site(site)
+    self.site = site
+  end
+end
+
+
+class ProfileScript
+  attr_accessor :purpose_name, :geant_version, :cmssw_version, :build_type, 
+  :config_file, :num_repeats, :num_queueings,
+  :email, 
+  :output_base, :run_base,
+  :dry_run, :environment,
+  :experiment_parameters, :build_features,
+  :os, :arch, :compiler,
+  :experiment_id,
+  :target_config_file,
+  :local_config_file_dump,
+  :local_Config_File_SHA1
+   
+  # This is where output files go to
+  def output_dir
+    if experiment_id.nil?
+      raise Exception.new('output_dir is not yet definable')
+    end
+    File.join(self.output_base, "exp_#{self.experiment_id}")
+  end
+
+  # This is where we go to before doing 'eval `scramv1 runtime -sh`'.
+  def run_dir
+    run_base + "/g4.#{geant_version}_cms_#{cmssw_version}/#{build_type}/CMSSW_#{cmssw_version}/src"
+  end
+
+  def arch_string
+    find_arch_stuff.join('_')
+  end
+
+  def handle_program_options(opts)
+    opts.each do | opt, arg |
+      case opt
+      when '-h', '--help'
+	usage
+	exit
+      when '-v', '--version'
+	version
+	exit
+      when '-e', '--environment'
+        self.environment = arg
+      when '-o', '--output'
+	self.output_base = arg
+      when '-r', '--runbase'
+	self.run_base = arg
+      when '-n', '--dry-run'
+	self.dry_run = true
+	puts __FILE__ + ' Dry run: will not execute any actions'
+      end
+    end	  
+  end
+
+  def establish_defaults
+    self.output_base = self.output_base || '/uscms_data/d2/genser/geant_output'
+    self.run_base    = self.run_base || '/uscms_data/d2/genser/geant4run'
+    self.dry_run = false
+    self.environment = 'production'
+  end
+
+  def handle_program_arguments
+    self.purpose_name  =    ARGV[0]
+    self.geant_version =    ARGV[1] 
+    self.cmssw_version =    ARGV[2]
+    self.build_type =       ARGV[3]
+    self.config_file =      ARGV[4]
+    self.num_repeats =      ARGV[5].to_i
+    self.num_queueings =    ARGV[6].to_i
+  end    
+
+  def initialize
+
+    opts = 
+      GetoptLong.new([ '--help',         '-h', GetoptLong::NO_ARGUMENT ],
+                     [ '--version',      '-v', GetoptLong::NO_ARGUMENT ],
+                     [ '--environment',  '-e', GetoptLong::REQUIRED_ARGUMENT],
+                     [ '--output',       '-o', GetoptLong::REQUIRED_ARGUMENT ],
+                     [ '--runbase',      '-r', GetoptLong::REQUIRED_ARGUMENT ],
+		     [ '--dry-run',      '-n', GetoptLong::NO_ARGUMENT])
+    opts.quiet = true
+
+    establish_defaults
+    handle_program_options(opts)
+
+    if ARGV.length != 7
+      puts "Incorrect number of arguments\n\n"
+      usage
+      exit 1
+    end
+
+    handle_program_arguments
+
+    self.email = (ENV['USER'] || 'genser') + '@fnal.gov'
+
+  end
+
+  def shell_script_name
+    @shell_script_name ||= output_dir + '/run_me.sh'
+  end
+
+  def condor_script_name
+    @condor_script_name ||= output_dir + '/submit_me'
+  end
+
+  def handle_special_purpose_stuff
+    case purpose_name
+    when 'g4profiling'
+      handle_g4profiling
+    end
+  end
+
+  def url
+    case self.environment
+    when 'production'
+      port = 3333
+    when 'development'
+      port = 3000
+    else
+      raise Exception.new("Environment #{self.environment} not recognized by " + __FILE__ )
+    end
+    "http://oink.fnal.gov:#{port}"
+  end
+
+  def handle_g4profiling
+
+    @@config_file_path = "#{self.template_dir}/#{self.config_file}"
+
+    if !File.exist?(@@config_file_path)
+      puts "Could not find #{self.config_file}"
+      exit 1
+    end
+
+    # Find the physics list, and record it as an experiment parameter.
+
+    #process.g4SimHits.Physics.type = 'SimG4Core/Physics/QGSP_BERT'
+    pattern = /g4SimHits\.Physics\.type\s*=.*["']SimG4Core\/Physics\/(.*)['"]/
+
+    cfgfo = File.open(@@config_file_path, 'r')
+    cfgfs = cfgfo.read
+
+    #puts "This is the config_file: START#{cfgfs}END"
+    results = cfgfs.scan(pattern)
+    unless results.size == 1
+      puts "g4profiling jobs require exactly one physics list specification"
+      exit 1
+    end
+    #puts "This is the results: START#{results}END"
+    self.local_config_file_dump = cfgfs.gsub(/#.*$/,"").gsub(/\s/,"")
+    puts "This would be the local_config_file_dump: START#{local_config_file_dump}END"
+    self.local_Config_File_SHA1=Digest::SHA1.hexdigest(local_config_file_dump)
+#    self.experiment_parameters = "PhysicsList=#{cfgfs.scan(pattern)[0][0]}"
+    self.experiment_parameters = "PhysicsList=#{cfgfs.scan(pattern)[0][0]};LocalConfigFileSHA1=#{local_Config_File_SHA1}"
+    puts "experiment_parameters: #{experiment_parameters}"
+    self.os, self.arch, self.compiler = find_arch_stuff
+    self.build_features = "CMSSW=#{cmssw_version};GEANT4=#{geant_version};COMPILER=#{compiler};OS=#{os};ARCH=#{arch};TYPE=#{build_type}"
+    #puts "build_features: #{build_features}"
+
+  end
+
+  # Return the location of the script templates.
+  def template_dir
+    File.dirname(__FILE__) + '/../cfg'
+  end
+
+  def prepare_for_output
+    if File.exist?(output_dir)
+      puts "\nDirectory '#{output_dir}' already exists."
+      puts "There has been a failure in creating the new directory after issuing of an experiment id."
+      puts "You have to debug this problem."
+      exit 1
+    end
+
+    puts 'Making experiment output directory...' # unless self.dry_run
+    FileUtils.mkdir_p(output_dir) # unless self.dry_run
+    puts "Directory '#{output_dir}' created" # unless self.dry_run
+    puts "Email will be sent to: #{email}"
+    puts "Output will appear in: #{output_dir}"
+
+    self.target_config_file =  "#{output_dir}/#{self.config_file}"
+    if !self.dry_run
+      puts "Copying #{@@config_file_path} to #{self.target_config_file}"
+      FileUtils.cp(@@config_file_path,self.target_config_file)
+    elsif
+      puts "Would copy #{@@config_file_path} to #{self.target_config_file}"
+    end
+
+  end
+
+#   def write_buildenv_data
+#     File.open(output_dir + '/build_env.txt', 'w') do |f|
+#       f.write("cmssw version:  #{cmssw_version}\n")
+#       f.write("geant4 version: #{geant4_version}\n")
+#       f.write("compiler version: gcc #{compiler_version}\n")
+#     end
+#   end
+
+  # Return an array containing os/arch/compiler
+  def find_arch_stuff
+    filenames = Dir.glob(self.run_dir + '/../lib/*')
+    unless filenames.size == 1
+      raise Exception.new("Failed to find properly organized CMSSW working directory at #{self.run_dir}")
+    end
+    File.basename(filenames.first).split('_')
+  end
+
+  def run
+    handle_special_purpose_stuff
+    puts "-----------------------"
+    require 'pp'
+    pp self
+    puts "-----------------------"
+    puts "Run dir: #{run_dir}"
+    puts "arch stuff: #{find_arch_stuff.join('/')} #{find_arch_stuff.join('_')}"
+
+    create_experiment_in_database
+    prepare_for_output
+    #write_buildenv_data
+    write_condor_script # unless self.dry_run
+    write_shell_script  # unless self.dry_run
+  end
+
+  def write_condor_script
+    puts "Writing #{condor_script_name}"
+
+    File.open(condor_script_name, 'w') do | output |
+      template = ERB.new(File.read(File.join(template_dir, \
+					     'profile.template')))
+      output.write(template.result(binding()))
+    end
+
+  end
+
+  def write_shell_script
+    puts "Writing #{shell_script_name}"
+
+    File.open(shell_script_name, 'w', 0774) do | output |
+      template = ERB.new(File.read(File.join(template_dir, \
+					     'profile_shell.template')))
+      output.write(template.result(binding())) 
+    end
+  end
+
+  def create_experiment_in_database
+    Experiment.set_site(url)
+    exp = Experiment.new(:program_name => 'cmsRun', 
+			 :purpose_name => purpose_name,
+			 :experiment_parameter_set_string => experiment_parameters,
+			 :build_feature_set_string => build_features)
+    if self.dry_run
+      self.experiment_id = 99999
+    elsif exp.save
+      self.experiment_id = exp.id
+    else
+      raise Exception('Failed to create experiment')
+    end
+  end
+
+end
+
+
+
+if __FILE__ == $0
+  begin
+    script = ProfileScript.new
+    script.run
+  rescue ActiveResource::ServerError => x
+    puts 'Error from server: ' + x.to_s
+#    puts 'Check your purpose name!'
+    exit 1
+  rescue GetoptLong::Error => x
+    puts 'profile_cmsRun error: ' + x.to_s
+    exit 1
+  end
+end

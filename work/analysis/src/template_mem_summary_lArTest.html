@@ -1,0 +1,106 @@
+<html>
+
+<head>
+<title>Geant4.G4P_WEB_TITLE Memory Summary</title>
+
+<meta name="keywords" content="Geant4 Performance, Simple Profiler, Fast, Fermilab" />
+<style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+</style>
+
+</head>
+<body>
+
+<h1><font color=ff0080> Total Memory in Counts/1,000,000</font></h1>
+
+<h2>Geant4.G4P_WEB_TITLE</h2>
+
+<table cellspacing="0px" border=1>
+             <tr bgcolor="#aaeeaa">
+             <th rowspan="3">Sample</th>
+             <th rowspan="3">Physics List</th>
+             <th rowspan="3">B-Field</th>
+             <th colspan="4">Beam Energy/Process</th>
+
+             <tr bgcolor="#aaeeaa">
+             <th colspan="2">1 GeV</th>
+             <th colspan="2">5 GeV</th>
+             </tr>
+
+             <tr bgcolor="#aaeeaa">
+             <th>First Event</th>
+             <th>Last Event</th>
+             <th>First Event</th>
+             <th>Last Event</th>
+             </tr>
+
+<!-- e-/e+ -->
+
+<tr bgcolor="yellow">
+<td>e-</td>
+<td>FTFP_BERT</td>
+<td>0.0T</td>
+<td>e-.FTFP_BERT.1.0.MEM_TOTAL.1</td> 
+<td>e-.FTFP_BERT.1.0.MEM_TOTAL.END</td>
+<td>e-.FTFP_BERT.5.0.MEM_TOTAL.1</td>
+<td>e-.FTFP_BERT.5.0.MEM_TOTAL.END</td>
+</tr>
+
+<!-- mu-/mu+ -->
+
+<tr bgcolor="yellow">
+<td>mu-</td>
+<td>FTFP_BERT</td>
+<td>0.0T</td>
+<td>mu-.FTFP_BERT.1.0.MEM_TOTAL.1</td> 
+<td>mu-.FTFP_BERT.1.0.MEM_TOTAL.END</td>
+<td>mu-.FTFP_BERT.5.0.MEM_TOTAL.1</td>
+<td>mu-.FTFP_BERT.5.0.MEM_TOTAL.END</td>
+</tr>
+
+<!-- pion-/+ -->
+
+<tr bgcolor="#ccffcc">
+<td>pi-</td>
+<td>FTFP_BERT</td>
+<td>0.0T</td>
+<td>pi-.FTFP_BERT.1.0.MEM_TOTAL.1</td> 
+<td>pi-.FTFP_BERT.1.0.MEM_TOTAL.END</td>
+<td>pi-.FTFP_BERT.5.0.MEM_TOTAL.1</td>
+<td>pi-.FTFP_BERT.5.0.MEM_TOTAL.END</td>
+</tr>
+
+<!-- proton -->
+
+<tr bgcolor="#9999ff">
+<td rowspan="4">Proton</td>
+<td>FTFP_BERT</td>
+<td>0.0T</td>
+<td>proton.FTFP_BERT.1.0.MEM_TOTAL.1</td> 
+<td>proton.FTFP_BERT.1.0.MEM_TOTAL.END</td>
+<td>proton.FTFP_BERT.5.0.MEM_TOTAL.1</td>
+<td>proton.FTFP_BERT.5.0.MEM_TOTAL.END</td>
+</tr>
+
+
+</table>
+Processor: AMD Opteron(tm) Processor 6128 (CPU: 2000 MHz, Cache: 512 KB) <br>
+Total Memory: 66007532 kB
+</body><html>

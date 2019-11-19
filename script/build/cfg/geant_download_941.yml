@@ -1,0 +1,22 @@
+# svn keywords:
+# $Rev: 604 $: Revision of last commit
+# $Author: paterno $: Author of last commit
+# $Date: 2010-04-11 15:20:47 -0500 (Sun, 11 Apr 2010) $: Date of last commit
+
+#
+# This configuration file has the files for Geant4 9.4.p01
+#
+
+# TODO: Move this to g4-specific directory, preparing for move out of perfdb.
+
+url_base: http://geant4.cern.ch/support/source/
+
+files:
+ - geant4.9.4.p01.tar.gz
+ - G4NDL.3.14.tar.gz
+ - G4EMLOW.6.19.tar.gz
+ - G4PhotonEvaporation.2.1.tar.gz
+ - G4RadioactiveDecay.3.3.tar.gz
+ - G4ABLA.3.0.tar.gz
+ - RealSurface.1.0.tar.gz
+ - G4NEUTRONXS.1.0.tar.gz 

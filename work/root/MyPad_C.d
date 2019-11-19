@@ -1,0 +1,54 @@
+
+# DO NOT DELETE
+
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TPad.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TVirtualPad.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttPad.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/Rtypes.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/RConfig.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/RVersion.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/DllImport.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/Rtypeinfo.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/snprintf.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/strlcpy.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TGenericClassInfo.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TSchemaHelper.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TVirtualX.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TNamed.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TObject.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TStorage.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TVersionCheck.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/Riosfwd.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TBuffer.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TString.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TMathBase.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttLine.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttFill.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttText.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttMarker.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/GuiTypes.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/Buttons.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TQObject.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttBBox2D.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TPoint.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TH1F.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TH1.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAxis.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TAttAxis.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArrayD.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArray.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArrayC.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArrayS.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArrayI.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TArrayF.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/Foption.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TVectorFfwd.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TVectorDfwd.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TFitResultPtr.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TH2F.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TH2.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TMatrixFBasefwd.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TMatrixDBasefwd.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/TStyle.h
+./MyPad_C.so: /home/g4p/products/root.v5.34.26/include/cintdictversion.h /home/g4p/products/root.v5.34.26/include/RVersion.h
+MyPad_C__ROOTBUILDVERSION= 5.34/26
