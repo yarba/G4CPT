@@ -29,10 +29,8 @@ int throughput_cmsExpMT_elec_E5()
    gStyle->SetStatW(0.16);
    gStyle->SetStatH(0.16);
 
-//   const int nb = 8;
-//   int beam[nb] = {0,1,2,4,8,16,24,32};
-   const int nb = 7;
-   int beam[nb] = {0,1,2,4,8,16,24};
+   const int nb = 8;
+   int beam[nb] = {0,1,2,4,8,16,24,32};
 
    char gffilename[256];
 
@@ -61,7 +59,10 @@ int throughput_cmsExpMT_elec_E5()
 
      sprintf(hname,"total_%d",i);
      sprintf(htitle,"Time/Event for %d tracks",beam[i]);
-     h_total[i] = new TH1F(hname,htitle, 10000,0.0,100.0);
+//     h_total[i] = new TH1F(hname,htitle, 10000,0.0,100.0);
+     h_total[i] = new TH1F(hname,htitle, 20000,0.0,200.0); // increase the upper limit since
+                                                           // some measurements at 32 threads
+							   // spill beyond 100
 
      while ( !feof(gffile[i]) ) {
        fscanf(gffile[i],"%f",&total);

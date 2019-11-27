@@ -13,10 +13,11 @@ unset nthreads ; unset nthreads0
 if [ x"${node}" = x"amd" ]; then
 #
 # JVY, 9/6/19: tmp remove 32 threads
-#  nthreads="1 2 4 8 16 24 32"
-#  nthreads0="0 1 2 4 8 16 24 32"
-  nthreads="1 2 4 8 16 24"
-  nthreads0="0 1 2 4 8 16 24"
+# JVY, 11/27/19: restore 32 threads case
+  nthreads="1 2 4 8 16 24 32"
+  nthreads0="0 1 2 4 8 16 24 32"
+#  nthreads="1 2 4 8 16 24"
+#  nthreads0="0 1 2 4 8 16 24"
 elif [ x"${node}" = x"intel" ]; then
   nthreads="1 2 4 6 8 10 12"
   nthreads0="0 1 2 4 6 8 10 12"

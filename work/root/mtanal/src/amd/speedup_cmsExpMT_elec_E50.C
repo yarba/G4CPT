@@ -29,10 +29,8 @@ int speedup_cmsExpMT_elec_E50()
    gStyle->SetStatW(0.16);
    gStyle->SetStatH(0.16);
 
-//   const int nb = 8;
-//   int beam[nb] = {0,1,2,4,8,16,24,32};
-   const int nb = 7;
-   int beam[nb] = {0,1,2,4,8,16,24};
+   const int nb = 8;
+   int beam[nb] = {0,1,2,4,8,16,24,32};
 
    char gffilename[256];
 

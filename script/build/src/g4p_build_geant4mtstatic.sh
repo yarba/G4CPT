@@ -119,12 +119,15 @@ cmake -DCMAKE_CXX_COMPILER=${G4P_CXX} \
       -DGEANT4_USE_SYSTEM_CLHEP=${G4P_USE_CLHEP} \
       -DGEANT4_INSTALL_DATA=0 \
       -DGEANT4_USE_GDML=ON \
-      -DGEANT4_BUILD_MULTITHREADED=ON \
-      -DGEANT4_USE_OPENGL_X11=ON \
       -DXERCESC_ROOT_DIR=${XERCESC_DIR} \
+      -DGEANT4_BUILD_MULTITHREADED=ON \
       -DBUILD_SHARED_LIBS=OFF \
       -DBUILD_STATIC_LIBS=ON \
       ${INSTALL_DIR}/source ${INSTALL_DIR}
+#
+# JVY (11/27/19): remove opengl from the list of flags as it's not necessary
+#
+#      -DGEANT4_USE_OPENGL_X11=ON \
 
 #-----------------------------------------------------------------------
 # build and install - parallel compilation
