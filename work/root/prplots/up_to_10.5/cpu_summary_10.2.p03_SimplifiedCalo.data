@@ -1,0 +1,9 @@
+  305.8600     2.6526 higgs.FTFP_BERT.1400.4 AMDOpteronProcessor6128HE
+    0.0211     0.0001 e-.FTFP_BERT.1.4 AMDOpteronProcessor6128HE
+    1.0565     0.0058 e-.FTFP_BERT.50.4 AMDOpteronProcessor6128HE
+    0.0280     0.0001 pi-.FTFP_BERT.1.4 AMDOpteronProcessor6128HE
+    1.1461     0.0051 pi-.FTFP_BERT.50.4 AMDOpteronProcessor6128HE
+    0.0688     0.0004 anti_proton.FTFP_BERT.1.4 AMDOpteronProcessor6128HE
+    1.2043     0.0081 anti_proton.FTFP_BERT.50.4 AMDOpteronProcessor6128HE
+    0.0208     0.0001 proton.FTFP_BERT.1.4 AMDOpteronProcessor6128HE
+    1.1631     0.0077 proton.FTFP_BERT.50.4 AMDOpteronProcessor6128HE
