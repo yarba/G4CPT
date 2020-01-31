@@ -9,38 +9,27 @@ int cpu_time_ratio()
 
    const int ns = 9;
 
-   const int nb = 5;
+   const int nb = 6;
 
-/*
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02",
-			"10.5"
-   };
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02",
-			"10.5"
-   };
-
-   const int iref = 2; //reference 10.4.p02
-*/
-   char *release[nb] = {"10.2.p03static",
+   char *release[nb] = {
+                        "10.1.p03static",
+			"10.2.p03static",
                         "10.3.p03static",
 			"10.4.p03static",
 			"10.5.p01static",
 			"10.6"
    };
 
-   char *version[nb] = {"10.2.p03",
+   char *version[nb] = {
+                        "10.1.p03",
+			"10.2.p03",
 			"10.3.p03",
 			"10.4.p03",
 			"10.5.p01",
  			"10.6"
    };
 
-   const int iref = 3; //reference 10.5.p01
+   const int iref = 4; //reference 10.5.p01
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -242,7 +231,9 @@ int cpu_time_ratio()
      hhf[i]->GetXaxis()->SetTitleColor(4);
      hhf[i]->GetXaxis()->SetLabelSize(0.075);
 
-     hhf[i]->SetYTitle("Ratio of CPU Time/Event to V10.0");
+     std::string ytitle = "Ratio of CPU Time/Event to " + std::string(version[iref]);
+     // hhf[i]->SetYTitle("Ratio of CPU Time/Event to V10.0");
+     hhf[i]->SetYTitle(ytitle.c_str());
      hhf[i]->SetXTitle("Geant4 Version");
      
      hhf[i]->Draw("text");

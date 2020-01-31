@@ -14,7 +14,7 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=10.6.c00
+G4P_GEANT4_RELEASE=10.6.r01
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
@@ -27,16 +27,16 @@ G4P_APPLICATION_NAME=cmsExpMT
 #clhep version
 #
 # 10.1.p03
-#G4P_CLHEP_RELEASE=2.2.0.4
+# G4P_CLHEP_RELEASE=2.2.0.4
 # 10.2.p03
 # G4P_CLHEP_RELEASE=2.3.1.1
 # 10.3.p03
 # G4P_CLHEP_RELEASE=2.3.4.3
-# 10.4.p02
+# 10.4.p02/p03
 # G4P_CLHEP_RELEASE=2.4.0.0
 # 10.5-series
 # G4P_CLHEP_RELEASE=2.4.1.0
-# 10.5.beta
+# 10.5.beta, etc.
 G4P_CLHEP_RELEASE=2.4.1.2
 
 #g4p experiment number:
@@ -92,6 +92,18 @@ WEB_DIR=/home/g4p/
 #------------------------------------------------------------------------------
 # The current Geant4 cmake needs to make a manual Link to Geant4 data
 # for manual setup to link geant4 data, set variables as follows if needed
+#
+# 10.0.p04
+# G4EMLOW6.35
+# PhotonEvaporation3.0
+# G4NDL4.4
+# RadioactiveDecay4.0
+# G4ABLA3.0
+# RealSurface1.0
+# G4NEUTRONXS1.4
+# G4PII1.3
+# G4SAIDDATA1.1
+# G4ENSDFSTATE1.0
 #
 # 10.1.p03
 # G4EMLOW6.41
@@ -213,13 +225,36 @@ WEB_DIR=/home/g4p/
 # G4PII1.3
 # G4SAIDDATA2.0
 # G4ENSDFSTATE2.2
+# NOTE: the G4 website says G4TENDL1.3.2 goes with 10.6 release !!!
 # G4TENDL1.4
 # G4INCL1.0
 # G4PARTICLEXS2.1
 #
+# as of 10.6, there seems to be PhotonEvaporation5.5
+# however, original validation job went with 5.3; OK, keep this in mind
+# Q: when/where has it changes from 5.3 ???
+#
+## 10.6.r01
+# G4EMLOW7.9.1
+# PhotonEvaporation5.5
+# G4NDL4.6
+# RadioactiveDecay5.4
+# G4ABLA3.1
+# RealSurface2.1.1
+# G4PII1.3
+# G4SAIDDATA2.0
+# G4ENSDFSTATE2.2
+# NOTE: the G4 website says G4TENDL1.3.2 goes with 10.6 release !!!
+#       although it's nor clear if it's even needed because in the
+#       nuild procedure this dataset doesn't even come up on the 
+#       list of required datasets for 10.6.r01
+# G4TENDL1.4
+# G4INCL1.0
+# G4PARTICLEXS2.1
+
 #------------------------------------------------------------------------------
-# set G4LEDATA  path-to-data/G4EMLOW7.9
-# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.3
+# set G4LEDATA  path-to-data/G4EMLOW7.9.1
+# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.5
 # set G4NEUTRONHPDATA path-to-data/G4NDL4.6
 # set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.4
 # set G4ABLADATA path-to-data/G4ABLA3.1

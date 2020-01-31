@@ -10,23 +10,27 @@ int cpu_time_mean()
 
    const int ns = 9;
 
-   const int nb = 5;
+   const int nb = 6;
 
-   char *release[nb] = {"10.2.p03static",
+   char *release[nb] = {
+                        "10.1.p03static",
+			"10.2.p03static",
                         "10.3.p03static",
 			"10.4.p03static",
 			"10.5.p01static",
 			"10.6"
    };
 
-   char *version[nb] = {"10.2.p03",
+   char *version[nb] = {
+                        "10.1.p03",
+			"10.2.p03",
 			"10.3.p03",
 			"10.4.p03",
 			"10.5.p01",
 			"10.6"
    };
 
-   const int iref = 3; //reference 10.5.p01
+   const int iref = 4; //reference 10.5.p01
 
    char cfilename[256];
    FILE *cfile[nb];    
