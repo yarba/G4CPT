@@ -8,124 +8,79 @@ int cpu_time_mean()
 
    // read performance data
 
-   const int ns = 48;
+//   const int ns = 48;
    // const int ns = 4;
-//   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
+   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
 
 
 /*
-   const int nb = 20;
+   const int nb = 16;
 
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02rrr",
-			"10.4.p03",
-			"10.5rerun",
-			"10.5.p01",
-			"10.5.r01rr",
-			"10.5.r02",
-			"10.5.r02rerun",
-			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03rr",
-			"10.5.r04",
-			"10.5.r04rr",
-			"10.5.r05",
-			"10.5.r05fix1",
-			"10.5.r06c00",
-			"10.6.b01",
-			"10.5.r04rrr",
-			"10.5.r06"
-   }; // internal name used for profiling jobs
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02",
-			"10.4.p03", 
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
-			"10.5.r02rerun",
-			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03static",
-			"10.5.r04",
-			"10.5.r04rr",
-			"10.5.r05",
-			"10.5.r05+f1e50db",
-			"10.6.b00",
-			"10.6.b01",
-			"10.5.r04rrr",
-			"10.6.beta"
-   }; // legend for plots
-*/
-
-   const int nb = 19;
-
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
 			//			"10.4.p02rrr",
-			"10.4.p03",
-			"10.5rerun",
-			"10.5.p01",
-			"10.5.r01rr",
-//			"10.5.r02",
-			"10.5.r02rerun",
-//			"10.5.r03",
+			"10.4.p03static",
+//			"10.5.p01",
+			"10.5.p01static",
 			"10.5.r02static",
 			"10.5.r03rr",
-//			"10.5.r04",
-//			"10.5.r04rr",
 			"10.5.r04rrr",
 			"10.5.r05",
-//			"10.5.r05fix1",
-//			"10.5.r06c00",
-//			"10.6.b01",
-//			"10.5.r06",
 			"10.5.r06rr",
 			"10.5.r07rr",
 			"10.5.r08rr",
-			"10.5.r09",
 			"10.5.r09rr",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
                         "10.3.p03",
 			//			"10.4.p02",
 			"10.4.p03", 
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
+//			"10.5.p01",
+			"10.5.p01", //  static",
 			"10.5.r02",
-			//			"10.5.r02rerun",
-//			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03static",
-//			"10.5.r04",
-//			"10.5.r04rr",
+			"10.5.r03",
 			"10.5.r04", // --> rrr",
 			"10.5.r05",
-//			"10.5.r05+f1e50db",
-//			"10.6.b00",
-//			"10.6.b01",
-//			"10.6.beta",
 			"10.5.r06", // --> rr",
 			"10.5.r07",
 			"10.5.r08",
 			"10.5.r09",
-			"10.5.r09rr",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    }; // legend for plots
 
-
 //   const int iref = 2; //reference 10.4.p03
-   const int iref = 3; //reference 10.5(rerun)
+   const int iref = 3; //reference 10.5.p01 (static,rerun)
+*/
+
+   const int nb = 6;
+
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
+			"10.4.p03static",
+			"10.5.p01static",
+			"10.6",
+			"10.6.r01"
+   }; // internal name used for profiling jobs
+
+   char *version[nb] = {"10.2.p03",
+                        "10.3.p03",
+			"10.4.p03", 
+			"10.5.p01", 
+			"10.6",
+			"10.6.r01"
+   }; // legend for plots
+
+   const int iref = 4; //reference 10.6
+
+
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -156,7 +111,7 @@ int cpu_time_mean()
        amd_cputime[j][i] = mcputime;
        amd_error[j][i] = ecputime;
 
-       if(i==iref) { //10.3 (reference)
+       if(i==iref) { 
 	 sample_id[j] = sample;
          hmax[j] = mcputime*1.2;
          hmin[j] = mcputime*0.8;
@@ -166,8 +121,15 @@ int cpu_time_mean()
          {
             if ( sample_id[j].find("e-") != string::npos )
 	    {
-	       cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << 150. << endl;
-	       hmax[j] = 150.;
+	       //cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << 150. << endl;
+	       //hmax[j] = 150.;
+	       cout << " changing hmin for " << sample_id[j] << " from " << hmin[j] << " to " << 10. << endl;
+	       hmin[j] = 10.;
+	       if ( sample_id[j].find("_EMZ") != string::npos )
+	       {
+	          cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << 100. << endl;
+	          hmax[j] = 150.;
+	       }
 	    }
             else if ( sample_id[j].find("proton") != string::npos )
 	    {
@@ -175,6 +137,11 @@ int cpu_time_mean()
 	       hmax[j] = mcputime * 2.;
 	    }
          }
+         if ( sample_id[j].find("_HP") != string::npos )
+         {
+	    cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << mcputime * 2. << endl;
+	    hmax[j] = mcputime * 2.;
+	 } 
        }
      }
      fclose(cfile[i]);
@@ -205,6 +172,7 @@ int cpu_time_mean()
    char pstitle[256];
 
    for (int i = 0; i < ns ; i++) {
+     
      sprintf(cvname,"cv%d",i);
      sprintf(cvtitle,"CPU for SimplifiedCalo: %s",(sample_id[i]).c_str());
 
@@ -260,7 +228,7 @@ int cpu_time_mean()
    TLegend *lg1[ns];
 
    for(int i = 0 ; i < ns ; i++) {
-
+     
      cv[i]->cd();
 
      pd[i]->cd();

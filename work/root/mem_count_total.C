@@ -7,97 +7,74 @@ int mem_count_total()
 
    // read performance data
 
-   const int ns = 48;
-//   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
+//   const int ns = 48;
+   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
 
 /*
-   const int nb = 14;
+   const int nb = 16;
 
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p03",
-			"10.5.c02",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
-			"10.5.r03",
-			"10.5.r04",
-			"10.5.r05",
-			"10.5.r05fix1",
-			"10.5.r06c00",
-			"10.6.b01",
-			"10.5.r06"
-   };
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p03",
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
-			"10.5.r03",
-			"10.5.r04",
-			"10.5.r05",
-			"10.5.r05+f1e50db",
-			"10.6.b00",
-			"10.6.b01",
-			"10.6.beta"
-   };
-*/
-
-   const int nb = 18;
-
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p03",
-			"10.5.c02",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
+			"10.4.p03static",
+			"10.5.p01static",
 			"10.5.r02static",
 			"10.5.r03",
 			"10.5.r04",
 			"10.5.r05",
-//			"10.5.r05fix1",
-//			"10.5.r06c00",
-//			"10.6.b01",
 			"10.5.r06",
 			"10.5.r07",
 			"10.5.r08",
 			"10.5.r09",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+//			"10.5.r10c",
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    };
 
    char *version[nb] = {"10.2.p03",
                         "10.3.p03",
 			"10.4.p03",
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
-			"10.5.r02static",
+			"10.5.p01", // static",
+			"10.5.r02", // static",
 			"10.5.r03",
 			"10.5.r04",
 			"10.5.r05",
-//			"10.5.r05+f1e50db",
-//			"10.6.b00",
-//			"10.6.b01",
 			"10.5.r06", // --> 6.beta",
 			"10.5.r07",
 			"10.5.r08",
 			"10.5.r09",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+//			"10.5.r10c",
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    };
 
-
-
 //   const int iref = 2; //reference 10.4.p03
-   const int iref = 3; //reference 10.5
+   const int iref = 3; //reference 10.5.p01static
+*/
+
+   const int nb = 6;
+
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
+			"10.4.p03static",
+			"10.5.p01static",
+			"10.6",
+			"10.6.r01"
+   }; // internal name used for profiling jobs
+
+   char *version[nb] = {"10.2.p03",
+                        "10.3.p03",
+			"10.4.p03", 
+			"10.5.p01", 
+			"10.6",
+			"10.6.r01"
+   }; // legend for plots
+
+   const int iref = 4; //reference 10.6
+
                                              
    char cfilename[256];
    FILE *cfile[nb];    

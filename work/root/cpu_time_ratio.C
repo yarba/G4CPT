@@ -7,121 +7,77 @@ int cpu_time_ratio()
 
    // read performance data
 
-   const int ns = 48;
-//   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
+//   const int ns = 48;
+   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
+
 
 /*
-   const int nb = 20;
+   const int nb = 16;
 
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02rrr",
-			"10.4.p03",
-			"10.5rerun",
-			"10.5.p01",
-			"10.5.r01rr",
-			"10.5.r02",
-			"10.5.r02rerun",
-			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03rr",
-			"10.5.r04",
-			"10.5.r04rr",
-			"10.5.r05",
-			"10.5.r05fix1",
-			"10.5.r06c00",
-			"10.6.b01",
-			"10.5.r04rrr",
-			"10.5.r06"
-   };
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p02",
-			"10.4.p03",
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
-			"10.5.r02",
-			"10.5.r02rerun",
-			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03static",
-			"10.5.r04",
-			"10.5.r04rr",
-			"10.5.r05",
-			"10.5.r05+f1e50db",
-			"10.6.b00",
-			"10.6.b01",
-			"10.6.beta"
-   };
-*/
-
-   const int nb = 19;
-
-   char *release[nb] = {"10.2.p03",
-                        "10.3.p03",
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
 			//			"10.4.p02rrr",
-			"10.4.p03",
-			"10.5rerun",
-			"10.5.p01",
-			"10.5.r01rr",
-//			"10.5.r02",
-			"10.5.r02rerun",
-//			"10.5.r03",
+			"10.4.p03static",
+//			"10.5.p01",
+			"10.5.p01static",
 			"10.5.r02static",
 			"10.5.r03rr",
-//			"10.5.r04",
-//			"10.5.r04rr",
 			"10.5.r04rrr",
 			"10.5.r05",
-//			"10.5.r05fix1",
-//			"10.5.r06c00",
-//			"10.6.b01",
-//			"10.5.r06",
 			"10.5.r06rr",
 			"10.5.r07rr",
 			"10.5.r08rr",
-			"10.5.r09",
 			"10.5.r09rr",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
                         "10.3.p03",
 			//			"10.4.p02",
 			"10.4.p03", 
-			"10.5",
-			"10.5.p01",
-			"10.5.r01",
+//			"10.5.p01",
+			"10.5.p01", // static",
 			"10.5.r02",
-			//			"10.5.r02rerun",
-//			"10.5.r03",
-			"10.5.r02static",
-			"10.5.r03static",
-//			"10.5.r04",
-//			"10.5.r04rr",
+			"10.5.r03",
 			"10.5.r04", // --> rrr",
 			"10.5.r05",
-//			"10.5.r05+f1e50db",
-//			"10.6.b00",
-//			"10.6.b01",
-//			"10.6.beta",
 			"10.5.r06", // --> rr",
 			"10.5.r07",
 			"10.5.r08",
 			"10.5.r09",
-			"10.5.r09rr",
 			"10.5.r10",
-			"10.5.r10c",
-			"10.6.c00"
+			"10.6.c00",
+			"10.6.c01",
+			"10.6"
    }; // legend for plots
 
 
 //   const int iref = 2; //reference 10.4.p03
-    const int iref = 3; //reference 10.5(rr)
+    const int iref = 3; //reference 10.5.p01static
+*/
+
+   const int nb = 6;
+
+   char *release[nb] = {"10.2.p03static",
+                        "10.3.p03static",
+			"10.4.p03static",
+			"10.5.p01static",
+			"10.6",
+			"10.6.r01"
+   }; // internal name used for profiling jobs
+
+   char *version[nb] = {"10.2.p03",
+                        "10.3.p03",
+			"10.4.p03", 
+			"10.5.p01", 
+			"10.6",
+			"10.6.r01"
+   }; // legend for plots
+
+   const int iref = 4; //reference 10.6
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -153,7 +109,9 @@ int cpu_time_ratio()
 
        if(i==iref) { 
 	 sample_id[j] = sample;
-         hmax[j] = mcputime*1.2;
+//         hmax[j] = mcputime*1.2;
+//         hmin[j] = mcputime*0.8;
+         hmax[j] = mcputime*1.3;
          hmin[j] = mcputime*0.8;
        }
      }
@@ -255,25 +213,30 @@ int cpu_time_ratio()
      // TMP measure as CPU w/Shielding has been largely jumping between through 10.4.ref-s 
      if ( sample_id[i].find("Shielding") != string::npos  )
      {
-        if ( sample_id[i].find("e-") != string::npos ) then
+        if ( sample_id[i].find("e-") != string::npos ) 
 	{
-	   hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,6.);
+	   // hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,6.);
+	   hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,2.);
 	}
 	else if ( sample_id[i].find("proton") != string::npos  )
 	{
 	    hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.5);
 	}
      }
+     else if ( sample_id[i].find("_HP") != string::npos )
+     {
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.5);
+     }
      else
      {
         if(i==2) {
-        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.2);
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.3);
         }
         else if(i>34 && i < 43) {
-        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.8);
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.3);
         }
         else {
-        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.2);
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.3);
         }
      }
 
@@ -291,7 +254,9 @@ int cpu_time_ratio()
      hhf[i]->GetXaxis()->SetTitleSize(0.05);
      hhf[i]->GetXaxis()->SetTitleOffset(1.2);
      hhf[i]->GetXaxis()->SetTitleColor(4);
-     hhf[i]->SetYTitle("CPU Time Ratio <10.X.X/10.5>");
+     std::string ytitle = "CPU Time Ratio <10.X.X/" + std::string(version[iref]) + ">";
+     hhf[i]->SetYTitle(ytitle.c_str());
+     // hhf[i]->SetYTitle("CPU Time Ratio <10.X.X/10.5>");
      hhf[i]->SetXTitle("Geant4 Version");
      
      hhf[i]->Draw("text");
