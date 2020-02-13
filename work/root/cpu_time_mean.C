@@ -60,13 +60,14 @@ int cpu_time_mean()
    const int iref = 3; //reference 10.5.p01 (static,rerun)
 */
 
-   const int nb = 6;
+   const int nb = 7;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
 			"10.4.p03static",
 			"10.5.p01static",
 			"10.6",
+			"10.6.p01",
 			"10.6.r01"
    }; // internal name used for profiling jobs
 
@@ -75,6 +76,7 @@ int cpu_time_mean()
 			"10.4.p03", 
 			"10.5.p01", 
 			"10.6",
+			"10.6.p01",
 			"10.6.r01"
    }; // legend for plots
 
@@ -91,18 +93,18 @@ int cpu_time_mean()
      cfile[i] = fopen(cfilename,"r");
    }
 
-   double amd_cputime[ns][nb];
-   double amd_error[ns][nb];
+   double amd_cputime[ns+1][nb];
+   double amd_error[ns+1][nb];
 
-   string sample_id[ns];
+   string sample_id[ns+1];
 
    Float_t mcputime;
    Float_t ecputime;
    char sample[256];
    char processor[256];
 
-   double hmin[ns];
-   double hmax[ns];
+   double hmin[ns+1];
+   double hmax[ns+1];
 
    for(int i = 0 ; i < nb ; i++) {
      for(int j = 0 ; j < ns ; j++) {
@@ -134,25 +136,59 @@ int cpu_time_mean()
             else if ( sample_id[j].find("proton") != string::npos )
 	    {
 	       cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << mcputime * 2. << endl;
-	       hmax[j] = mcputime * 2.;
+	       hmax[j] = mcputime * 1.5;
+	       hmin[j] = mcputime * 0.7;
 	    }
          }
+	 if ( sample_id[j].find("QGSP_BIC") != string::npos )
+	 {
+	    hmin[j] = mcputime*0.7;
+	 }
+	 if ( sample_id[j].find("INCLXX") != string::npos )
+	 {
+	    hmin[j] = mcputime*0.5;
+	 }	 
          if ( sample_id[j].find("_HP") != string::npos )
          {
 	    cout << " changing hmax for " << sample_id[j] << " from " << hmax[j] << " to " << mcputime * 2. << endl;
-	    hmax[j] = mcputime * 2.;
+	    hmax[j] = mcputime * 1.5;
+	    hmin[j] = mcputime*0.7;
 	 } 
        }
      }
      fclose(cfile[i]);
    }
+   
+   // now process cmsExp+4T+Higgs
+   //
+   for(int i = 0 ; i < nb ; i++) 
+   {
+
+     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);  
+     cfile[i] = fopen(cfilename,"r");
+
+     fscanf(cfile[i],"%f %f %s %s", &mcputime, &ecputime, sample, processor);
+     amd_cputime[ns][i] = mcputime;
+     amd_error[ns][i] = ecputime;
+
+     if(i==iref) 
+     { 
+	 sample_id[ns] = sample;
+         hmax[ns] = mcputime*1.2;
+         hmin[ns] = mcputime*0.8;
+     }
+
+     fclose(cfile[i]);
+
+   }
+
 
    //ratio
 
-   double r_amd_cputime[ns][nb];
-   double r_amd_error[ns][nb];
+   double r_amd_cputime[ns+1][nb];
+   double r_amd_error[ns+1][nb];
    for(int i = 0 ; i < nb ; i++) {
-     for(int j = 0 ; j < ns ; j++) {
+     for(int j = 0 ; j <= ns ; j++) {
        r_amd_cputime[j][i] = amd_cputime[j][i]/amd_cputime[j][iref];
        double a0 = amd_error[j][2]/amd_cputime[j][iref];  
        double a1 =  amd_error[j][i]/amd_cputime[j][i];  
@@ -162,8 +198,8 @@ int cpu_time_mean()
 
    // canvas and pad
 
-   TCanvas* cv[ns];
-   TPad* pd[ns];
+   TCanvas* cv[ns+1];
+   TPad* pd[ns+1];
 
    char cvname[256];
    char cvtitle[256];
@@ -171,10 +207,17 @@ int cpu_time_mean()
    char pdtitle[256];
    char pstitle[256];
 
-   for (int i = 0; i < ns ; i++) {
+   for (int i = 0; i <= ns ; i++) {
      
      sprintf(cvname,"cv%d",i);
-     sprintf(cvtitle,"CPU for SimplifiedCalo: %s",(sample_id[i]).c_str());
+     if ( i == ns )
+     {
+        sprintf(cvtitle,"CPU for cmsExp: %s",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(cvtitle,"CPU for SimplifiedCalo: %s",(sample_id[i]).c_str());
+     }
 
      cv[i]= new TCanvas(cvname,cvtitle,0,0,800,500);
      cv[i]->cd();
@@ -222,12 +265,12 @@ int cpu_time_mean()
    char hname[256];
    char htitle[256];
 
-   TH2F   *hhf[ns];
-   TGraph *hgr1[ns]; 
+   TH2F   *hhf[ns+1];
+   TGraph *hgr1[ns+1]; 
 
-   TLegend *lg1[ns];
+   TLegend *lg1[ns+1];
 
-   for(int i = 0 ; i < ns ; i++) {
+   for(int i = 0 ; i <= ns ; i++) {
      
      cv[i]->cd();
 
@@ -235,7 +278,14 @@ int cpu_time_mean()
      pd[i]->SetGridy();
 
      sprintf(hname,"hhf%d",i);
-     sprintf(htitle,"CPU - SimplifiedCalo %s",(sample_id[i]).c_str());
+     if ( i == ns )
+     {
+        sprintf(htitle,"CPU - cmsExp %s",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(htitle,"CPU - SimplifiedCalo %s",(sample_id[i]).c_str());
+     }
      hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,hmin[i],hmax[i]);
 
      hhf[i]->SetBit(TH1::kCanRebin);   
@@ -267,8 +317,16 @@ int cpu_time_mean()
      lg1[i]->AddEntry(hgr1[i],"AMD Opteron 6128 HE @2.00 GHz","PL");
      lg1[i]->Draw();
      
-     sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_%s.png",(sample_id[i]).c_str());
-// -->     sprintf(pstitle,"cpu_time_%s.png",(sample_id[i]).c_str());
+     if ( i == ns )
+     {
+        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());     
+// -->        sprintf(pstitle,"cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_%s.png",(sample_id[i]).c_str());
+// -->        sprintf(pstitle,"cpu_time_%s.png",(sample_id[i]).c_str());
+     }
      cv[i]->Update(); 
      cv[i]->Print(pstitle); 
    }

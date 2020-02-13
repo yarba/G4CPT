@@ -11,7 +11,7 @@ MEM_SUMMARY_2=/lfstev/g4p/g4p/work/root/igprof/mem_summary_${xver2}_${xapp}.oss.
 
 # --> migrate --> OUT_DIR=/g4/g4p/work/root/igprof
 OUT_DIR=/lfstev/g4p/g4p/work/root/igprof
-OUT_FILE=${OUT_DIR}/compare_${xver1}_vs_${xver2}.tex
+OUT_FILE=${OUT_DIR}/compare_${xver1}_vs_${xver2}_${xapp}.tex
 # ---> OUT_FILE=test_compare.tex
 
 while read -r line; do

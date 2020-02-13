@@ -33,6 +33,22 @@ mkdir ${ANAL_DIR}
 
 sample_list=`ls ${PBS_DIR}/${PROJ_NAME}/osshwcsamp |grep -v higgs |grep -v "e\-100MeV" | grep -v all`
 
+if [ x"${xapp}" = x"cmsExp" ]; then
+sample_list=""
+fi
+
+# PR plots (uncomment as needed)
+#sample_list="higgs.FTFP_BERT.1400.4 
+#e-.FTFP_BERT.1.4 
+#e-.FTFP_BERT.50.4 
+#pi-.FTFP_BERT.1.4 
+#pi-.FTFP_BERT.50.4 
+#anti_proton.FTFP_BERT.1.4
+#anti_proton.FTFP_BERT.50.4
+#proton.FTFP_BERT.1.4
+#proton.FTFP_BERT.50.4
+#"
+
 # debugging scripts for year-summary plots
 # sample_list="anti_proton.FTFP_BERT.1.4"
 # sample_list="pi-.FTFP_BERT.50.4"
@@ -100,6 +116,27 @@ if [ x"${xapp}" = x"lArTest" ]; then
   
   echo "... making Memory summary ..."
   ${SRC_DIR}/oss_mem_summary_lArTest.sh ${xver} ${xapp} ${xexp}
+elif [ x"${xapp}" = x"cmsExp" ]; then
+
+  echo "... process  higgs.FTFP_BERT.1400.4 ..."
+  ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} higgs.FTFP_BERT.1400.4 ${nhiggs} ${nohwc}
+
+  #post process for web pages
+#  sed "s/G4P_PROJECT_NAME/${PROJ_NAME}/" ${SRC_DIR}/template_igprof.html \
+#                                       > ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+#  sed -i "s/G4P_APPLICATION/${xapp}/"    ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+#  sed -i "s/G4P_VERSION/${xver}/"        ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+  
+  sed "s/G4P_APPLICATION/${xapp}/" ${SRC_DIR}/template_sprof_cmsExp.html \
+                                 > ${WEB_DIR}/${PROJ_NAME}/index_sprof.html
+  sed -i "s/G4P_VERSION/${xver}/"  ${WEB_DIR}/${PROJ_NAME}/index_sprof.html
+  
+  echo "... making CPU summary ..."
+  ${SRC_DIR}/oss_cpu_summary.sh ${xver} ${xapp} ${xexp}
+  
+#  echo "... making Memory summary ..."
+#  ${SRC_DIR}/oss_mem_summary.sh ${xver} ${xapp} ${xexp}
+
 else
   echo "... process  e-100MeV.FTFP_BERT.100MeV.4 ..."
   ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} e-100MeV.FTFP_BERT.100MeV.4 ${nhiggs} ${nohwc}

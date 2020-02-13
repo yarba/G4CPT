@@ -59,13 +59,14 @@ int cpu_time_ratio()
     const int iref = 3; //reference 10.5.p01static
 */
 
-   const int nb = 6;
+   const int nb = 7;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
 			"10.4.p03static",
 			"10.5.p01static",
 			"10.6",
+			"10.6.p01",
 			"10.6.r01"
    }; // internal name used for profiling jobs
 
@@ -74,6 +75,7 @@ int cpu_time_ratio()
 			"10.4.p03", 
 			"10.5.p01", 
 			"10.6",
+			"10.6.p01",
 			"10.6.r01"
    }; // legend for plots
 
@@ -88,18 +90,18 @@ int cpu_time_ratio()
      cfile[i] = fopen(cfilename,"r");
    }
 
-   double amd_cputime[ns][nb];
-   double amd_error[ns][nb];
+   double amd_cputime[ns+1][nb];
+   double amd_error[ns+1][nb];
 
-   string sample_id[ns];
+   string sample_id[ns+1];
 
    Float_t mcputime;
    Float_t ecputime;
    char sample[256];
    char processor[256];
 
-   double hmin[ns];
-   double hmax[ns];
+   double hmin[ns+1];
+   double hmax[ns+1];
 
    for(int i = 0 ; i < nb ; i++) {
      for(int j = 0 ; j < ns ; j++) {
@@ -118,11 +120,34 @@ int cpu_time_ratio()
      fclose(cfile[i]);
    }
 
+   // now process cmsExp+4T+Higgs
+   //
+   for(int i = 0 ; i < nb ; i++) 
+   {
+
+     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);  
+     cfile[i] = fopen(cfilename,"r");
+
+     fscanf(cfile[i],"%f %f %s %s", &mcputime, &ecputime, sample, processor);
+     amd_cputime[ns][i] = mcputime;
+     amd_error[ns][i] = ecputime;
+
+     if(i==iref) 
+     { 
+	 sample_id[ns] = sample;
+         hmax[ns] = mcputime*1.3;
+         hmin[ns] = mcputime*0.8;
+     }
+
+     fclose(cfile[i]);
+
+   }
+
    //ratio
-   double r_amd_cputime[ns][nb];
-   double r_amd_error[ns][nb];
+   double r_amd_cputime[ns+1][nb];
+   double r_amd_error[ns+1][nb];
    for(int i = 0 ; i < nb ; i++) {
-     for(int j = 0 ; j < ns ; j++) {
+     for(int j = 0 ; j <= ns ; j++) {
        r_amd_cputime[j][i] = amd_cputime[j][i]/amd_cputime[j][iref];
        double a0 = amd_error[j][iref]/amd_cputime[j][iref];  
        double a1 = amd_error[j][i]/amd_cputime[j][i];  
@@ -133,8 +158,8 @@ int cpu_time_ratio()
 
    // canvas and pad
 
-   TCanvas* cv[ns];
-   TPad* pd[ns];
+   TCanvas* cv[ns+1];
+   TPad* pd[ns+1];
 
    char cvname[256];
    char cvtitle[256];
@@ -142,9 +167,19 @@ int cpu_time_ratio()
    char pdtitle[256];
    char pstitle[256];
 
-   for (int i = 0; i < ns ; i++) {
+   for (int i = 0; i <= ns ; i++) 
+   {
+   
      sprintf(cvname,"cv%d",i);
-     sprintf(cvtitle,"CPU Time Ratio for SimplifiedCalo: %s",(sample_id[i]).c_str());
+   
+     if ( i == ns )
+     {
+        sprintf(cvtitle,"CPU Time Ratio for cmsExp: %s",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(cvtitle,"CPU Time Ratio for SimplifiedCalo: %s",(sample_id[i]).c_str());
+     }
 
      cv[i]= new TCanvas(cvname,cvtitle,0,0,800,500);
      cv[i]->cd();
@@ -200,7 +235,7 @@ int cpu_time_ratio()
    TLine *llow[ns]; 
    TLine *lhigh[ns]; 
 
-   for(int i = 0 ; i < ns ; i++) {
+   for(int i = 0 ; i <= ns ; i++) {
 
      cv[i]->cd();
 
@@ -208,7 +243,15 @@ int cpu_time_ratio()
      pd[i]->SetGridy();
 
      sprintf(hname,"hhf%d",i);
-     sprintf(htitle,"Ratio - SimplifiedCalo %s",(sample_id[i]).c_str());
+     
+     if ( i == ns )
+     {
+        sprintf(htitle,"Ratio - cmsExp %s",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(htitle,"Ratio - SimplifiedCalo %s",(sample_id[i]).c_str());
+     }
 
      // TMP measure as CPU w/Shielding has been largely jumping between through 10.4.ref-s 
      if ( sample_id[i].find("Shielding") != string::npos  )
@@ -225,7 +268,15 @@ int cpu_time_ratio()
      }
      else if ( sample_id[i].find("_HP") != string::npos )
      {
-        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.5);
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.7,1.5);
+     }
+     else if ( sample_id[i].find("INCLXX") != string::npos )
+     {
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.5);
+     }
+     else if ( sample_id[i].find("QGSP_BIC") != string::npos )
+     {
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.5);
      }
      else
      {
@@ -281,7 +332,18 @@ int cpu_time_ratio()
      lhigh[i]->SetLineStyle(2);
      lhigh[i]->Draw();
 
-     sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_ratio_%s.png",(sample_id[i]).c_str());
+     if ( i == ns )
+     {
+        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_ratio_cmsExp_%s.png",(sample_id[i]).c_str());
+// -->        sprintf(pstitle,"cpu_ratio_cmsExp_%s.png",(sample_id[i]).c_str());
+     }
+     else
+     {
+        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_ratio_%s.png",(sample_id[i]).c_str());
+// -->        sprintf(pstitle,"cpu_ratio_%s.png",(sample_id[i]).c_str());
+     }
+     
+     
      cv[i]->Update(); 
      cv[i]->Print(pstitle); 
    }
