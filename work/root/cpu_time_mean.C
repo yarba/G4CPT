@@ -60,7 +60,7 @@ int cpu_time_mean()
    const int iref = 3; //reference 10.5.p01 (static,rerun)
 */
 
-   const int nb = 7;
+   const int nb = 8;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -68,7 +68,8 @@ int cpu_time_mean()
 			"10.5.p01static",
 			"10.6",
 			"10.6.p01",
-			"10.6.r01"
+			"10.6.r01",
+			"10.6.r02"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -77,7 +78,8 @@ int cpu_time_mean()
 			"10.5.p01", 
 			"10.6",
 			"10.6.p01",
-			"10.6.r01"
+			"10.6.r01",
+			"10.6.r02"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6

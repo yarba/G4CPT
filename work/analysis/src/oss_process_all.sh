@@ -122,10 +122,10 @@ elif [ x"${xapp}" = x"cmsExp" ]; then
   ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} higgs.FTFP_BERT.1400.4 ${nhiggs} ${nohwc}
 
   #post process for web pages
-#  sed "s/G4P_PROJECT_NAME/${PROJ_NAME}/" ${SRC_DIR}/template_igprof.html \
-#                                       > ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
-#  sed -i "s/G4P_APPLICATION/${xapp}/"    ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
-#  sed -i "s/G4P_VERSION/${xver}/"        ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+  sed "s/G4P_PROJECT_NAME/${PROJ_NAME}/" ${SRC_DIR}/template_igprof_cmsExp.html \
+                                       > ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+  sed -i "s/G4P_APPLICATION/${xapp}/"    ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
+  sed -i "s/G4P_VERSION/${xver}/"        ${WEB_DIR}/${PROJ_NAME}/index_igprof.html
   
   sed "s/G4P_APPLICATION/${xapp}/" ${SRC_DIR}/template_sprof_cmsExp.html \
                                  > ${WEB_DIR}/${PROJ_NAME}/index_sprof.html
@@ -134,8 +134,8 @@ elif [ x"${xapp}" = x"cmsExp" ]; then
   echo "... making CPU summary ..."
   ${SRC_DIR}/oss_cpu_summary.sh ${xver} ${xapp} ${xexp}
   
-#  echo "... making Memory summary ..."
-#  ${SRC_DIR}/oss_mem_summary.sh ${xver} ${xapp} ${xexp}
+  echo "... making Memory summary ..."
+  ${SRC_DIR}/oss_mem_summary.sh ${xver} ${xapp} ${xexp}
 
 else
   echo "... process  e-100MeV.FTFP_BERT.100MeV.4 ..."
@@ -149,6 +149,9 @@ else
 
   echo "... process  higgs.FTFP_BERT.1400.4 ..."
   ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} higgs.FTFP_BERT.1400.4 ${nhiggs} ${nohwc}
+
+  echo "... process  higgs.FTFP_BERT.1400.0 ..."
+  ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} higgs.FTFP_BERT.1400.0 ${nhiggs} ${nohwc}
 
   #post process for web pages
   sed "s/G4P_PROJECT_NAME/${PROJ_NAME}/" ${SRC_DIR}/template_igprof.html \

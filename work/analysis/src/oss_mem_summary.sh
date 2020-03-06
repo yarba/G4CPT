@@ -39,6 +39,7 @@ MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary.html
 
 sample_list="
  higgs.FTFP_BERT.1400.4
+ higgs.FTFP_BERT.1400.0
  e-100MeV.FTFP_BERT.100MeV.4
  e-100MeV.Shielding.100MeV.4
  e-100MeV.Shielding_EMZ.100MeV.4
@@ -91,6 +92,11 @@ sample_list="
  gamma.FTFP_BERT_EMZ_AugerOff.1.0
  gamma.FTFP_BERT_EMZ_AugerOn.1.0
 "
+
+if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+sample_list="higgs.FTFP_BERT.1400.4"
+MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary_cmsExp.html
+fi
 
 #------------------------------------------------------------------------------
 # process list: 

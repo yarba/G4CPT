@@ -32,6 +32,7 @@ CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary.html
 #------------------------------------------------------------------------------
 
 sample_list="higgs.FTFP_BERT.1400.4
+ higgs.FTFP_BERT.1400.0
  e-100MeV.FTFP_BERT.100MeV.4
  e-100MeV.Shielding.100MeV.4
  e-100MeV.Shielding_EMZ.100MeV.4

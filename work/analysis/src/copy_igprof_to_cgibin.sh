@@ -61,6 +61,7 @@ if [ x"${APP_NAME}" = x"lArTest" ]; then
   sample_list=`ls -l ${G4P_EXP_DIR} |grep drw |awk '{print $9}'`
 else
   sample_list="higgs.FTFP_BERT.1400.4
+   higgs.FTFP_BERT.1400.0
    e-.FTFP_BERT.1.0
    e-.FTFP_BERT.5.0
    e-.FTFP_BERT.10.0

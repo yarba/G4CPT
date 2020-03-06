@@ -14,15 +14,15 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=10.6.r01
+G4P_GEANT4_RELEASE=10.6.r02
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp]
 # G4P_APPLICATION_NAME=cmsExp
-G4P_APPLICATION_NAME=cmsExpMT
+# G4P_APPLICATION_NAME=cmsExpMT
 #G4P_APPLICATION_NAME=lArTest
-# G4P_APPLICATION_NAME=SimplifiedCalo
+G4P_APPLICATION_NAME=SimplifiedCalo
 
 #clhep version
 #
@@ -40,7 +40,7 @@ G4P_APPLICATION_NAME=cmsExpMT
 G4P_CLHEP_RELEASE=2.4.1.2
 
 #g4p experiment number:
-G4P_EXP_NUM=01
+G4P_EXP_NUM=02
 
 # my working directory where the build dir of g4p is checked out
 #
@@ -278,6 +278,7 @@ WEB_DIR=/home/g4p/
 # G4P_NUM_EVENT_PGUN    2000
 
 # G4P_SAMPLE_001 higgs.FTFP_BERT.1400.4
+# G4P_SAMPLE_001 higgs.FTFP_BERT.1400.0
 # G4P_SAMPLE_002 e-.FTFP_BERT.1.0
 # G4P_SAMPLE_003 e-.FTFP_BERT.5.0
 # G4P_SAMPLE_004 e-.FTFP_BERT.10.0
