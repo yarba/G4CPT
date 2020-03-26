@@ -24,11 +24,21 @@ GEANT4_RELEASE=$6
 APPLICATION_NAME=$7
 APPLICATION_RELEASE=$8
 
+g4prefix=g4
+geant4prefix=geant4
+app_exe_name=${APPLICATION_NAME}
+
+if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+g4prefix=g4vg
+geant4prefix=geant4vg
+app_exe_name=${APPLICATION_NAME%%VG*}
+fi
+
 #-------------------------------------------------------------------------------
 # tarball
 #-------------------------------------------------------------------------------
-tar_dir=${BLUEARC_DIR}/build/g4.${GEANT4_RELEASE}
-tar_name=geant4.${GEANT4_RELEASE}.${APPLICATION_NAME}.tar.gz
+tar_dir=${BLUEARC_DIR}/build/${g4prefix}.${GEANT4_RELEASE}
+tar_name=${geant4prefix}.${GEANT4_RELEASE}.${APPLICATION_NAME}.tar.gz
 #-------------------------------------------------------------------------------
 # Prepare pbs jobs for applications
 #-------------------------------------------------------------------------------
@@ -37,13 +47,14 @@ unset g4p_dir ; unset exp_exe ; unset exp_cfg ; unset exp_inp ; unset exp_env
 
 if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
      x"${APPLICATION_NAME}" = x"cmsExp" -o \
+     x"${APPLICATION_NAME}" = x"cmsExpVG" -o \
      x"${APPLICATION_NAME}" = x"lArTest" -o \
      x"${APPLICATION_NAME}" = x"SimplifiedCaloMT" -o \
      x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
 
-  g4p_dir=${RAMDISK_DIR}/g4.${GEANT4_RELEASE}
-  exp_exe=${APPLICATION_NAME}
-  exp_cfg="run_${APPLICATION_NAME}.g4"
+  g4p_dir=${RAMDISK_DIR}/${g4prefix}.${GEANT4_RELEASE}
+  exp_exe=${app_exe_name}
+  exp_cfg="run_${app_exe_name}.g4"
   exp_inp="hepevt.data"
   exp_env="${g4p_dir}/${APPLICATION_NAME}"
 else
@@ -84,6 +95,8 @@ node_name=`uname -n`
 unset g4p_sample_list
 if [ x"${APPLICATION_NAME}" = x"lArTest" ]; then
   g4p_sample_list=`grep G4P_LARTEST g4p.init | awk '{print $3}'`
+elif [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+g4p_sample_list="higgs.FTFP_BERT.1400.4"
 else 
   g4p_sample_list=`grep G4P_SAMPLE g4p.init | awk '{print $3}'`
 fi
@@ -139,7 +152,8 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
       exp_nqueue=`grep G4P_NUM_QUEUE_PGUN g4p.init | awk '{print $3}'`
       exp_nevent=`grep G4P_NUM_EVENT_PGUN g4p.init | awk '{print $3}'`
 
-      if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+# --->      if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+      if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
         exp_igntot=`expr $exp_nevent / 10 + 1`
       else
         exp_igntot=`expr $exp_nevent / 2 + 1`
@@ -251,8 +265,9 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
     fi
 
     #create link for input data file
-    if [ x"${APPLICATION_NAME}" = x"cmsExp" -o \
-         x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
+# --->    if [ x"${APPLICATION_NAME}" = x"cmsExp" -o \
+# --->         x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
+    if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
       ln -s ${g4p_dir}/${APPLICATION_NAME}/cmsExp.gdml \
             ${work_dir}/cmsExp.gdml
       ln -s ${g4p_dir}/${APPLICATION_NAME}/cmsExp.mag.3_8T \
@@ -277,7 +292,11 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
     sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wilson_submit_${tool} >\
         ${exp_dir}/submit_all_${tool}.sh
     if [ x"${tool}" = x"igprof" ]; then
-      sed -i "s%G4P_VERSION%${GEANT4_RELEASE}%" ${exp_dir}/submit_all_${tool}.sh
+      if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+        sed -i "s%g4.G4P_VERSION%g4vg.${GEANT4_RELEASE}%" ${exp_dir}/submit_all_${tool}.sh
+      else
+        sed -i "s%g4.G4P_VERSION%g4.${GEANT4_RELEASE}%" ${exp_dir}/submit_all_${tool}.sh
+      fi
       sed -i "s%G4P_TARBALL_NAME%${tar_name}%" ${exp_dir}/submit_all_${tool}.sh
     fi
   else

@@ -56,6 +56,10 @@ BUILD_DIR=${GEANT4_BASE}/geant4.${GEANT4_RELEASE}-build
 unset GEANT4MT_BASE
 unset BUILDMT_BASE
 
+# case Geant4+VecGeom
+unset GEANT4VG_BASE
+unset BUILDVG_BASE
+
 unset BUILD_DIR_AUX;
 if [ x"${APPLICATION_NAME}" = x"cmsExpMT" -o \
      x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
@@ -87,6 +91,14 @@ if [ x"${APPLICATION_NAME}" = x"cmsExpMT" -o \
 
 fi
 
+if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+
+  GEANT4VG_BASE=${PROJECT_DIR}/build/g4vg.${GEANT4_RELEASE}
+  BUILDVG_DIR=${GEANT4VG_BASE}/geant4vg.${GEANT4_RELEASE}-build
+  APPLICATION_DIR=${GEANT4VG_BASE}/${APPLICATION_NAME}
+
+fi
+
 if [ -d ${APPLICATION_DIR} ] ; then
   echo "... Application, ${APPLICATION_DIR} already exists! ..."
   echo "... Do you want to overwrite the directory? ..."
@@ -107,6 +119,8 @@ if [ x"${APPLICATION_NAME}" = x"cmsExpMT" -o \
 #  pushd ${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE}
 #elif [ x"${APPLICATION_NAME}" = x"lArTestMT"]; then
   pushd ${GEANT4MT_BASE}
+elif [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+  pushd ${GEANT4VG_BASE}
 else
   pushd ${GEANT4_BASE}
 fi
@@ -116,6 +130,59 @@ if [ x"${APPLICATION_NAME}" = x"lArTest" -o \
      x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
   source /home/g4p/products/root.v6-03-01-GEANT/bin/thisroot.sh
 fi
+
+# case Geant4+VecGeom
+if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
+   
+   app_name=${APPLICATION_NAME%%VG*}
+   echo " app_name = ${app_name} "
+   tar xzf ${DOWNLOAD_DIR}/application/${app_name}.tgz 
+   mv ${app_name} ${APPLICATION_NAME}
+   mkdir -p ${APPLICATION_NAME}/bin
+   cd ${APPLICATION_NAME}/bin
+
+   XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+   export XERCESC_DIR
+   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
+
+   unset env_sh;
+
+   env_sh=${GEANT4VG_BASE}/${APPLICATION_NAME}/setenv.sh
+
+   # add cvmfs setup to setenv.sh
+   #cat ${SRC_DIR}/g4p_setup_cvmfs.sh >> ${env_sh}
+   cat ${SRC_DIR}/g4p_setup_gcc.sh >> ${env_sh}
+      
+   #CMake maual setup to link geant4 data: add locations of data to env file
+   echo "#CMake manual setup to link geant4 data" >> ${env_sh} 
+   echo "export G4P_G4DIR=${GEANT4VG_BASE}/geant4vg.${GEANT4_RELEASE}" >> ${env_sh}
+
+   cmake -DGeant4_DIR=${BUILDVG_DIR} -DProject=${app_name} .. 
+   make -j1
+
+   popd
+   grep "path-to-data" ./g4p.init | \
+    awk '{split($0,aa,"/"); print aa["1"]" "aa["2"]}' | \
+    awk '{print "export "$3"=${G4P_G4DIR}/data/"$5}' >> ${env_sh}
+
+   #add geant4 lib and application bin to LD_LIBRARY_PATH and PATH, respectively
+   echo -e "\nexport LD_LIBRARY_PATH=\${G4P_G4DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
+   echo "export LD_LIBRARY_PATH=${COMPILER_DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
+   echo "export LD_LIBRARY_PATH=${COMPILER_DIR}/lib64:\${LD_LIBRARY_PATH}" >> ${env_sh} 
+   echo "export LD_LIBRARY_PATH=${XERCESC_DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
+
+   #set the default gdml file and magnetic field map for cmsExp 
+# --->   if [ x"${APPLICATION_NAME}" = x"cmsExp" -o x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
+   if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
+     echo "export G4P_APPLICATION_DIR=${APPLICATION_DIR}" >> ${env_sh}
+     echo "export PATH=\${G4P_APPLICATION_DIR}/bin:\${PATH}" >> ${env_sh}     
+     echo "export CMSEXP_GDML=\${G4P_APPLICATION_DIR}/cmsExp.gdml" \
+          >> ${env_sh} 
+     echo "export CMSEXP_BFIELD_MAP=\${G4P_APPLICATION_DIR}/cmsExp.mag.3_8T" \
+          >> ${env_sh} 
+   fi
+
+fi 
 
 if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
      x"${APPLICATION_NAME}" = x"cmsExp" -o \
