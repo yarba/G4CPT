@@ -93,7 +93,8 @@ sample_list="
  gamma.FTFP_BERT_EMZ_AugerOn.1.0
 "
 
-if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+# ---> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
 sample_list="higgs.FTFP_BERT.1400.4"
 MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary_cmsExp.html
 fi

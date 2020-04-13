@@ -33,7 +33,8 @@ mkdir ${ANAL_DIR}
 
 sample_list=`ls ${PBS_DIR}/${PROJ_NAME}/osshwcsamp |grep -v higgs |grep -v "e\-100MeV" | grep -v all`
 
-if [ x"${xapp}" = x"cmsExp" ]; then
+# --> if [ x"${xapp}" = x"cmsExp" ]; then
+if [[ ${xapp} =~ "cmsExp" ]]; then
 sample_list=""
 fi
 
@@ -116,7 +117,8 @@ if [ x"${xapp}" = x"lArTest" ]; then
   
   echo "... making Memory summary ..."
   ${SRC_DIR}/oss_mem_summary_lArTest.sh ${xver} ${xapp} ${xexp}
-elif [ x"${xapp}" = x"cmsExp" ]; then
+# --> elif [ x"${xapp}" = x"cmsExp" ]; then
+elif [[ ${xapp} =~ "cmsExp" ]]; then
 
   echo "... process  higgs.FTFP_BERT.1400.4 ..."
   ${SRC_DIR}/oss_analysis.sh ${xver} ${xapp} ${xexp} higgs.FTFP_BERT.1400.4 ${nhiggs} ${nohwc}
@@ -169,4 +171,9 @@ else
   echo "... making Memory summary ..."
   ${SRC_DIR}/oss_mem_summary.sh ${xver} ${xapp} ${xexp}
 fi
+
+# ---> echo "Archiving raw results for ${PROJ_NAME}"
+# ---> ${SRC_DIR}/g4p_tar_and_copy_to_pnfs_archive.sh ${PROJ_NAME}
+
 echo "Done"
+

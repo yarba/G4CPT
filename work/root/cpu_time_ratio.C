@@ -8,7 +8,9 @@ int cpu_time_ratio()
    // read performance data
 
 //   const int ns = 48;
-   const int ns = 52; // 48 + added gamma 250MeV & 1GeV with Auger ON/OFF
+   const int ns = 52; // 48 "original" 
+                      // + added gamma 250MeV & 1GeV with Auger ON/OFF
+		      // NOT YET : + added higgs+0-field
 
 
 /*
@@ -59,7 +61,7 @@ int cpu_time_ratio()
     const int iref = 3; //reference 10.5.p01static
 */
 
-   const int nb = 8;
+   const int nb = 9;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -68,7 +70,8 @@ int cpu_time_ratio()
 			"10.6",
 			"10.6.p01",
 			"10.6.r01",
-			"10.6.r02"
+			"10.6.r02",
+			"10.6.r03"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -78,7 +81,8 @@ int cpu_time_ratio()
 			"10.6",
 			"10.6.p01",
 			"10.6.r01",
-			"10.6.r02"
+			"10.6.r02",
+			"10.6.r03"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6

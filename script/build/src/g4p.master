@@ -102,6 +102,16 @@ xbuild) : # Building Geant4 and other applications
    ${SRC_DIR}/g4p_build_geant4mtstatic.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
    ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
   fi
+  
+  if [ x"$2" = x"geant4vgstatic" -o x"$2" = x"all" ]; then
+   
+   $MESSAGE "... Building Geant4+VecGeom(VG) Static Libraries ..."
+   g4p_log=${LOG_DIR}/g4p_build_geant4vgstatic_${G4P_GEANT4_RELEASE}.log_${G4PTIME}
+
+   ${SRC_DIR}/g4p_build_geant4vgstatic.sh ${G4P_PROJECT_DIR} ${G4P_GEANT4_RELEASE} ${G4P_G4DATASETS} \
+   ${G4P_APPLICATION_NAME} ${G4P_APPLICATION_RELEASE} 2>&1 | tee ${g4p_log}
+
+  fi
 
   #----------------------------------------------------------------------------
   # Building Application
@@ -126,7 +136,7 @@ xbuild) : # Building Geant4 and other applications
 #    fi
   fi
 
-  if [ x"$2" != x"geant4" -a x"$2" != x"geant4mt" -a x"$2" != x"geant4static" -a x"$2" != x"geant4mtstatic" -a x"$2" != x"application" -a x"$2" != x"all" ]; then
+  if [ x"$2" != x"geant4" -a x"$2" != x"geant4mt" -a x"$2" != x"geant4static" -a x"$2" != x"geant4vgstatic" -a x"$2" != x"geant4mtstatic" -a x"$2" != x"application" -a x"$2" != x"all" ]; then
     echo "Usage: g4p.master build [geant4|application] - Nothing will be built"
   fi
 

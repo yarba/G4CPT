@@ -85,7 +85,8 @@ sample_list="higgs.FTFP_BERT.1400.4
  gamma.FTFP_BERT_EMZ_AugerOff.1.0
  gamma.FTFP_BERT_EMZ_AugerOn.1.0
 "
-if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+# --> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
+if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
 sample_list="higgs.FTFP_BERT.1400.4"
 CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary_cmsExp.html
 fi
