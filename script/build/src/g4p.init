@@ -23,7 +23,7 @@ G4P_GEANT4_RELEASE=10.6.r05
 # G4P_APPLICATION_NAME=cmsExpVG
 # G4P_APPLICATION_NAME=cmsExpMT
 #G4P_APPLICATION_NAME=lArTest
-# G4P_APPLICATION_NAME=SimplifiedCalo
+G4P_APPLICATION_NAME=SimplifiedCalo
 
 #clhep version
 #
@@ -256,9 +256,13 @@ WEB_DIR=/home/g4p/
 ## 10.6.r03
 # same as above plus...
 # G4EMLOW7.10
+#
+## 10.6.r05
+# same as above plus...
+# G4EMLOW7.11
 
 #------------------------------------------------------------------------------
-# set G4LEDATA  path-to-data/G4EMLOW7.10
+# set G4LEDATA  path-to-data/G4EMLOW7.11
 # set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.5
 # set G4NEUTRONHPDATA path-to-data/G4NDL4.6
 # set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.4
