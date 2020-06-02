@@ -57,7 +57,7 @@ int mem_count_total()
    const int iref = 3; //reference 10.5.p01static
 */
 
-   const int nb = 9;
+   const int nb = 11;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -65,9 +65,11 @@ int mem_count_total()
 			"10.5.p01static",
 			"10.6",
 			"10.6.p01",
+			"10.6.p02.cand00",
 			"10.6.r01",
 			"10.6.r02",
-			"10.6.r03"
+			"10.6.r03",
+			"10.6.r04"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -76,9 +78,11 @@ int mem_count_total()
 			"10.5.p01", 
 			"10.6",
 			"10.6.p01",
+			"10.6.p02",
 			"10.6.r01",
 			"10.6.r02",
-			"10.6.r03"
+			"10.6.r03",
+			"10.6.r04"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6
