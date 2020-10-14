@@ -62,7 +62,7 @@ int cpu_time_mean()
    const int iref = 3; //reference 10.5.p01 (static,rerun)
 */
 
-   const int nb = 11;
+   const int nb = 16;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -74,7 +74,14 @@ int cpu_time_mean()
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
-			"10.6.r04"
+			"10.6.r04",
+			"10.6.r05",
+//			"10.7.b.c00",
+//			"10.7.b.c01",
+			"10.6.r06",
+			"10.6.r07",
+			"10.6.r08",
+			"10.6.r09"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -87,7 +94,14 @@ int cpu_time_mean()
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
-			"10.6.r04"
+			"10.6.r04",
+			"10.6.r05",
+//			"10.7.beta-c00",
+//			"10.7.beta-c01",
+			"10.7.beta"
+			"10.6.r07",
+			"10.6.r08",
+			"10.6.r09"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6
@@ -129,7 +143,12 @@ int cpu_time_mean()
          hmin[j] = mcputime*0.8;
          // TMP reset due to jumps in Shielding CPU
          // cout << " sample_id[" << j << "] = " << sample_id[j] << endl;
-         if ( sample_id[j].find("Shielding") != string::npos )
+         if ( sample_id[j].find("gamma")  != string::npos && sample_id[j].find("AugerOn") != string::npos )
+	 {
+	    cout << " changing hmin for " << sample_id[j] << " from " << hmin[j] << " to " << hmin[j]*0.6 << endl;
+	    hmin[j] = mcputime *0.6;
+	 }
+	 if ( sample_id[j].find("Shielding") != string::npos )
          {
             if ( sample_id[j].find("e-") != string::npos )
 	    {
@@ -174,7 +193,7 @@ int cpu_time_mean()
    for(int i = 0 ; i < nb ; i++) 
    {
 
-     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);  
+     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);       
      cfile[i] = fopen(cfilename,"r");
 
      fscanf(cfile[i],"%f %f %s %s", &mcputime, &ecputime, sample, processor);

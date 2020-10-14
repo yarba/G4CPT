@@ -92,7 +92,8 @@ cd ${BUILD_DIR}
 #-----------------------------------------------------------------------
 XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
 export XERCESC_DIR
-VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.5
+# VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.5
+VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.7
 export VecGeom_DIR
 
 cmake -DCMAKE_CXX_COMPILER=g++ \

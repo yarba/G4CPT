@@ -61,7 +61,7 @@ int cpu_time_ratio()
     const int iref = 3; //reference 10.5.p01static
 */
 
-   const int nb = 11;
+   const int nb = 16;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -73,7 +73,14 @@ int cpu_time_ratio()
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
-			"10.6.r04"
+			"10.6.r04",
+			"10.6.r05",
+//			"10.7.b.c00",
+//			"10.7.b.c01",
+			"10.6.r06",
+			"10.6.r07",
+			"10.6.r08",
+			"10.6.r09"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -86,7 +93,14 @@ int cpu_time_ratio()
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
-			"10.6.r04"
+			"10.6.r04",
+			"10.6.r05",
+//			"10.7.beta-c00",
+//			"10.7.beta-c01",
+			"10.7.beta",
+			"10.6.r07",
+			"10.6.r08",
+			"10.6.r09"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6
@@ -287,6 +301,11 @@ int cpu_time_ratio()
      else if ( sample_id[i].find("QGSP_BIC") != string::npos )
      {
         hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.5);
+     }
+     else if ( sample_id[i].find("gamma")  != string::npos && 
+               sample_id[i].find("AugerOn") != string::npos )
+     {
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.6,1.3);
      }
      else
      {
