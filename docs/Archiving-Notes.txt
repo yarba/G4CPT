@@ -1,0 +1,72 @@
+
+ Results archived as follows:
+ 
+ ================================================
+ 
+ #!/usr/bin/env bash
+
+dCache=/pnfs/geant4/archive/g4p/cpu_memory_profiling/pbs
+
+TAG=${1}
+
+for dv in ${TAG}_*; do
+   if [ -d ${dv} ]; then
+      echo  "tarball = ${dv}.tar "
+      /bin/tar -cf ${dv}.tar ${dv}
+# ---> not clear if this buys anything... so just do a plain tar      /bin/gzip ${dv}.tar
+      /usr/bin/dccp ${dv}.tar ${dCache}/.
+      /bin/rm ${dv}.tar
+   fi
+done
+
+ ================================================
+ 
+ 
+ 
+ --->   Feb.27, 2019
+
+Archived are the following: 
+
+*_10.2.p03_*, *_10.3.p03_*, *_10.4.p02_*, 0.4.p02rrr, *_10.4.r0*, 
+*_10.5.c0*, *_10.5_*, 10.5rr, 10.5.r01
+
+--->    Apr.7-10, 2020
+
+Archived are the following:
+
+10.5.p01rr_SimplifiedCalo, 10.5.p01_SimplifiedCalo, 10.5.p01static_*, 
+# all SimplifiedCalo as follows:
+10.5.r01rrr, 10.5.r01rr, 10.5.r02rrr, 10.5.r02rr, 10.5.r02,
+10.5.r02static, 10.5.r03rr, 10.5.r03, 10.5.r04rrr, 10.5.r04rr, 10.5.r04,
+10.5.r05fix1, 10.5.r05, 10.5.r06c00, 10.5.r06rr, 10.5.r06, 
+10.5.r07rr,  10.5.r07, 10.5.r08rr, 10.5.r08, 10.5.r09rr, 10.5.r09,
+10.5.10c, 10.5.r10, 10.5rerun, 10.6.b01, 10.6.c00, 10.6.c01, 
+10.6.r00.g4ndl4.5, 10.6.r00,
+# both SimplifiedCalo & cmsExp & cmsExpVG (the later starts with 10.6.r02)
+10.6, 10.6.p01, 10.6.r01, 10.6.r03
+# also the retroactive/static ones, SimplifiedCalo & cmsExp
+10.0.p04static, 10.1.p03static, 10.2.p03static, 10.3.p03, 10.4.p03
+# special cases, both SimplifiedCalo & cmsExp
+10.5.b869fe2, 10.5.cf274b0
+
+---> July 30, 2020
+
+Archived (additionally) are the following:
+
+# SimplifiedCalo & cmsExp & cmsExpVG 
+10.6.r04, 10.6.r05, 10.6.r06, 10.7.b.c00, 10.7.b.c01
+
+---> Oct 14, 2020
+
+Archived (additionally) are the following:
+
+# SimplifiedCalo & cmsExp & cmsExpVG
+10.6.r07, 10.6.r08, 10.6.r09
+
+---> Dec 8, 2020
+
+Archived (additionally) are the following:
+
+# SimplifiedCalo & cmsExp & cmsExpVG
+10.6.r09rr (SimCa only), 10.6.r10, 10.7.cand00, 10.7.cand01, 10.7
+

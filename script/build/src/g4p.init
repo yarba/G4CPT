@@ -14,14 +14,14 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=10.6.r09
+G4P_GEANT4_RELEASE=10.7
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp]
 # G4P_APPLICATION_NAME=cmsExp
-# G4P_APPLICATION_NAME=cmsExpVG
-G4P_APPLICATION_NAME=cmsExpMT
+G4P_APPLICATION_NAME=cmsExpVG
+# G4P_APPLICATION_NAME=cmsExpMT
 # G4P_APPLICATION_NAME=lArTest
 # G4P_APPLICATION_NAME=SimplifiedCalo
 
@@ -268,21 +268,34 @@ WEB_DIR=/home/g4p/
 # 10.6.r09
 # same as above plus...
 # G4EMLOW 7.13
+#
+# 10.6.r10
+# same as above plus...
+# G4PARTICLEXS 3.1 
+# G4RealSurface 2.2
+#
+# 10.7.cand00
+# same as above plus...
+# G4ENSDFSTATE2.3
+# PhotonEvaporation5.7
+# RadioactiveDecay5.6
+# Q: where did they do  PhotonEvaporation5.7 && RadioactiveDecay-5.5 ???
+#
 
 #------------------------------------------------------------------------------
 # set G4LEDATA  path-to-data/G4EMLOW7.13
-# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.5
+# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.7
 # set G4NEUTRONHPDATA path-to-data/G4NDL4.6
-# set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.4
+# set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.6
 # set G4ABLADATA path-to-data/G4ABLA3.1
-# set G4REALSURFACEDATA path-to-data/RealSurface2.1.1
+# set G4REALSURFACEDATA path-to-data/RealSurface2.2
 # set G4NEUTRONXSDATA path-to-data/G4NEUTRONXS1.4
 # set G4PIIDATA path-to-data/G4PII1.3
 # set G4SAIDXSDATA path-to-data/G4SAIDDATA2.0
-# set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.2
+# set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.3
 # set G4TENDL path-to-data/G4TENDL1.4
 # set G4INCLDATA path-to-data/G4INCL1.0
-# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS2.1
+# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS3.1
 #------------------------------------------------------------------------------
 # The list of samples for Standalone Applications
 # index particle.physics.energy.Bfield.nqueue.events

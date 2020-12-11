@@ -62,7 +62,7 @@ int cpu_time_mean()
    const int iref = 3; //reference 10.5.p01 (static,rerun)
 */
 
-   const int nb = 16;
+   const int nb = 21;
 
    char *release[nb] = {"10.2.p03static",
                         "10.3.p03static",
@@ -71,6 +71,7 @@ int cpu_time_mean()
 			"10.6",
 			"10.6.p01",
 			"10.6.p02.cand00",
+			"10.6.p03",
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
@@ -81,7 +82,11 @@ int cpu_time_mean()
 			"10.6.r06",
 			"10.6.r07",
 			"10.6.r08",
-			"10.6.r09"
+			"10.6.r09",
+			"10.6.r10",
+			"10.7.cand00",
+			"10.7.cand01",
+			"10.7"
    }; // internal name used for profiling jobs
 
    char *version[nb] = {"10.2.p03",
@@ -91,6 +96,7 @@ int cpu_time_mean()
 			"10.6",
 			"10.6.p01",
 			"10.6.p02",
+			"10.6.p03",
 			"10.6.r01",
 			"10.6.r02",
 			"10.6.r03",
@@ -101,7 +107,11 @@ int cpu_time_mean()
 			"10.7.beta"
 			"10.6.r07",
 			"10.6.r08",
-			"10.6.r09"
+			"10.6.r09",
+			"10.6.r10",
+			"10.7.cand00",
+			"10.7.cand01",
+			"10.7"
    }; // legend for plots
 
    const int iref = 4; //reference 10.6
