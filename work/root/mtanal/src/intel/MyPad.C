@@ -3,6 +3,9 @@
 #include "TH2F.h"
 #include "TStyle.h"
 
+#ifndef MYPAD_C
+#define MYPAD_C
+
 void MakePad1x1(TPad *pd[], char *pdname, char *pdtitle){
 
    char idx[16];
@@ -629,3 +632,5 @@ void setTDRStyle() {
 
   tdrStyle->cd();
 }
+
+#endif

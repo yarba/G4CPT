@@ -1,11 +1,13 @@
 #include <iostream>
 #include <iomanip>
 
+void MakePad1x1(TPad* pd[], char*, char*);
+
 int cpu_cores_cmsExpMT_pi_E5()
 {
    gROOT->Reset();
 
-   c2 = new TCanvas("c2","c2",0,0,500,400);
+   TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
    c2->SetTitle("Geant4 MT Performance: cmsExpMT");
 
    c2->cd();
@@ -29,9 +31,11 @@ int cpu_cores_cmsExpMT_pi_E5()
    gStyle->SetStatW(0.16);
    gStyle->SetStatH(0.16);
 
-   const int nb = 8;
+//   const int nb = 8;
+//   int beam[nb] = {0,1,2,4,6,8,10,12};
 
-   int beam[nb] = {0,1,2,4,6,8,10,12};
+   const int nb = 10;
+   int beam[nb] = {0,1,2,4,6,8,10,12,14,16};
 
    char gffilename[256];
 
@@ -70,7 +74,8 @@ int cpu_cores_cmsExpMT_pi_E5()
      gf_total_mean[i] = h_total[i]->GetMean();
      gf_total_rms[i]  = h_total[i]->GetRMS();
 
-     std::cout << "pi E5 i-core Mean CPU and RMS " << beam[i] << " " << gf_total_mean[i] << " " << gf_total_rms[i] << std::endl;
+     std::cout << "pi E5 i-core Mean CPU and RMS " 
+               << beam[i] << " " << gf_total_mean[i] << " " << gf_total_rms[i] << std::endl;
      fclose(gffile[i]);
    }
 
@@ -82,10 +87,11 @@ int cpu_cores_cmsExpMT_pi_E5()
    gf_serial_mean[0] = gf_total_mean[0];   
    gf_serial_rms[0] = gf_total_rms[0];   
 
-   std::cout << "Using serial Mean CPU and RMS " << gf_serial_mean[0] << " " <<  gf_serial_rms[0] << std::endl;
+   std::cout << "Using serial Mean CPU and RMS " 
+             << gf_serial_mean[0] << " " <<  gf_serial_rms[0] << std::endl;
 
    const int nt = nb -1;
-   double pbin[nt], epbin[nt];
+// -->   double pbin[nt], epbin[nt];
 
    double gf_mt_ratio_mean[nt];   
    double gf_mt_ratio_rms[nt];   
@@ -111,7 +117,8 @@ int cpu_cores_cmsExpMT_pi_E5()
    //   pd2[0]->SetLogy();
    pd2[0]->SetGridy();
    
-   hhf3 = new TH2F("hhf3","Speedup Efficiency - 5 GeV #pi^{-}", 1,0.7,15.,1,0.8,1.1499);
+// -->   TH2F* hhf3 = new TH2F("hhf3","Speedup Efficiency - 5 GeV #pi^{-}", 1,0.7,15.,1,0.8,1.1499);
+   TH2F* hhf3 = new TH2F("hhf3","Speedup Efficiency - 5 GeV #pi^{-}", 1,0.7,20.,1,0.8,1.1499);
    hgr3 = new TGraphErrors(nt,pbin,gf_mt_ratio_mean,epbin,gf_mt_ratio_rms);
    //   hgr2 = new TGraphErrors(1,pbin1,gf_serial_mean,epbin1,gf_serial_rms);
 
@@ -141,7 +148,8 @@ int cpu_cores_cmsExpMT_pi_E5()
    */
 
    //   llow = new TLine(1.0, gf_serial_mean[0], 40, gf_serial_mean[0]);
-   llow = new TLine(0.7, 1.0, 15, 1.0);
+// -->   TLine* llow = new TLine(0.7, 1.0, 15, 1.0);
+   TLine* llow = new TLine(0.7, 1.0, 20, 1.0);
    llow->SetLineColor(2);
    llow->SetLineStyle(2);
    llow->Draw();
@@ -165,5 +173,7 @@ int cpu_cores_cmsExpMT_pi_E5()
    c2->Update(); 
    c2->Print(pngtitle);   
    ps2->Close();
+   
+   return 0;
 
 }

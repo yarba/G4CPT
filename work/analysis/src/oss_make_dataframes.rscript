@@ -1,5 +1,5 @@
-#!/home/g4p/products/R-3.1.2/bin/Rscript
-####!/usr/bin/env Rscript
+#!/usr/bin/env Rscript
+####!/home/g4p/products/R-3.1.2/bin/Rscript
 
 ###
 ### This R script processes the data files in a single campaign
@@ -15,8 +15,12 @@ args <- commandArgs(TRUE)
 ### --> if (length(args) != 1) stop("You must supply the name of a directory to process")
 if (length(args) < 1) stop("You must supply at least the name of a directory to process")
 
-suppressPackageStartupMessages(source("analysis/src/oss_functions.R"))
-suppressPackageStartupMessages(source("analysis/src/oss_functions_memory.R"))
+### suppressPackageStartupMessages(source("analysis/src/oss_functions.R"))
+### suppressPackageStartupMessages(source("analysis/src/oss_functions_memory.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "oss_functions.R" ) ))
+suppressPackageStartupMessages(source( file.path( src_dir, "oss_functions_memory.R" ) ))
+
 
 dirname <- args[[1]]
 
@@ -135,11 +139,9 @@ print("Pausing to clean up...")
 rm(libraries)
 gc()
 
-# more than one input argument;
-# check if the 2nd one is "nohwcsamp"
-if ( length(args) > 1 )
-{
-if ( sapply(args[[2]],tolower) != "nohwcsamp" )
+### if more than one input argument;
+### check if the 2nd one is or os not "nohwcsamp"
+if ( length(args) == 1 | ( length(args) > 1 && sapply(args[2],tolower) != "nohwcsamp" ) )
 {
 print("Creating HWCSAMP dataframe...")
 hwcsamp <- load.hwcsamp(dirname)
@@ -161,7 +163,6 @@ save(hwcsamp, file = file.path(dirname, "hwcsamp.rda"))
 print("Pausing to clean up...")
 rm(hwcsamp)
 gc()
-}
 }
 
 ## This tells emacs to view this file in R mode.

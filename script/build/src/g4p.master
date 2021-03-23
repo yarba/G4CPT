@@ -123,17 +123,10 @@ xbuild) : # Building Geant4 and other applications
     APP_LOG_TAG=${G4P_APPLICATION_NAME}_${G4P_GEANT4_RELEASE}
     g4p_log=${LOG_DIR}/g4p_build_${APP_LOG_TAG}.log_${G4PTIME}
 
-# These were provisions for building in g4/g4p but running out of /lfstev/g4p/g4p
-# However, it's causing strange behaviour of VSIZE so we've reverted to original scheme
-#    if [  x"$G4P_APPLICATION_NAME" = x"cmsExpMT" ]; then
-#       ${SRC_DIR}/g4p_build_application_tev.sh ${G4P_PROJECT_DIR} ${G4P_BLUEARC_DIR} \
-#       ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
-#       ${G4P_APPLICATION_RELEASE} ${G4P_APPLICATION_CVSTAG} 2>&1 | tee ${g4p_log}
-#    else
-       ${SRC_DIR}/g4p_build_application_tev.sh ${G4P_PROJECT_DIR} ${G4P_PROJECT_DIR} \
-       ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
-       ${G4P_APPLICATION_RELEASE} ${G4P_APPLICATION_CVSTAG} 2>&1 | tee ${g4p_log}
-#    fi
+    ${SRC_DIR}/g4p_build_application_tev.sh ${G4P_PROJECT_DIR} ${G4P_PROJECT_DIR} \
+    ${G4P_GEANT4_RELEASE} ${G4P_APPLICATION_NAME} \
+    ${G4P_APPLICATION_RELEASE} ${G4P_APPLICATION_CVSTAG} 2>&1 | tee ${g4p_log}
+
   fi
 
   if [ x"$2" != x"geant4" -a x"$2" != x"geant4mt" -a x"$2" != x"geant4static" -a x"$2" != x"geant4vgstatic" -a x"$2" != x"geant4mtstatic" -a x"$2" != x"application" -a x"$2" != x"all" ]; then

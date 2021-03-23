@@ -1,11 +1,13 @@
 #include <iostream>
 #include <iomanip>
 
+void MakePad1x1(TPad* pd[], char*, char*);
+
 int throughput_cmsExpMT_elec_E50()
 {
    gROOT->Reset();
 
-   c2 = new TCanvas("c2","c2",0,0,500,400);
+   TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
    c2->SetTitle("Geant4 MT Performance: cmsExpMT");
 
    c2->cd();
@@ -29,9 +31,11 @@ int throughput_cmsExpMT_elec_E50()
    gStyle->SetStatW(0.16);
    gStyle->SetStatH(0.16);
 
-   const int nb = 8;
+//   const int nb = 8;
+//   int beam[nb] = {0,1,2,4,6,8,10,12};
 
-   int beam[nb] = {0,1,2,4,6,8,10,12};
+   const int nb = 10;
+   int beam[nb] = {0,1,2,4,6,8,10,12,14,16};
 
    char gffilename[256];
 
@@ -71,7 +75,8 @@ int throughput_cmsExpMT_elec_E50()
      gf_total_mean[i] = h_total[i]->GetMean();
      gf_total_rms[i]  = h_total[i]->GetRMS();
 
-     std::cout << "i-core Total CPU and RMS " << beam[i] << " " << gf_total_mean[i] << " " << gf_total_rms[i] << std::endl;
+     std::cout << "i-core Total CPU and RMS " << beam[i] << " " 
+               << gf_total_mean[i] << " " << gf_total_rms[i] << std::endl;
      fclose(gffile[i]);
    }
 
@@ -85,7 +90,7 @@ int throughput_cmsExpMT_elec_E50()
    gf_serial_rms[0] = gf_total_rms[0];
 
    const int nt = nb -1;
-   double pbin[nt], epbin[nt];
+// -->   double pbin[nt], epbin[nt];
 
    double gf_mt_total_mean[nt];   
    double gf_mt_total_rms[nt];   
@@ -109,7 +114,8 @@ int throughput_cmsExpMT_elec_E50()
    pd2[0]->SetLogy();
    pd2[0]->SetGridy();
    
-   hhf3 = new TH2F("hhf3","Event Throughput - 50 GeV e^{-}", 1,0.7,15.,1,0.2,20.);
+// -->   TH2F* hhf3 = new TH2F("hhf3","Event Throughput - 50 GeV e^{-}", 1,0.7,15.,1,0.2,20.);
+   TH2F* hhf3 = new TH2F("hhf3","Event Throughput - 50 GeV e^{-}", 1,0.7,20.,1,0.2,20.);
    hgr3 = new TGraphErrors(nt,pbin,gf_mt_total_mean,epbin,gf_mt_total_rms);
    hgr2 = new TGraphErrors(1,pbin1,gf_serial_mean,epbin1,gf_serial_rms);
 
@@ -136,7 +142,8 @@ int throughput_cmsExpMT_elec_E50()
    hgr2->SetLineColor(kRed);
    hgr2->Draw("LPsame");
   
-   llow = new TLine(1.0, gf_total_mean[0], 12, 12.0*gf_total_mean[0]);
+// -->   TLine* llow = new TLine(1.0, gf_total_mean[0], 12, 12.0*gf_total_mean[0]);
+   TLine* llow = new TLine(1.0, gf_total_mean[0], 20, 20.0*gf_total_mean[0]);
    llow->SetLineColor(2);
    llow->SetLineStyle(2);
    llow->Draw();
@@ -153,5 +160,7 @@ int throughput_cmsExpMT_elec_E50()
    c2->Update(); 
    c2->Print(pngtitle);   
    ps2->Close();
+   
+   return 0;
 
 }

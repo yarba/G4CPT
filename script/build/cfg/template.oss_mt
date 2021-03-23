@@ -1,5 +1,8 @@
 #!/bin/bash
 
+nodename=`uname -n`
+echo " node name = ${nodename} "
+
 cd G4PMT_WORK_DIR
 
 source setenv.sh
@@ -7,18 +10,28 @@ source setenv.sh
 #setup oss: version 2.3
 # --> migrate --> export KRELL_ROOT_DIR=/g4/g4p/products-gcc71/krellroot_v2.3
 # --> migrate --> export OPENSS_ROOT_DIR=/g4/g4p/products-gcc71/openspeedshop_v2.3
-export KRELL_ROOT_DIR=/lfstev/g4p/g4p/products/krellroot_v2.3
-export OPENSS_ROOT_DIR=/lfstev/g4p/g4p/products/openspeedshop_v2.3
+# --> migrate again --> export KRELL_ROOT_DIR=/lfstev/g4p/g4p/products/krellroot_v2.3
+# --> migrate again --> export OPENSS_ROOT_DIR=/lfstev/g4p/g4p/products/openspeedshop_v2.3
 
-export PATH=${KRELL_ROOT_DIR}/bin:${PATH}
-export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
-export DYNINSTAPI_RT_LIB=${KRELL_ROOT_DIR}/lib64/libdyninstAPI_RT.so
+# --> migrate gain --> export PATH=${KRELL_ROOT_DIR}/bin:${PATH}
+# --> migrate again --> export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
+# --> migrate again --> export LD_LIBRARY_PATH=${KRELL_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+# --> migrate again --> export DYNINSTAPI_RT_LIB=${KRELL_ROOT_DIR}/lib64/libdyninstAPI_RT.so
 
-export PATH=${OPENSS_ROOT_DIR}/bin:${PATH}
-export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+# --> migrate again --> export PATH=${OPENSS_ROOT_DIR}/bin:${PATH}
+# --> migrate again --> export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib64:${LD_LIBRARY_PATH}
+# --> migrate again --> export LD_LIBRARY_PATH=${OPENSS_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
 
+# --> Jan.2021 migration to WC-IC
+#
+# Setup OSS
+#
+export HOME=/work1/g4p/${USER}
+module load gnu8/8.3.0
+module load binutils/2.31.90
+export SPACK_ROOT=/work1/g4p/g4p/products/spack
+. ${SPACK_ROOT}/share/spack/setup-env.sh
+spack load openspeedshop
 
 node=G4PMT_NODE
 particle=G4PMT_PID
@@ -61,21 +74,37 @@ for nthread in ${list_thread} ; do
     exe=`echo ./bin/cmsExpMT`
     cmd=`echo -m ${run_cfg} -t ${nthread}`
   fi
-  log_file="./${node}_${particle}_E${energy}_t${nthread}.log" 
+  # --> migrate to WC-IC --> log_file="./${node}_${particle}_E${energy}_t${nthread}.log" 
+  log_file="/scratch/${node}_${particle}_E${energy}_t${nthread}.log" 
+  log_file_desti="G4PMT_OUTPUT/${node}_${particle}_E${energy}_t${nthread}.log"
   echo "... processing ${nevents} osspcsamp \"$exe ${cmd}\" >& ${log_file}"
 
-  export OPENSS_RAWDATA_DIR=G4PMT_WORK_DIR/raw_${node}_${particle}_${energy}_${nthread}
+  # --> migrate to WC-IC --> export OPENSS_RAWDATA_DIR=G4PMT_WORK_DIR/raw_${node}_${particle}_${energy}_${nthread}
+  export OPENSS_RAWDATA_DIR=/scratch/raw_${node}_${particle}_${energy}_${nthread}
+  export OPENSS_RAWDATA_DIR_DESTI=G4PMT_OUTPUT/raw_${node}_${particle}_${energy}_${nthread}
   if [ -d ${OPENSS_RAWDATA_DIR} ]; then 
     rm -rf ${OPENSS_RAWDATA_DIR}/*         
   else
     mkdir ${OPENSS_RAWDATA_DIR}
   fi
+  if [ -d ${OPENSS_RAWDATA_DIR_DESTI} ]; then 
+    rm -rf ${OPENSS_RAWDATA_DIR_DESTI}/*         
+  else
+    mkdir ${OPENSS_RAWDATA_DIR_DESTI}
+  fi
 
-  export OPENSS_DB_DIR=G4PMT_WORK_DIR/db_${node}_${particle}_${energy}_${nthread}  
+  # --> migrate to WC-IC --> export OPENSS_DB_DIR=G4PMT_WORK_DIR/db_${node}_${particle}_${energy}_${nthread}  
+  export OPENSS_DB_DIR=/scratch/db_${node}_${particle}_${energy}_${nthread}  
+  export OPENSS_DB_DIR_DESTI=G4PMT_OUTPUT/db_${node}_${particle}_${energy}_${nthread}  
   if [ -d ${OPENSS_DB_DIR} ]; then 
     rm -rf ${OPENSS_DB_DIR}/*         
   else
     mkdir ${OPENSS_DB_DIR}
+  fi
+  if [ -d ${OPENSS_DB_DIR_DESTI} ]; then 
+    rm -rf ${OPENSS_DB_DIR_DESTI}/*         
+  else
+    mkdir ${OPENSS_DB_DIR_DESTI}
   fi
 
   SLT=$((${RANDOM}%60+1))
@@ -83,5 +112,10 @@ for nthread in ${list_thread} ; do
   sleep ${SLT}
 
   osspcsamp "${exe} ${cmd}" ${freq_oss} >& ${log_file}
+  rsync -z ${log_file} ${log_file_desti}
+  rsync -r -z ${OPENSS_RAWDATA_DIR}/* ${OPENSS_RAWDATA_DIR_DESTI}
+  rsync -z ${OPENSS_DB_DIR}/*.* ${OPENSS_DB_DIR_DESTI}/.
   rm ${run_cfg}
+  rm -rf ${OPENSS_DB_DIR}
+  rm -rf ${OPENSS_RAWDATA_DIR}
 done

@@ -1,5 +1,5 @@
-#!/home/g4p/products/R-3.1.2/bin/Rscript
-####!/usr/bin/env Rscript
+#!/usr/bin/env Rscript
+####!/home/g4p/products/R-3.1.2/bin/Rscript
 
 ###
 ### This R script processes the data files in a single campaign
@@ -14,7 +14,10 @@
 args <- commandArgs(TRUE)
 if (length(args) != 1) stop("You must supply the name of a directory to process")
 
-suppressPackageStartupMessages(source("./analysis/src/functions_stepping.R"))
+### suppressPackageStartupMessages(source("./analysis/src/functions_stepping.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "functions_stepping.R" ) ))
+
 dirname <- args[[1]]
 
 print("Creating STEPPING dataframe...")

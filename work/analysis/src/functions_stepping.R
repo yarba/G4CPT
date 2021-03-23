@@ -1,7 +1,9 @@
 
 library(reshape2)
 
-suppressPackageStartupMessages(source("/g4/g4p/work/analysis/src/functions.R"))
+### suppressPackageStartupMessages(source("/g4/g4p/work/analysis/src/functions.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "functions.R" ) ))
 
 ### -------------------
 ### Read a single stepping data file; this is a helper for load.stepping

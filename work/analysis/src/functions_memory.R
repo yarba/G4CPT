@@ -1,4 +1,7 @@
-suppressPackageStartupMessages(source("analysis/src/functions.R"))
+
+### suppressPackageStartupMessages(source("analysis/src/functions.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "functions.R" ) ))
 
 ### -------------------
 ### Read a single memory data file; this is a helper for load.memory.times

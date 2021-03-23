@@ -21,17 +21,37 @@ EXP_NUM=$3
 #setup sqlite v3_07_17_00 -q prof
 
 # --> migrate --> G4P_WORK_DIR=/g4/g4p/work
-G4P_WORK_DIR=/lfstev/g4p/g4p/work
-G4P_CGI_DIR=/home/g4p/cgi-bin/data
-G4P_EXP_DIR=${G4P_WORK_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
-G4P_WEB_DIR=/home/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
-G4P_SQL_DIR=${G4P_CGI_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+# --> migrate again --> G4P_WEB_DIR=/home/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+# --> migrate again --> G4P_WORK_DIR=/lfstev/g4p/g4p/work
+# --> migrate again --> G4P_CGI_DIR=/home/g4p/cgi-bin/data
+#
+#G4P_WEB_DIR=/work1/g4p/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+#G4P_WORK_DIR=/work1/g4p/g4p/G4CPT/work
+#G4P_CGI_DIR=/work1/g4p/g4p/cgi-bin/data
+#
+# G4P_EXP_DIR=${G4P_WORK_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+#G4P_SQL_DIR=${G4P_CGI_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
 #
 # --> migrate --> G4P_ROOT_DIR=/g4/g4p/work/root/igprof
-G4P_ROOT_DIR=/lfstev/g4p/g4p/work/root/igprof
+# --> migrate again --> G4P_ROOT_DIR=/lfstev/g4p/g4p/work/root/igprof
+#
+# --> Jan.2021 migration to WC-IC
+#
+#
+G4P_WEB_DIR=/work1/g4p/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+G4P_EXP_DIR=${G4P_WEB_DIR}
+#
+G4P_CGI_DIR=/work1/g4p/g4p/cgi-bin/data
+G4P_SQL_DIR=${G4P_CGI_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+#
+G4P_SRC_DIR=/work1/g4p/g4p/G4CPT/work/analysis/src
+G4P_ROOT_DIR=/work1/g4p/g4p/G4CPT/work/root/igprof
+
+
 #
 # --> migrate --> MEM_TEMPLATE=/g4/g4p/work/analysis/src/template_mem_summary.html
-MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary.html
+# --> MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary.html
+MEM_TEMPLATE=${G4P_SRC_DIR}/template_mem_summary.html
 
 #------------------------------------------------------------------------------
 # sample list: 1 PYTHIA sample + 36 single particle samples
@@ -96,7 +116,8 @@ sample_list="
 # ---> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
 if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
 sample_list="higgs.FTFP_BERT.1400.4"
-MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary_cmsExp.html
+# --> MEM_TEMPLATE=${G4P_WORK_DIR}/analysis/src/template_mem_summary_cmsExp.html
+MEM_TEMPLATE=${G4P_SRC_DIR}/template_mem_summary_cmsExp.html
 fi
 
 #------------------------------------------------------------------------------
@@ -142,7 +163,7 @@ for event_at in ${event_list}; do
   cp  ${G4P_EXP_DIR}/${data_file} ${G4P_ROOT_DIR}
 
   #copy files to the webpage
-  cp ${html_file} ${G4P_WEB_DIR}
-  cp ${G4P_EXP_DIR}/${data_file} ${G4P_WEB_DIR}
+# -->  cp ${html_file} ${G4P_WEB_DIR}
+# -->  cp ${G4P_EXP_DIR}/${data_file} ${G4P_WEB_DIR}
 done
 

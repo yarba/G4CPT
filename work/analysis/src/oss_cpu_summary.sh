@@ -17,18 +17,33 @@ EXP_NUM=$3
 #G4P_EXP_DIR=${G4P_WEB_DIR}/g4p_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
 #CPU_TEMPLATE=/work/perfanalysis/g4p/analysis/src/template_cpu_summary.html
 # --> migrate --> G4P_WORK_DIR=/g4/g4p/work
-G4P_WORK_DIR=/lfstev/g4p/g4p/work
-G4P_EXP_DIR=${G4P_WORK_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
-G4P_WEB_DIR=/home/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+# --> migrate again --> G4P_WORK_DIR=/lfstev/g4p/g4p/work
+# --> migrate again --> G4P_EXP_DIR=${G4P_WORK_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+# --> migrate again --> G4P_WEB_DIR=/home/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
 #
 # --> migrate --> G4P_ROOT_DIR=/g4/g4p/work/root/sprof
-G4P_ROOT_DIR=/lfstev/g4p/g4p/work/root/sprof
+# --> migrate again --> G4P_ROOT_DIR=/lfstev/g4p/g4p/work/root/sprof
 #
 # --> migrate --> CPU_TEMPLATE=/g4/g4p/work/analysis/src/oss_template_cpu_summary.html
-CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary.html
+# --> migrate again --> CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary.html
+#
+# --> Jan.2021 migration to WC-IC
+#
+# --> G4P_WORK_DIR=/work1/g4p/g4p/G4CPT/work
+# --> G4P_EXP_DIR=${G4P_WORK_DIR}/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+G4P_WEB_DIR=/work1/g4p/g4p/webpages/g4p/oss_${GEANT4_VERSION}_${APPLICATION_NAME}_${EXP_NUM}
+G4P_EXP_DIR=${G4P_WEB_DIR}
+#
+#
+G4P_SRC_DIR=/work1/g4p/g4p/G4CPT/work/analysis/src
+G4P_ROOT_DIR=/work1/g4p/g4p/G4CPT/work/root/sprof
+#
+# --> CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary.html
+CPU_TEMPLATE=${G4P_SRC_DIR}/oss_template_cpu_summary.html
+
 
 #------------------------------------------------------------------------------
-# sample list: 2 PYTHIA sample + 36 single particle samples
+# sample list: 2 PYTHIA samples + 50 single particle samples
 #------------------------------------------------------------------------------
 
 sample_list="higgs.FTFP_BERT.1400.4
@@ -88,7 +103,8 @@ sample_list="higgs.FTFP_BERT.1400.4
 # --> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
 if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
 sample_list="higgs.FTFP_BERT.1400.4"
-CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary_cmsExp.html
+# --> CPU_TEMPLATE=${G4P_WORK_DIR}/analysis/src/oss_template_cpu_summary_cmsExp.html
+CPU_TEMPLATE=${G4P_SRC_DIR}/oss_template_cpu_summary_cmsExp.html
 fi
 
 #------------------------------------------------------------------------------
@@ -96,8 +112,9 @@ fi
 #------------------------------------------------------------------------------
 
 #process_list="IntelXeonCPU QuadCoreAMDOpteron"
-process_list="AMDOpteronProcessor6128HE AMDOpteronProcessor6128HES IntelXeonCPUX5650@2.67GHz"
+# --> migrate --> process_list="AMDOpteronProcessor6128HE AMDOpteronProcessor6128HES IntelXeonCPUX5650@2.67GHz"
 #process_list="AMDOpteronProcessor6128HE"
+process_list="IntelXeonCPUE52650v2@2.60GHzS"
 #------------------------------------------------------------------------------
 # check directory and get the summary data and html
 #------------------------------------------------------------------------------
@@ -119,12 +136,11 @@ touch ${G4P_EXP_DIR}/${data_file}
 for sample in ${sample_list} ; do
   for process in ${process_list}; do
     xfile="${G4P_EXP_DIR}/${sample}/prof_basic_trial_times_list.html"
-    cpu_time=`grep ">${process}<" ${xfile} |\
-    awk '{split($0,aa,"</td><td>"); print aa["3"]}' |\
-    awk '{split($0,bb,"</td>"); printf("%10.4f\n",bb["1"])}'`
-    cpu_stdv=`grep ">${process}<" ${xfile} |\
-    awk '{split($0,aa,"</td><td>"); print aa["4"]}' |\
-    awk '{split($0,bb,"</td>"); printf("%10.4f\n",bb["1"])}'`
+    
+#    cpu_time=`grep ">${process}<" ${xfile} |\
+#    awk '{ split($0,a1,"</td><td>"); printf("%10.4f\n",a1["2"]) } '`
+    cpu_time=`grep ">${process}<" ${xfile} | awk -F "</td><td>" '{printf("%10.4f\n",$2)}'`
+    cpu_stdv=`grep ">${process}<" ${xfile} | awk -F "</td><td>" '{print $3}' | awk -F "</td>" '{printf("%10.4f\n",$1)}'`
     echo "$cpu_time $cpu_stdv   $sample"
     if [ ${cpu_time} ]; then
       echo "${cpu_time} ${cpu_stdv} $sample $process" >> ${G4P_EXP_DIR}/${data_file}
@@ -138,9 +154,14 @@ done
 cp  ${G4P_EXP_DIR}/${data_file} ${G4P_ROOT_DIR}
 # old format for AMDOpteronProcessor6128HE
 old_data_file="cpu_summary_${GEANT4_VERSION}_${APPLICATION_NAME}.data"
-grep AMDOpteronProcessor6128HE ${G4P_EXP_DIR}/${data_file} | \
-grep -v AMDOpteronProcessor6128HES > ${G4P_ROOT_DIR}/${old_data_file}
+#
+# --> migrate --> grep AMDOpteronProcessor6128HE ${G4P_EXP_DIR}/${data_file} | \
+# grep -v AMDOpteronProcessor6128HES > ${G4P_ROOT_DIR}/${old_data_file}
+#
+# Jan.2021 migration to WC-IC
+#
+cp ${G4P_EXP_DIR}/${data_file} ${G4P_ROOT_DIR}/${old_data_file}
 
 #copy files to the webpage
-cp ${html_file} ${G4P_WEB_DIR}
-cp ${G4P_EXP_DIR}/${data_file} ${G4P_WEB_DIR}
+# --> cp ${html_file} ${G4P_WEB_DIR}
+# --> cp ${G4P_EXP_DIR}/${data_file} ${G4P_WEB_DIR}

@@ -89,6 +89,7 @@ fi
 # generate files for condor (jdl, sh, g4)
 #------------------------------------------------------------------------------
 unset template_submit
+unset template_master
 unset template_tool
 node_name=`uname -n`
 
@@ -102,23 +103,21 @@ else
 fi
 
 #loop over tools
-for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
+# for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
+for tool in osspcsamp ossusertime osshwcsamp igprof ; do
 
-  if [ x"${node_name}" == x"tevnfsg4" ]; then
-    template_submit="${cfg_dir}/template.wilson_queue_${tool}"
-  else
-    echo "configure a batch system on ${node_name}" 
-  fi
-
+  # Jan.2021 migration to WC-IC
+  template_submit="${cfg_dir}/template.wcic_queue_${tool}"
+  
   #if [ -f ${template_submit} ]; then
   #else 
-  #  echo "... ${template_submit} could not located properly ..."
+  #  echo "... ${template_submit} could not be located properly ..."
   #fi
 
-  if [ x"${node_name}" == x"tevnfsg4" ]; then
-    template_tool="${cfg_dir}/template.wilson_run_${tool}"
-  fi
-
+  template_master="${cfg_dir}/template.wcic_run_master"
+  
+  template_tool="${cfg_dir}/template.wcic_run_${tool}"
+  
   if [ ! -f ${template_tool} ]; then
     echo "...  ${template_tool} doesn't exist ..." ; exit 1
   fi
@@ -183,76 +182,83 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
 
     # generate condor jdl file
     submit_jdl="${work_dir}/submit_${tool}"
+    tool_master="${work_dir}/master_${tool}.sh"
     tool_sh="${work_dir}/run_${tool}.sh"
     sps_cfg="${work_dir}/${exp_cfg}"
 
-    sed    "s%G4P_OUTPUT_DIR%${work_dir}%"  ${template_submit} > ${submit_jdl}
-    sed -i "s%G4P_NUM_QUEUE%${exp_nqueue}%" ${submit_jdl}
-    sed -i "s%G4P_RUN_SHELL%${tool_sh}%"    ${submit_jdl}
+    # submit script
+    sed    "s%G4P_OUTPUT_DIR%${work_dir}%"  ${template_submit} > ${PWD}/tmp_submit_${tool}
+    sed -i "s%G4P_RUN_MASTER%${tool_master}%"    ${PWD}/tmp_submit_${tool}
+    sed -i "s%G4P_RUN_SHELL%${tool_sh}%"    ${PWD}/tmp_submit_${tool}
 
+    # SLURM master exec
+    sed  "s%G4P_RAMDISK_DIR%${RAMDISK_DIR}%" ${template_master} > ${PWD}/tmp_master_${tool}.sh
+    sed -i "s%G4P_TARBALL_DIR%${tar_dir}%"      ${PWD}/tmp_master_${tool}.sh
+    sed -i "s%G4P_TARBALL_NAME%${tar_name}%"    ${PWD}/tmp_master_${tool}.sh
+    
     #substitute parameters of template (template.run_sprof)
-    sed    "s%G4P_APPLICATION_EXE%${exp_exe}%"  ${template_tool} > ${tool_sh}
-    sed -i "s%G4P_APPLICATION_CFG%${exp_cfg}%"  ${tool_sh}
-    sed -i "s%G4P_APPLICATION_DIR%${exp_env}%"  ${tool_sh}
+    sed    "s%G4P_APPLICATION_EXE%${exp_exe}%"  ${template_tool} > ${PWD}/tmp_run_${tool}.sh
+    sed -i "s%G4P_APPLICATION_CFG%${exp_cfg}%"  ${PWD}/tmp_run_${tool}.sh
+    sed -i "s%G4P_APPLICATION_DIR%${exp_env}%"  ${PWD}/tmp_run_${tool}.sh
     if [[ ${exp_physics} == *"_Auger"*  ]]; then
        phys=${exp_physics%%"_Auger"*}
-       sed -i "s%G4P_PHYSICS_LIST%${phys}%" ${tool_sh}
+       sed -i "s%G4P_PHYSICS_LIST%${phys}%" ${PWD}/tmp_run_${tool}.sh
     else
-       sed -i "s%G4P_PHYSICS_LIST%${exp_physics}%" ${tool_sh}
+       sed -i "s%G4P_PHYSICS_LIST%${exp_physics}%" ${PWD}/tmp_run_${tool}.sh
     fi
-    sed -i "s%G4P_INPUT_FILE%${exp_inp}%"       ${tool_sh}
-    sed -i "s%G4P_OUTPUT_DIR%${work_dir}%"      ${tool_sh}
-    sed -i "s%G4P_SPOOL_DIR%${spool_dir}%"      ${tool_sh}
-    sed -i "s%G4P_NUM_LOOP%${exp_nloops}%"      ${tool_sh}
-    sed -i "s%G4P_TARBALL_DIR%${tar_dir}%"      ${tool_sh}
-    sed -i "s%G4P_TARBALL_NAME%${tar_name}%"    ${tool_sh}
-    sed -i "s%G4P_RAMDISK_DIR%${RAMDISK_DIR}%"  ${tool_sh}
+    sed -i "s%G4P_INPUT_FILE%${exp_inp}%"       ${PWD}/tmp_run_${tool}.sh
+    sed -i "s%G4P_OUTPUT_DIR%${work_dir}%"      ${PWD}/tmp_run_${tool}.sh
+    sed -i "s%G4P_SPOOL_DIR%${spool_dir}%"      ${PWD}/tmp_run_${tool}.sh
 
-#un all samples with EXTENDED PERFORMANCE (i.e., count tracks/steps) Jan-2016
-#     if [ x"${exp_sample}" == x"higgs" ]; then
-      sed -i "s%G4P_PERFORMANCE_FLAG%EXTENDED%" ${tool_sh}
-#     else
-#       sed -i "s%G4P_PERFORMANCE_FLAG%DEFAULT%" ${tool_sh}
-#     fi
-
+#run all samples with EXTENDED PERFORMANCE (i.e., count tracks/steps) Jan-2016
+    sed -i "s%G4P_PERFORMANCE_FLAG%EXTENDED%" ${PWD}/tmp_run_${tool}.sh
+    
     #configuration
-    sed    "s%G4P_PARTICLE_TYPE%${exp_procpid}%"  ${cfg_dir}/${exp_cfg} > ${sps_cfg}
-    sed -i "s%G4P_GENERATOR_TYPE%${exp_gentype}%" ${sps_cfg}
+    sed    "s%G4P_PARTICLE_TYPE%${exp_procpid}%"  ${cfg_dir}/${exp_cfg} > ${PWD}/tmp_${exp_cfg} # ${sps_cfg}
+    sed -i "s%G4P_GENERATOR_TYPE%${exp_gentype}%" ${PWD}/tmp_${exp_cfg} # ${sps_cfg}
     if [[ ${exp_energy} == *"MeV"* ]]; then
-       sed -i "s%G4P_BEAM_ENERGY GeV%${exp_energy}%" ${sps_cfg}
+       sed -i "s%G4P_BEAM_ENERGY GeV%${exp_energy}%" ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     else
-       sed -i "s%G4P_BEAM_ENERGY%${exp_energy}%"     ${sps_cfg}
+       sed -i "s%G4P_BEAM_ENERGY%${exp_energy}%"     ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     fi
-    sed -i "s%G4P_SET_BFIELD%${exp_bfield}%"      ${sps_cfg}
+    sed -i "s%G4P_SET_BFIELD%${exp_bfield}%"      ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     if [[ ${exp_physics} == *"_Auger"*  ]]; then
-       sed -i "s%#\/process\/em\/deexcitationIgnoreCut FLAG%\/process\/em\/deexcitationIgnoreCut true%" ${sps_cfg}
+       sed -i "s%#\/process\/em\/deexcitationIgnoreCut FLAG%\/process\/em\/deexcitationIgnoreCut true%" ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
        if [[ ${exp_physics} == *"_AugerOff"*  ]]; then
-          sed -i "s%#\/process\/em\/auger FLAG%\/process\/em\/auger false%" ${sps_cfg}
+          sed -i "s%#\/process\/em\/auger FLAG%\/process\/em\/auger false%" ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
        fi
        if [[ ${exp_physics} == *"_AugerOn"*  ]]; then
-          sed -i "s%#\/process\/em\/auger FLAG%\/process\/em\/auger true%"  ${sps_cfg}
+          sed -i "s%#\/process\/em\/auger FLAG%\/process\/em\/auger true%"  ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
        fi
     fi
-
+    
     #configuration-special treatment for optical photon 
     if [ x"${exp_procpid:0:8}" = x"optical+" ]; then
       # scale number of events and turn on the switch for stacking photons
       sed -i "s/optical+/ /"  ${sps_cfg}
-      sed -i "s/setStackPhotons false/setStackPhotons true/" ${sps_cfg}
-      sed -i "s/G4P_NUMBER_BEAMON/26/" ${sps_cfg}
+      sed -i "s/setStackPhotons false/setStackPhotons true/" ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
+      sed -i "s/G4P_NUMBER_BEAMON/26/" ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     fi
 
     # change number of events for igprof
     if [ x"${tool}" = x"igprof" ]; then
-      sed -i "s%G4P_NUMBER_BEAMON%${exp_igntot}%"   ${sps_cfg}
+      sed -i "s%G4P_NUMBER_BEAMON%${exp_igntot}%"   ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     else
-      sed -i "s%G4P_NUMBER_BEAMON%${exp_nevent}%"   ${sps_cfg}
+      sed -i "s%G4P_NUMBER_BEAMON%${exp_nevent}%"   ${PWD}/tmp_${exp_cfg}  # ${sps_cfg}
     fi
 
     #substitute parameters of template (template.run_igprof)
-    sed -i "s%G4P_SAMPLE%${sample}%"      ${tool_sh}
-    sed -i "s%G4P_IGPROF_NEVENT%${exp_igntot}%"  ${tool_sh}
+    sed -i "s%G4P_SAMPLE%${sample}%"      ${PWD}/tmp_run_${tool}.sh  # ${tool_sh}
+    sed -i "s%G4P_IGPROF_NEVENT%${exp_igntot}%"  ${PWD}/tmp_run_${tool}.sh  # ${tool_sh}
 
+    mv ${PWD}/tmp_submit_${tool} ${submit_jdl} 
+    mv ${PWD}/tmp_master_${tool}.sh ${tool_master}
+    mv ${PWD}/tmp_run_${tool}.sh ${tool_sh}
+    mv ${PWD}/tmp_${exp_cfg} ${sps_cfg}
+
+    # change permission to run scripts
+    chmod +x ${work_dir}/*.sh
+    
     #create link for input data file
     if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
          x"${APPLICATION_NAME}" = x"SimplifiedCaloMT" ]; then
@@ -288,8 +294,8 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
   done
 
   # create files to submit pbs/slurm jobs (on the wilson)
-  if [ -f ${cfg_dir}/template.wilson_submit_${tool} ]; then
-    sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wilson_submit_${tool} >\
+  if [ -f ${cfg_dir}/template.wcic_submit_${tool} ]; then
+    sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wcic_submit_${tool} >\
         ${exp_dir}/submit_all_${tool}.sh
     if [ x"${tool}" = x"igprof" ]; then
       if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
@@ -300,6 +306,10 @@ for tool in osspcsamp ossusertime osshwcsamp osshwcsamp2 igprof ; do
       sed -i "s%G4P_TARBALL_NAME%${tar_name}%" ${exp_dir}/submit_all_${tool}.sh
     fi
   else
-    echo "Warning ${cfg_dir}/template.wilson_submit_${tool} does not exist!"
+    echo "Warning ${cfg_dir}/template.wcic_submit_${tool} does not exist!"
   fi
 done
+
+chmod -R g+w ${BLUEARC_DIR}/pbs
+
+

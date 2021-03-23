@@ -14,16 +14,16 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=10.7
+G4P_GEANT4_RELEASE=10.7.r02a
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp]
 # G4P_APPLICATION_NAME=cmsExp
-G4P_APPLICATION_NAME=cmsExpVG
+# G4P_APPLICATION_NAME=cmsExpVG
 # G4P_APPLICATION_NAME=cmsExpMT
 # G4P_APPLICATION_NAME=lArTest
-# G4P_APPLICATION_NAME=SimplifiedCalo
+G4P_APPLICATION_NAME=SimplifiedCalo
 
 #clhep version
 #
@@ -38,7 +38,9 @@ G4P_APPLICATION_NAME=cmsExpVG
 # 10.5-series
 # G4P_CLHEP_RELEASE=2.4.1.0
 # 10.5.beta, etc.
-G4P_CLHEP_RELEASE=2.4.1.2
+# G4P_CLHEP_RELEASE=2.4.1.2
+# 10.7, etc.
+G4P_CLHEP_RELEASE=2.4.4.0
 
 #g4p experiment number:
 G4P_EXP_NUM=01
@@ -49,7 +51,11 @@ G4P_EXP_NUM=01
 #G4P_MY_DIR=/home/g4p/pbs/script/build
 #
 # --> migrate --> G4P_MY_DIR=/g4/g4p/script/build
-G4P_MY_DIR=/lfstev/g4p/g4p/script/build
+# G4P_MY_DIR=/lfstev/g4p/g4p/script/build
+# --> Jan.2021 migration to WC-IC
+G4P_MY_DIR=/work1/g4p/g4p/G4CPT/script/build
+
+
 #------------------------------------------------------------------------------
 # Directory Definition: Usally no need to change
 #------------------------------------------------------------------------------
@@ -62,11 +68,16 @@ LOG_DIR=${G4P_MY_DIR}/log
 #g4p project dir on the local node
 #G4P_PROJECT_DIR=/home/g4p/pbs
 #
-G4P_PROJECT_DIR=/g4/g4p
+# --> G4P_PROJECT_DIR=/g4/g4p
 # --> NOTE(Oct.2018, JVY): do NOT migrate this one ! instead, build on /g4/g4p due to issues with OSS --> G4P_PROJECT_DIR=/lfstev/g4p/g4p
 
+# --> Jan.2021, migration to WC-IC
+G4P_PROJECT_DIR=/work1/g4p/g4p
+
 # separate env.variable for the location of G4 datasets 
-G4P_G4DATASETS=/lfstev/g4p/g4p/download/g4data
+# G4P_G4DATASETS=/lfstev/g4p/g4p/download/g4data
+# --> Jan.2021 migration to WC-IC
+G4P_G4DATASETS=/wclustre/g4p/g4p/download/g4data
 
 #g4p working dir on the pbs node 
 #
@@ -77,7 +88,9 @@ G4P_G4DATASETS=/lfstev/g4p/g4p/download/g4data
 #G4P_BLUEARC_DIR=/home/g4p/pbs/build
 # NOTE: this is now a) "base" destination for tarball and b) oss work area 
 # --> migrate --> G4P_BLUEARC_DIR=/g4/g4p
-G4P_BLUEARC_DIR=/lfstev/g4p/g4p
+# G4P_BLUEARC_DIR=/lfstev/g4p/g4p
+# --> Jan.2021 migration to WC-IC
+G4P_BLUEARC_DIR=/wclustre/g4p/g4p
 
 #G4P_RAMDISK_DIR=/mnt/rd
 G4P_RAMDISK_DIR=/dev/shm
@@ -85,7 +98,9 @@ G4P_SPOOL_DIR=/scratch
 
 # directory where input mc file are stored (e.g. input event files)
 # --> migrate --> G4P_DATA_DIR=/g4/g4p/mcdata
-G4P_DATA_DIR=/lfstev/g4p/g4p/mcdata
+#G4P_DATA_DIR=/lfstev/g4p/g4p/mcdata
+# --> Jan.2021 migration to WC-IC
+G4P_DATA_DIR=/work1/g4p/g4p/mcdata
 
 #g4p analysis directory on the webserver (oink.fnal.gov)
 WEB_DIR=/home/g4p/
@@ -281,9 +296,16 @@ WEB_DIR=/home/g4p/
 # RadioactiveDecay5.6
 # Q: where did they do  PhotonEvaporation5.7 && RadioactiveDecay-5.5 ???
 #
-
+# 10.7.r01
+# same as above plus...
+# G4EMLOW7.14
+#
+# 10.7.p01(cand00)
+# same as above plus...
+# G4PARTICLEXS3.1.1
+#
 #------------------------------------------------------------------------------
-# set G4LEDATA  path-to-data/G4EMLOW7.13
+# set G4LEDATA  path-to-data/G4EMLOW7.14
 # set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.7
 # set G4NEUTRONHPDATA path-to-data/G4NDL4.6
 # set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.6
@@ -295,7 +317,7 @@ WEB_DIR=/home/g4p/
 # set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.3
 # set G4TENDL path-to-data/G4TENDL1.4
 # set G4INCLDATA path-to-data/G4INCL1.0
-# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS3.1
+# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS3.1.1
 #------------------------------------------------------------------------------
 # The list of samples for Standalone Applications
 # index particle.physics.energy.Bfield.nqueue.events

@@ -32,14 +32,23 @@ NOHWC=$6
 
 # --> migrate --> BASE_DIR=/g4/g4p/work
 # --> migrate --> PBS_DIR=/g4/g4p/pbs
-BASE_DIR=/lfstev/g4p/g4p/work
-PBS_DIR=/lfstev/g4p/g4p/pbs
+# --> migrate again --> BASE_DIR=/lfstev/g4p/g4p/work
+# --> migrate again --> PBS_DIR=/lfstev/g4p/g4p/pbs
 #
-WEB_DIR=/home/g4p/webpages/g4p
+# --> migrate --> WEB_DIR=/home/g4p/webpages/g4p
 #
 # --> migrate --> SRC_DIR=/g4/g4p/work/analysis/src
-SRC_DIR=/lfstev/g4p/g4p/work/analysis/src
-
+# --> migrate again --> SRC_DIR=/lfstev/g4p/g4p/work/analysis/src
+#
+# --> Jan.2021 migration to WC-IC
+#
+# --> disk space problems --> BASE_DIR=/work1/g4p/g4p/G4CPT/work
+BASE_DIR=/tmp
+PBS_DIR=/wclustre/g4p/g4p/pbs
+#
+WEB_DIR=/work1/g4p/g4p/webpages/g4p
+#
+export SRC_DIR=/work1/g4p/g4p/G4CPT/work/analysis/src
 
 #-----------------------------------------------------------------------
 # Move to the right directory to do all the work.
@@ -161,8 +170,22 @@ pushd ${BASE_DIR}
 
 #pwd
 
+#
+# NOTE(JVY): Need to find a smater way than explicit path (under spack)
+#
+path_to_rscript=$(which Rscript)
+if [ ! -x "$path_to_rscript" ]; then
+echo " Adding path to Rscript "
+PATH=/work1/g4p/g4p/products/spack/opt/spack/linux-scientific7-ivybridge/gcc-8.3.0/r-4.0.2-gsbftm26sqrpj6jjsqljzumj4452vuct/bin:$PATH
+# . /work1/g4p/g4p/products/spack/share/spack/setup-env.sh
+# spack load r
+echo " Rscript: `which Rscript`"
+fi
 
-${BASE_DIR}/analysis/src/oss_make_dataframes.rscript ${SAMPLE_DIR} ${NOHWC}
+
+
+# --> ${BASE_DIR}/analysis/src/oss_make_dataframes.rscript ${SAMPLE_DIR} ${NOHWC}
+${SRC_DIR}/oss_make_dataframes.rscript ${SAMPLE_DIR} ${NOHWC}
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
 then
@@ -172,7 +195,8 @@ fi
 
 #//--->this part is working. uncomment the section after testing
 #if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-${BASE_DIR}/analysis/src/make_stepping_dataframe.rscript ${SAMPLE_DIR}
+# --> ${BASE_DIR}/analysis/src/make_stepping_dataframe.rscript ${SAMPLE_DIR}
+${SRC_DIR}/make_stepping_dataframe.rscript ${SAMPLE_DIR}
 #fi
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
@@ -183,7 +207,8 @@ fi
 
 echo "SAMPLE_DIR = ${SAMPLE_DIR}"
 echo "NEVENTS = ${NEVENTS}"
-${BASE_DIR}/analysis/src/make_standard_plots_oss.rscript ${SAMPLE_DIR} ${NEVENTS} ${NOHWC}
+# --> ${BASE_DIR}/analysis/src/make_standard_plots_oss.rscript ${SAMPLE_DIR} ${NEVENTS} ${NOHWC}
+${SRC_DIR}/make_standard_plots_oss.rscript ${SAMPLE_DIR} ${NEVENTS} ${NOHWC}
 
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
@@ -192,7 +217,8 @@ then
     exit 1
 fi
 #if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-${BASE_DIR}/analysis/src/make_stepping_plots.rscript ${SAMPLE_DIR} ${NEVENTS}
+# --> ${BASE_DIR}/analysis/src/make_stepping_plots.rscript ${SAMPLE_DIR} ${NEVENTS}
+${SRC_DIR}/make_stepping_plots.rscript ${SAMPLE_DIR} ${NEVENTS}
 #fi
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
@@ -228,7 +254,7 @@ if [ ${APPLHEAD} = "Simp" ]
 	cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
 #        if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/SimplifiedCaloPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/SimplifiedCaloPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 #        else
 #  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/SimplifiedCaloPlots_bySample.html > ${WEB_TAGET_DIR}/index.html
 #        fi
@@ -242,7 +268,7 @@ if [ ${APPLHEAD} = "Simp" ]
 	    cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	    cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
 #            if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/SimplifiedCaloPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/SimplifiedCaloPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 #            else
 #	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/SimplifiedCaloPlots_bySample.html > ${WEB_TAGET_DIR}/index.html
 #            fi
@@ -268,7 +294,7 @@ if [ ${APPLHEAD} = "cmsE" ]
 	cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
 #        if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/cmsExpPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/cmsExpPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 #        else
 #  	  sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/cmsExpPlots_bySample.html > ${WEB_TAGET_DIR}/index.html
 #        fi
@@ -282,7 +308,7 @@ if [ ${APPLHEAD} = "cmsE" ]
 	    cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	    cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
 #            if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
-    	      sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/cmsExpPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+    	      sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/cmsExpPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 #            else
 #  	      sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/cmsExpPlots_bySample.html > ${WEB_TAGET_DIR}/index.html
 #            fi
@@ -308,7 +334,7 @@ if [ ${APPLHEAD} = "lArT" ]
 	cp ${SAMPLE_DIR}/prof_*.png ${WEB_TAGET_DIR}
 	cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
-  	sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/lArTestPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+  	sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/lArTestPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
     else
 	if mkdir ${WEB_TAGET_DIR}
 	    then
@@ -318,7 +344,7 @@ if [ ${APPLHEAD} = "lArT" ]
 	    cp ${SAMPLE_DIR}/prof_*.png ${WEB_TAGET_DIR}
 	    cp ${SAMPLE_DIR}/prof_*.csv ${WEB_TAGET_DIR}
 	    cp ${SAMPLE_DIR}/prof_*.html ${WEB_TAGET_DIR}
-    	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${BASE_DIR}/analysis/src/lArTestPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
+    	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/lArTestPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 	else 
 	    echo "Problems creating ${WEB_TAGET_DIR}"
 	    echo "Aborting."

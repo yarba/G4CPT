@@ -45,6 +45,7 @@ if [ ! -d ${TAR_DESTINATION}/build/${g4prefix}.${GEANT4_RELEASE} ]; then
 fi
 # ---> PBS_TARBALL=${GEANT4_BASE}/geant4.${GEANT4_RELEASE}.${APPLICATION_NAME}.tar.gz
 PBS_TARBALL=${TAR_DESTINATION}/build/${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}.${APPLICATION_NAME}.tar.gz
+TMP_TARBALL=${PWD}/${geant4prefix}.${GEANT4_RELEASE}.${APPLICATION_NAME}.tar.gz
 if [ -f ${PBS_TARBALL} ]; then 
   echo "... ${PBS_TARBALL} already exists! ..."
   echo "... Do you want to overwrite the tarball? ..."
@@ -72,24 +73,26 @@ fi
 
 # ---> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
 if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
- tar --exclude=\.svn -czf ${PBS_TARBALL} \
+ tar --exclude=\.svn -czf ${TMP_TARBALL} \
  ${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}/lib \
  ${g4prefix}.${GEANT4_RELEASE}/*/bin/${app_exe_name} \
  ${g4prefix}.${GEANT4_RELEASE}/*/setenv_pbs.sh \
  ${g4prefix}.${GEANT4_RELEASE}/*/*.gdml \
  ${g4prefix}.${GEANT4_RELEASE}/*/*.mag.3_8T
 elif [ x"${APPLICATION_NAME}" = x"lArTest" ]; then
- tar --exclude=\.svn -czf ${PBS_TARBALL} \
+ tar --exclude=\.svn -czf ${TMP_TARBALL} \
  ${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}/lib \
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/bin/${APPLICATION_NAME} \
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/setenv_pbs.sh \
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/lArBox.gdml
 else
- tar --exclude=\.svn -czf ${PBS_TARBALL} \
+ tar --exclude=\.svn -czf ${TMP_TARBALL} \
  ${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}/lib \
  ${g4prefix}.${GEANT4_RELEASE}/*/bin/${app_exe_name} \
  ${g4prefix}.${GEANT4_RELEASE}/*/setenv_pbs.sh 
 fi
+
+mv ${TMP_TARBALL} ${PBS_TARBALL}
 
 #g4.${GEANT4_RELEASE}/${APPLICATION_NAME}/bin/${APPLICATION_NAME} \
 #g4.${GEANT4_RELEASE}/${APPLICATION_NAME}/setenv_pbs.sh 

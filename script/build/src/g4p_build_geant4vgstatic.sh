@@ -43,10 +43,12 @@ echo " G4DATASETS_DIR = ${G4DATASETS_DIR} "
 #-----------------------------------------------------------------------
 
 unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
-module load gcc/7.1.0
-unset G4P_CXX ; G4P_CXX=/usr/local/gcc-7.1.0/bin/g++
-unset G4P_CC  ; G4P_CC=/usr/local/gcc-7.1.0/bin/gcc
-export PATH=/lfstev/g4p/g4p/products/cmake-3.11.1/bin:${PATH}
+#
+# --> Jan.2021 migration to WC-IC
+module load gnu8/8.3.0
+module load cmake/3.15.4
+unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
+unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Create the directory structure
@@ -90,11 +92,12 @@ cd ${BUILD_DIR}
 #-----------------------------------------------------------------------
 # configure with cmake
 #-----------------------------------------------------------------------
-XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+# --> Jan.2021 migration to WC-IC
+XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
 export XERCESC_DIR
-# --> VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.5
-# --> VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.7
-VecGeom_DIR=/home/g4p/products/VecGeom/install/VecGeom.1.1.8
+
+VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.8
+# --> 10.6-series or older --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.5
 export VecGeom_DIR
 
 cmake -DCMAKE_CXX_COMPILER=g++ \
@@ -106,6 +109,7 @@ cmake -DCMAKE_CXX_COMPILER=g++ \
       -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-O3 -g -fno-omit-frame-pointer -Winline" \
       -DGEANT4_USE_GDML=ON \
       -DXERCESC_ROOT_DIR=${XERCESC_DIR} \
+      -DGEANT4_USE_SYSTEM_EXPAT=OFF \
       -DGEANT4_USE_USOLIDS=ON \
       -DBUILD_SHARED_LIBS=OFF \
       -DBUILD_STATIC_LIBS=ON \

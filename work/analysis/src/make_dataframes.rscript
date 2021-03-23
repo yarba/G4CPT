@@ -1,5 +1,5 @@
-#!/home/g4p/products/R-3.1.2/bin/Rscript
-####!/usr/bin/env Rscript
+#!/usr/bin/env Rscript
+###!/home/g4p/products/R-3.1.2/bin/Rscript
 
 ###
 ### This R script processes the data files in a single campaign
@@ -14,8 +14,11 @@
 args <- commandArgs(TRUE)
 if (length(args) != 1) stop("You must supply the name of a directory to process")
 
-suppressPackageStartupMessages(source("analysis/src/functions.R"))
-suppressPackageStartupMessages(source("analysis/src/functions_memory.R"))
+### suppressPackageStartupMessages(source("analysis/src/functions.R"))
+### suppressPackageStartupMessages(source("analysis/src/functions_memory.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "functions.R" ) ))
+suppressPackageStartupMessages(source( file.path( src_dir, "functions_memory.R" ) ))
 
 dirname <- args[[1]]
 

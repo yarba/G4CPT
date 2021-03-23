@@ -1,5 +1,5 @@
-#!/home/g4p/products/R-3.1.2/bin/Rscript
-#####!/usr/bin/env Rscript
+#!/usr/bin/env Rscript
+####!/home/g4p/products/R-3.1.2/bin/Rscript
 
 ###
 ### This R script makes g4profiling standard plots assuming make_dataframes.rscript was run
@@ -20,7 +20,9 @@ NUMBER_OF_EVENTS <- as.numeric(args[[2]])
 
 print("Creating STEPPING plots...")
 
-suppressPackageStartupMessages(source("./analysis/src/plots_stepping.R"))
+### suppressPackageStartupMessages(source("./analysis/src/plots_stepping.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "plots_stepping.R" ) ))
 
 load(file.path(dirname,"stepping.rda"))
 

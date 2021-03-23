@@ -58,18 +58,12 @@ echo " G4DATASETS_DIR = ${G4DATASETS_DIR} "
 #-----------------------------------------------------------------------
 
 unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
-#unset G4P_CXX ; G4P_CXX=/cvmfs/fermilab.opensciencegrid.org/products/larsoft/gcc/v6_3_0/Linux64bit+2.6-2.12/bin/g++
-#unset G4P_CC  ; G4P_CC=/cvmfs/fermilab.opensciencegrid.org/products/larsoft/gcc/v6_3_0/Linux64bit+2.6-2.12/bin/gcc
-#export LD_LIBRARY_PATH=/cvmfs/fermilab.opensciencegrid.org/products/larsoft/gcc/v6_3_0/Linux64bit+2.6-2.12/lib:${LD_LIBRARY_PATH}
-#export LD_LIBRARY_PATH=/lib64:${LD_LIBRARY_PATH}
-#export PATH=/home/g4p/products/cmake-3.4.0/bin:${PATH}
-module load gcc/7.1.0
-unset G4P_CXX ; G4P_CXX=/usr/local/gcc-7.1.0/bin/g++
-unset G4P_CC  ; G4P_CC=/usr/local/gcc-7.1.0/bin/gcc
-#export LD_LIBRARY_PATH=/usr/local/gcc-7.1.0/lib64:/usr/local/gcc-7.1.0/lib:${LD_LIBRARY_PATH}
-#export LD_LIBRARY_PATH=/lib64:${LD_LIBRARY_PATH}
-# --> migrate --> export PATH=/g4/g4p/products-gcc71/cmake-3.11.1/bin:${PATH}
-export PATH=/lfstev/g4p/g4p/products/cmake-3.11.1/bin:${PATH}
+#
+# --> Jan.2021 migration to WC-IC
+module load gnu8/8.3.0
+module load cmake/3.15.4
+unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
+unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Specific Flags for CMMSSW: Compiler and CLHEP 
@@ -130,7 +124,8 @@ cd ${BUILD_DIR}
 # configure with cmake
 #-----------------------------------------------------------------------
 #FLAG_TESTR="-O3 -g -fno-omit-frame-pointer -DG4FPE_DEBUG -DG4DEBUG_VERBOSE" 
-XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+# --> Jan.2021 migration to WC-IC
+XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
 export XERCESC_DIR
 
 cmake -DCMAKE_CXX_COMPILER=${G4P_CXX} \
@@ -143,6 +138,7 @@ cmake -DCMAKE_CXX_COMPILER=${G4P_CXX} \
       -DGEANT4_INSTALL_DATA=0 \
       -DGEANT4_USE_GDML=ON \
       -DXERCESC_ROOT_DIR=${XERCESC_DIR} \
+      -DGEANT4_USE_SYSTEM_EXPAT=OFF \
       -DGEANT4_BUILD_MULTITHREADED=ON \
       ${INSTALL_DIR}/source ${INSTALL_DIR}
 #

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+RAMDISK_DIR=G4P_RAMDISK_DIR
+TARBALL_DIR=G4P_TARBALL_DIR
+TARBALL_NAME=G4P_TARBALL_NAME
+
+rsync ${TARBALL_DIR}/${TARBALL_NAME} ${RAMDISK_DIR}
+tar xzf ${RAMDISK_DIR}/${TARBALL_NAME} -C ${RAMDISK_DIR}
+
+echo " Parallel jobs start at `date` "
+
+srun -l $1
+
+echo " Parallel jobs end at `date` "
+
+echo " Cleaning ${RAMDISK_DIR} "
+#clean up everything on the ram disk before exit
+rm -rf ${RAMDISK_DIR}/*

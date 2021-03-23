@@ -6,13 +6,21 @@ xapp=$3
 
 # --> migrate --> MEM_SUMMARY_1=/g4/g4p/work/root/igprof/mem_summary_${xver1}_${xapp}.oss.END
 # --> migrate --> MEM_SUMMARY_2=/g4/g4p/work/root/igprof/mem_summary_${xver2}_${xapp}.oss.END
-MEM_SUMMARY_1=/lfstev/g4p/g4p/work/root/igprof/mem_summary_${xver1}_${xapp}.oss.END
-MEM_SUMMARY_2=/lfstev/g4p/g4p/work/root/igprof/mem_summary_${xver2}_${xapp}.oss.END
+# --> migrate again --> MEM_SUMMARY_1=/lfstev/g4p/g4p/work/root/igprof/mem_summary_${xver1}_${xapp}.oss.END
+# --> migrate again --> MEM_SUMMARY_2=/lfstev/g4p/g4p/work/root/igprof/mem_summary_${xver2}_${xapp}.oss.END
 
 # --> migrate --> OUT_DIR=/g4/g4p/work/root/igprof
-OUT_DIR=/lfstev/g4p/g4p/work/root/igprof
+# --> migrate again --> OUT_DIR=/lfstev/g4p/g4p/work/root/igprof
+#
+# --> Jan.2021 migration to WC-IC
+#
+MEM_SUMMARY_1=/work1/g4p/g4p/G4CPT/work/root/igprof/mem_summary_${xver1}_${xapp}.oss.END
+MEM_SUMMARY_2=/work1/g4p/g4p/G4CPT/work/root/igprof/mem_summary_${xver2}_${xapp}.oss.END
+#
+OUT_DIR=/work1/g4p/g4p/G4CPT/work/root/igprof
+#
 OUT_FILE=${OUT_DIR}/compare_${xver1}_vs_${xver2}_${xapp}.tex
-# ---> OUT_FILE=test_compare.tex
+
 
 while read -r line; do
 MEM=`echo ${line} | awk '{print $1}'`

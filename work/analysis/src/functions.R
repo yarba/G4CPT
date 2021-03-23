@@ -193,7 +193,7 @@ read.one.functionsfile <- function(filename)
                , lib = tmp[,8]
                , mangled = tmp[,9]
                , name = tmp[,10]
-               , short = str_replace_all(tmp[,10], "\\([^)]*)( const)?", "")
+               , short = str_replace_all(tmp[,10], "\\([^)]*\\)( const)?", "")
                , stringsAsFactors = FALSE
                )
   }

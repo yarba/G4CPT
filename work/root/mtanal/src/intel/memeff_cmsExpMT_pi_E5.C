@@ -1,11 +1,13 @@
 #include <iostream>
 #include <iomanip>
 
+void MakePad1x1(TPad* pd[], char*, char*);
+
 int memeff_cmsExpMT_pi_E5()
 {
    gROOT->Reset();
 
-   c2 = new TCanvas("c2","c2",0,0,500,400);
+   TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
    c2->SetTitle("Geant4 MT Performance: cmsExpMT");
 
    c2->cd();
@@ -29,9 +31,11 @@ int memeff_cmsExpMT_pi_E5()
    gStyle->SetStatW(0.16);
    gStyle->SetStatH(0.16);
 
-   const int nb = 8;
+//   const int nb = 8;
+//   int beam[nb] = {0,1,2,4,6,8,10,12};
 
-   int beam[nb] = {0,1,2,4,6,8,10,12};
+   const int nb = 10;
+   int beam[nb] = {0,1,2,4,6,8,10,12,14,16};
 
    char gffilename[256];
 
@@ -98,7 +102,7 @@ int memeff_cmsExpMT_pi_E5()
    gf_serial_vsize[0] = gf_vsize_mean[0];   
 
    const int nt = nb -1;
-   double pbin[nt], epbin[nt];
+// -->   double pbin[nt], epbin[nt];
 
    double gf_mt_rss_mean[nt];   
    double gf_mt_rss_rms[nt];   
@@ -127,7 +131,8 @@ int memeff_cmsExpMT_pi_E5()
    pd2[0]->SetLogx();
    pd2[0]->SetGridy();
    
-   hhf3 = new TH2F("hhf3","Memory Reduction - 5 GeV #pi^{-}", 1,0.7,15.,1,0.0,1.6);
+// -->   TH2F* hhf3 = new TH2F("hhf3","Memory Reduction - 5 GeV #pi^{-}", 1,0.7,15.,1,0.0,1.6);
+   TH2F* hhf3 = new TH2F("hhf3","Memory Reduction - 5 GeV #pi^{-}", 1,0.7,20.,1,0.0,1.6);
    hgr4 = new TGraphErrors(nt,pbin,gf_mt_rss_mean,epbin,gf_mt_rss_rms);
    hgr3 = new TGraphErrors(nt,pbin,gf_mt_vsize_mean,epbin,gf_mt_vsize_rms);
 
@@ -153,7 +158,8 @@ int memeff_cmsExpMT_pi_E5()
    hgr3->SetLineColor(kBlue);
    hgr3->Draw("LPsame");
 
-   ll = new TLine(0.7, 1.0, 15, 1.0);
+// -->   TLine* ll = new TLine(0.7, 1.0, 15, 1.0);
+   TLine* ll = new TLine(0.7, 1.0, 20, 1.0);
    ll->SetLineColor(2);
    ll->SetLineStyle(2);
    ll->Draw();
@@ -170,5 +176,7 @@ int memeff_cmsExpMT_pi_E5()
    c2->Update(); 
    c2->Print(pngtitle);   
    ps2->Close();
+   
+   return 0;
 
 }

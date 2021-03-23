@@ -1,0 +1,12 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/bin
+export PATH
+
+WORK_DIR=G4P_OUTPUT_DIR
+cd ${WORK_DIR}
+
+Master=G4P_RUN_MASTER
+Executable=G4P_RUN_SHELL
+
+sbatch -N 1 -c 1 -p cpu_gce --exclusive -A g4p $Master $Executable

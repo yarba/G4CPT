@@ -20,8 +20,14 @@ EXP_NUM=$3
 #setup sqlite v3_07_17_00 -q prof
 
 # --> migrate --> G4P_PBS_DIR=/g4/g4p/pbs
-G4P_PBS_DIR=/lfstev/g4p/g4p/pbs
-G4P_CGI_DIR=/home/g4p/cgi-bin/data
+# --> migrate again --> G4P_PBS_DIR=/lfstev/g4p/g4p/pbs
+# --> migrate again --> G4P_CGI_DIR=/home/g4p/cgi-bin/data
+#
+# Jan.2021 migration to WC-IC
+#
+G4P_PBS_DIR=/wclustre/g4p/g4p/pbs
+G4P_CGI_DIR=/work1/g4p/g4p/cgi-bin/data
+
 G4P_EXP_DIR=${G4P_PBS_DIR}/oss_${GEANT4_VERSION}_${APP_NAME}_${EXP_NUM}/igprof
 G4P_SQL_DIR=${G4P_CGI_DIR}/oss_${GEANT4_VERSION}_${APP_NAME}_${EXP_NUM}
 

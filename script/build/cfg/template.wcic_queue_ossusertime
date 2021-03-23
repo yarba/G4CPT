@@ -1,0 +1,14 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/bin
+export PATH
+
+WORK_DIR=G4P_OUTPUT_DIR
+cd ${WORK_DIR}
+
+Master=G4P_RUN_MASTER
+Executable=G4P_RUN_SHELL
+Queue=G4P_NUM_QUEUE
+
+# sbatch --nodes=1 --ntasks-per-node=$NTasks --cpus-per-task=1 -p cpu_gce --time=24:00:00 --array=1-${Queue} --exclusive -A g4p $Master $Executable
+sbatch -N 1 -n 15 -c 1 -p cpu_gce --array=1-6 --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Master $Executable

@@ -1,0 +1,102 @@
+#!/bin/sh
+
+# This is a template to create a shell script that will run 
+# igprof on geant4 applications.
+
+#set ulimit: number of open files (-n) and stack size [kB] (-s)
+ulimit -n 100000
+ulimit -s 1000000
+
+# excutables and configuration
+
+EXE_NAME=G4P_APPLICATION_EXE
+CFG_FILE=G4P_APPLICATION_CFG
+INPUT_FILE=G4P_INPUT_FILE
+OUTPUT_DIR=G4P_OUTPUT_DIR
+APPLICATION_DIR=G4P_APPLICATION_DIR
+
+if [ ! -d ${OUTPUT_DIR} ] 
+then
+  echo "... OUTPUT_DIR ${OUTPUT_DIR} does not exist ... Aborting..."
+  exit 1
+fi
+
+# move to the working dir and run the memory profiler of igprof  
+cd ${OUTPUT_DIR}
+
+#-----------------------------------------------------------------------
+# bin and lib path for igprof, and lib64 path for igprof-analysis 
+#-----------------------------------------------------------------------
+
+module load gnu8/8.3.0
+
+G4P_IGPROF_DIR=/srv/software/profilers/igprof
+
+export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib
+
+# path for application
+source ${APPLICATION_DIR}/setenv_pbs.sh
+export PATH=${PATH}:${APPLICATION_DIR}/bin
+
+# physics list and PERFORMANCE flag
+export PHYSLIST=G4P_PHYSICS_LIST
+export PERFORMANCE=1
+
+#-----------------------------------------------------------------------
+# run igprof on application
+#-----------------------------------------------------------------------
+
+IG_OUT="${OUTPUT_DIR}/IgProf_G4P_SAMPLE_final.gz"
+IG_LOG="${OUTPUT_DIR}/IgProf_G4P_SAMPLE.log"
+
+TMP_IGPROF_DIR="/tmp/igprof"
+if [ -d ${TMP_IGPROF_DIR} ]; then
+   rm -rf ${TMP_IGPROF_DIR}
+fi
+mkdir ${TMP_IGPROF_DIR}
+
+TMP_IG_LOG="${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE.log"
+
+
+if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
+     x"${EXE_NAME}" = x"cmsExpMT" ]; then
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} 1 >& ${TMP_IG_LOG}
+elif [ x"${EXE_NAME}" = x"lArTest" ]; then
+  cp ${APPLICATION_DIR}/lArBox.gdml .
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} lArBox.gdml ${CFG_FILE} >& ${TMP_IG_LOG}
+else
+  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} >& ${TMP_IG_LOG}
+fi
+
+mv ${TMP_IG_LOG} ${IG_LOG}
+
+# run analyse of igprof
+
+# IGPROF_ANAL="igprof-analyse --sqlite -d -v -g -r"
+# nidx=G4P_IGPROF_NEVENT
+
+# if [ $? = 0 ]; then
+#
+#  for xmode in MEM_LIVE MEM_MAX MEM_TOTAL ; do
+#    At_Event_1=${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE_${xmode}_1.sql3
+#    At_Event_N=${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE_${xmode}_${nidx}.sql3
+#    At_Event_END=${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE_${xmode}_END.sql3
+#    DIFF_N_1=${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE_${xmode}_DIFF.sql3
+#    ${IGPROF_ANAL} ${xmode} IgProf.1.gz   | sqlite3 ${At_Event_1}
+#    ${IGPROF_ANAL} ${xmode} IgProf.${nidx}.gz | sqlite3 ${At_Event_N}
+#    ${IGPROF_ANAL} ${xmode} ${IG_OUT}     | sqlite3 ${At_Event_END}
+#    ${IGPROF_ANAL} ${xmode} -b IgProf.1.gz --diff-mode IgProf.${nidx}.gz |\
+#	sqlite3 ${DIFF_N_1} 
+#  done
+#  
+#  mv ${TMP_IGPROF_DIR}/*.sql3 ${OUTPUT_DIR}/.
+#  
+# fi
+
+#clean up
+# ---> rm -f IgProf*.gz
+rm -rf ${TMP_IGPROF_DIR}
+
+cd -
+#exit

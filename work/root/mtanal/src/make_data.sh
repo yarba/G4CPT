@@ -19,15 +19,22 @@ if [ x"${node}" = x"amd" ]; then
 #  nthreads="1 2 4 8 16 24"
 #  nthreads0="0 1 2 4 8 16 24"
 elif [ x"${node}" = x"intel" ]; then
-  nthreads="1 2 4 6 8 10 12"
-  nthreads0="0 1 2 4 6 8 10 12"
+#
+# --> Jan.2021 migration to WC-IC where nodes are 16-core instead of 12-core
+#
+  nthreads="1 2 4 6 8 10 12 14 16"
+  nthreads0="0 1 2 4 6 8 10 12 14 16"
 else
   echo "node = $NODE is not valid, should be [amd|intel]" ; exit 1
 fi
 
 # --> migrate -->  NO YET...
-log_dir=/g4/g4p/build/g4mt.${release}/cmsExpMT
+# --> migrate log_dir=/g4/g4p/build/g4mt.${release}/cmsExpMT
 # --> do NOT migrate yet --> log_dir=/lfstev/g4p/g4p/build/g4mt.${release}/cmsExpMT
+#
+# --> Jan.2021 migration to WC-IC
+#
+log_dir=/wclustre/g4p/g4p/pbs/mt_${release}_cmsExpMT
 
 if [ ! -d ${log_dir} ]; then
   echo "...The dir, ${log_dir} doesn't exist ..."; exit 1

@@ -176,10 +176,10 @@ read.one.runenv <- function(filename)
 ### Read a single names file; this is a helper for load.functions
 ### -------------------
 read.one.functionsfile <- function(filename)
-  {
+  {    
     expid <- extract.expid(filename)
     runid <- extract.runid(filename)
-    tmp <- read.table(filename, header=FALSE, stringsAsFactors=FALSE)
+    tmp <- read.table(filename, header=FALSE, stringsAsFactors=FALSE)    
     tmp$exp <- expid
     tmp$run <- runid
     ## The str_replace_all call removes the argument list from
@@ -193,7 +193,7 @@ read.one.functionsfile <- function(filename)
                , lib = tmp[,1]
                , mangled = tmp[,1]
                , name = tmp[,1]
-               , short = str_replace_all(tmp[,1], "\\([^)]*)( const)?", "")
+               , short = str_replace_all(tmp[,1], "\\([^)]*\\)( const)?", "")
                , stringsAsFactors = FALSE
                )
   }
@@ -204,7 +204,7 @@ read.one.functionsfile <- function(filename)
 read.one.callpathsfile <- function(filename)
   {
     expid <- extract.expid(filename)
-    runid <- extract.runid(filename)
+    runid <- extract.runid(filename)    
     tmp <- read.table(filename, header=FALSE, stringsAsFactors=FALSE)
     data.frame( exp = expid
                , run = runid
@@ -212,7 +212,7 @@ read.one.callpathsfile <- function(filename)
                , path.frac = tmp[,3]
                , mangled = tmp[,1]
                , name = tmp[,1]
-               , short = str_replace_all(tmp[,1], "\\([^)]*)( const)?", "")
+               , short = str_replace_all(tmp[,1], "\\([^)]*\\)( const)?", "")
                , stringsAsFactors = FALSE
                )
   }
@@ -234,7 +234,7 @@ read.one.hwcsampfile <- function(filename)
                , fp  = tmp[,6]
                , ld  = tmp[,7]
                , mangled = tmp[,1]
-               , short = str_replace_all(tmp[,1], "\\([^)]*)( const)?", "")
+               , short = str_replace_all(tmp[,1], "\\([^)]*\\)( const)?", "")
                , stringsAsFactors = FALSE
                )
   }

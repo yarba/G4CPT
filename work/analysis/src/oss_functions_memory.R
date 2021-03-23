@@ -1,4 +1,7 @@
-suppressPackageStartupMessages(source("analysis/src/oss_functions.R"))
+
+### suppressPackageStartupMessages(source("analysis/src/oss_functions.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "oss_functions.R" ) ))
 
 ### -------------------
 ### Read a single memory data file; this is a helper for load.memory.times

@@ -22,18 +22,21 @@ GEANT4_RELEASE=$3
 APPLICATION_NAME=$4
 
 DOWNLOAD_DIR="${PROJECT_DIR}/download"
-#COMPILER_DIR="/cvmfs/fermilab.opensciencegrid.org/products/larsoft/gcc/v6_3_0/Linux64bit+2.6-2.12"
-module load gcc/7.1.0
-COMPILER_DIR="/usr/local/gcc-7.1.0"
+
+#
+# --> Jan.2021 migration ot WC-IC
+#
+module load gnu8/8.3.0
+module load cmake/3.15.4
+
+COMPILER_DIR="/opt/ohpc/pub/compiler/gcc/8.3.0"
+
 CFG_DIR="${PWD}/../cfg"
 SRC_DIR="${PWD}"
 
 export CXX=${COMPILER_DIR}/bin/g++
 export CC=${COMPILER_DIR}/bin/gcc
 export LD_LIBRARY_PATH=${COMPILER_DIR}/lib:${COMPILER_DIR}/lib64:${LD_LIBRARY_PATH}
-#export PATH=/home/syjun/products.gpu/cmake-2.8.11.2/bin:${PATH}
-# --> migrate --> export PATH=/g4/g4p/products-gcc71/cmake-3.11.1/bin:${PATH}
-export PATH=/lfstev/g4p/g4p/products/cmake-3.11.1/bin:${PATH}
 
 unset BUILD_BASE ; unset APPLICATION_DIR
 GEANT4_BASE=${PROJECT_DIR}/build/g4.${GEANT4_RELEASE}
@@ -125,6 +128,7 @@ else
   pushd ${GEANT4_BASE}
 fi
 
+# --> FIXME !!! Migrate later !!!
 # root dependency for lArTest 
 if [ x"${APPLICATION_NAME}" = x"lArTest" -o \
      x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
@@ -141,7 +145,13 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    mkdir -p ${APPLICATION_NAME}/bin
    cd ${APPLICATION_NAME}/bin
 
-   XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+   # Q(JVY): is it even needed for building app ???
+   # --> migrate XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+   #
+   # --> Jn.2021 migration to WC-IC
+   #
+   XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
+   #
    export XERCESC_DIR
    export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
@@ -195,7 +205,12 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
     cd ${APPLICATION_NAME}/bin
 
   #build with IGPROF service and GDML
-  XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+  # Q(JVY): is it even needed for building app ?
+  # --> migrate XERCESC_DIR=/home/g4p/products/xerces-c-3.1.1
+  #
+  # --> Jan.2021 migration to WC-IC
+  #
+  XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
   export XERCESC_DIR
   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
@@ -340,10 +355,17 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
        # --> sed "s%./bin/cmsExpMT%${APPLICATION_DIR}/bin/cmsExpMT%" $CFG_DIR/template.oss_mt > ${APPLICATION_RUN}/template.oss_cmsExpMT
        # this is more generic as it'll replace both cmsExp and cmsExpMT
        sed "s%./bin/cmsExp%${APPLICATION_DIR}/bin/cmsExp%" $CFG_DIR/template.oss_mt > ${APPLICATION_RUN}/template.oss_cmsExpMT
+# --> these resources no longer       sed "s%G4P_CMSEXPMT_DIR%${APPLICATION_RUN}%" \
+#         $CFG_DIR/template.submit_mt_amd > ${APPLICATION_RUN}/submit_amd.sh
+       #
+       # NOTE(JVY): maybe make it input argument defined in g4p.init...
+       #
+       G4PMT_OUTPUT=/wclustre/g4p/g4p/pbs/mt_${GEANT4_RELEASE}_${APPLICATION_NAME} 
+       echo " G4PMT_OUTPUT = ${G4PMT_OUTPUT} "      
+       echo " CFG_DIR = ${CFG_DIR} "
        sed "s%G4P_CMSEXPMT_DIR%${APPLICATION_RUN}%" \
-         $CFG_DIR/template.submit_mt_amd > ${APPLICATION_RUN}/submit_amd.sh
-       sed "s%G4P_CMSEXPMT_DIR%${APPLICATION_RUN}%" \
-         $CFG_DIR/template.submit_mt_intel > ${APPLICATION_RUN}/submit_intel.sh
+         ${CFG_DIR}/template.submit_mt_intel > ${APPLICATION_RUN}/submit_intel.sh
+       sed -i "s%G4P_CMSEXPMT_OUT%${G4PMT_OUTPUT}%" ${APPLICATION_RUN}/submit_intel.sh
     fi      
   fi
 

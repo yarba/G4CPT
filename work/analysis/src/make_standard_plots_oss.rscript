@@ -1,5 +1,5 @@
-#!/home/g4p/products/R-3.1.2/bin/Rscript
-#####!/usr/bin/env Rscript
+#!/usr/bin/env Rscript
+####!/home/g4p/products/R-3.1.2/bin/Rscript
 
 ###
 ### This R script makes g4profiling standard plots assuming make_dataframes.rscript was run
@@ -18,13 +18,16 @@ args <- commandArgs(TRUE)
 ### -->if (length(args) != 2) stop("You must supply the name of a directory to process")
 if (length(args) < 2) stop("You must supply at least the name of a directory to process and the number of events")
 
-##myBigFunction<-function(thedir) {
+### myBigFunction<-function(thedir) {
 dirname <- args[[1]]
 NUMBER_OF_EVENTS <- as.numeric(args[[2]])
-#dirname <- getwd()
+### dirname <- getwd()
 
-suppressPackageStartupMessages(source("analysis/src/oss_plots.R"))
-suppressPackageStartupMessages(source("analysis/src/plots_memory.R"))
+### suppressPackageStartupMessages(source("analysis/src/oss_plots.R"))
+### suppressPackageStartupMessages(source("analysis/src/plots_memory.R"))
+src_dir <- Sys.getenv( "SRC_DIR" )
+suppressPackageStartupMessages(source( file.path( src_dir, "oss_plots.R" ) ))
+suppressPackageStartupMessages(source( file.path( src_dir, "plots_memory.R" ) ))
 
 load(file.path(dirname,"trials.rda"))
 load(file.path(dirname,"events.rda"))
@@ -33,7 +36,17 @@ load(file.path(dirname,"runmemory.rda"))
 load(file.path(dirname,"libraries.rda"))
 load(file.path(dirname,"functions.rda"))
 load(file.path(dirname,"callpaths.rda"))
-### --> load(file.path(dirname,"hwcsamp.rda"))
+###
+### This will be done later
+###
+###if ( file.exists( file.path(dirname,"hwcsamp.rda") ) )
+### {
+###   load(file.path(dirname,"hwcsamp.rda"))
+### } else
+### {
+###    print( "... File hwcsamp.rda is NOT fount at ..." )
+###    print( dirname )
+### }
 
 generate.png <- function(plot, filename) {
   png(filename,width = 1400, height = 400, units = "px")
@@ -151,12 +164,14 @@ function.paths.frac.df <- function( minfrac = 0.001, ...)  {
 }
 
 # hwcsamp: cpi and etc., if requested
-# more than one input argument;
-# check if the 2nd one is "nohwcsamp"
-if ( length(args) > 2 )
+# more than two input argument;
+# check if the 3rd one is "nohwcsamp"
+if ( length(args) == 2 | ( length(args) > 2 && sapply(args[3],tolower) != "nohwcsamp" ) )
 {
-if ( sapply(args[[3]],tolower) != "nohwcsamp" )
+print("... PROCESSING HWCSAMP ..." )
+if ( file.exists( file.path(dirname,"hwcsamp.rda") ) )
 {
+print( "... FILE hwcsamp.rda exists, load it and process ..." )
 load(file.path(dirname,"hwcsamp.rda"))
 big.hwcsamp.count.df <- function( minmed = 0.01, ...)  {
   bighwcsamp <- subset(hwcsamp, ptime > minmed)
@@ -168,8 +183,13 @@ big.hwcsamp.count.df <- function( minmed = 0.01, ...)  {
   bighwcsampsf <- merge(alv,alm)
   orderBy(~-CPU,data=bighwcsampsf)  
 }
-} # end if - checking hwcsamp key
-} # end if - checking if 3rd input arg is provided (hwcsamp key)
+} else
+{
+   print( "... File hwcsamp.rda is NOT fount at ..." )
+   print( dirname )
+   print( "... Can NOT process HWCSAMP ..." ) 
+} ### end checking on existing file hwcsamp.rda
+} ### end if - checking if 3rd input arg is provided (hwcsamp key)
 
 #print(sprintf("%s created test",fname))
 
@@ -206,15 +226,12 @@ fname=file.path(dirname,"prof_big_libraries_count_list_01.html")
 generate.html(big.libraries.count.df(minmed = 1),fname)
 print(sprintf("%s created",fname))
 
-#hwcsamp html, if requested
-if ( length(args) > 2 )
-{
-if ( sapply(args[[3]],tolower) != "nohwcsamp" )
+### hwcsamp html, if requested
+if ( length(args) == 2 | ( length(args) > 2 && sapply(args[3],tolower) != "nohwcsamp" ) )
 {
 fname=file.path(dirname,"prof_big_hwcsamp_count_list_01.html")
 generate.html(big.hwcsamp.count.df(minmed = 0.01),fname)
 print(sprintf("%s created",fname))
-}
 }
 
 #add memory information (vsize,rss,share)
