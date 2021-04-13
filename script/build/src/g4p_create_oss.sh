@@ -310,6 +310,21 @@ for tool in osspcsamp ossusertime osshwcsamp igprof ; do
   fi
 done
 
-chmod -R g+w ${BLUEARC_DIR}/pbs
+# create additional submit/run/analysis scripts for igprof
+#
+sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wcic_run_igprof_batch > tmp_run_igprof_batch.sh
+chmod +x tmp_run_igprof_batch.sh
+mv tmp_run_igprof_batch.sh ${exp_dir}/run_igprof_batch.sh
+sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wcic_submit_igprof_to_batch > tmp_submit_igprof_to_batch.sh
+chmod +x tmp_submit_igprof_to_batch.sh
+mv tmp_submit_igprof_to_batch.sh ${exp_dir}/submit_igprof_to_batch.sh
+sed "s%G4P_EXP_DIR%${exp_dir}%" ${cfg_dir}/template.wcic_analyze_all_igprof > tmp_analyze_all_igprof.sh
+# --> no need --> chmod +x tmp_analyze_all_igprof.sh
+mv tmp_analyze_all_igprof.sh ${exp_dir}/analyze_all_igprof.sh
 
+# echo "changing permission for ${BLUEARC_DIR}/pbs "
+# --> chmod -R g+w ${BLUEARC_DIR}/pbs
+
+echo "changing permission for ${exp_dir} "
+chmod -R g+w ${exp_dir}
 

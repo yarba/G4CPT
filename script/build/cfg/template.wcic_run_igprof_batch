@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+cd G4P_EXP_DIR
+
+EXE=G4P_EXP_DIR/submit_all_igprof.sh
+
+echo " EXE = ${EXE} "
+
+LOG=G4P_EXP_DIR/submit_all_igprof.log
+
+echo " LOG = ${LOG} "
+
+echo " Starting ${EXE} at `date` "
+
+source ${EXE} >& ${LOG}
+
+echo " Finishing ${EXE} at `date` "

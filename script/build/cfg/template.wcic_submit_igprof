@@ -21,19 +21,23 @@ for sample_dir in ${sample_list} ; do
   echo "... Processing ... ${sample_dir} ..."
   source ${tool_dir}/${sample_dir}/run_igprof.sh
 
+# TMP comment out this check 
+# since we're not doing igprof-analyse
+# so the number of outpt files is different
+#
   #check any failure and try again (just once)
-  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
-  if [ x${nfile} != x"18" ]; then
-    echo "... Resubmit ... ${sample_dir} ..."
-    source ${tool_dir}/${sample_dir}/run_igprof.sh
-  fi
+#  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
+#  if [ x${nfile} != x"18" ]; then
+#    echo "... Resubmit ... ${sample_dir} ..."
+#    source ${tool_dir}/${sample_dir}/run_igprof.sh
+#  fi
 
   #final check (only for status)
-  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
-  if [ x${nfile} != x"18" ]; then
-    echo "... Failed Twice: check for a real error ... ${sample_dir} ..."
-    nfailed=`expr ${nfailed} + 1`
-  fi
+#  nfile=`ls ${tool_dir}/${sample_dir} | wc |awk '{print $1}'`
+#  if [ x${nfile} != x"18" ]; then
+#    echo "... Failed Twice: check for a real error ... ${sample_dir} ..."
+#    nfailed=`expr ${nfailed} + 1`
+#  fi
 done
 
 #clean up everything on the ram disk before exit

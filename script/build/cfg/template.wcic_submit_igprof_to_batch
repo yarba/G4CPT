@@ -1,0 +1,12 @@
+#!/bin/sh
+
+PATH=${PATH}:/usr/bin
+export PATH
+
+Script=G4P_EXP_DIR/run_igprof_batch.sh
+
+echo " Script = ${Script} "
+
+echo " Staring ${Script} at `date` "
+
+sbatch -N 1 -n 1 -c 1 -p cpu_gce --nodelist=wcwn089 --exclusive --qos=regular  --time=23:00:00 -A g4p $Script

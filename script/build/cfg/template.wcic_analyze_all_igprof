@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+module load gnu8/8.3.0
+
+G4P_IGPROF_DIR=/srv/software/profilers/igprof
+export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
+
+tool_dir=G4P_EXP_DIR/igprof
+sample_list=`ls -l ${tool_dir} | awk '{print $9}'` 
+
+IGPROF_ANAL="igprof-analyse --sqlite -d -v -g -r"
+
+for sample in ${sample_list}; do
+
+   nidx=`grep nidx ${tool_dir}/${sample}/run_igprof.sh  | grep -v "{" | awk -F "=" '{print $NF}'`
+
+   IG_OUT="${tool_dir}/${sample}/IgProf_${sample}_final.gz"
+
+   for xmode in MEM_LIVE MEM_MAX MEM_TOTAL ; do
+      At_Event_1=${tool_dir}/${sample}/IgProf_${sample}_${xmode}_1.sql3
+      At_Event_N=${tool_dir}/${sample}/IgProf_${sample}_${xmode}_${nidx}.sql3
+      At_Event_END=${tool_dir}/${sample}/IgProf_${sample}_${xmode}_END.sql3
+      DIFF_N_1=${tool_dir}/${sample}/IgProf_${sample}_${xmode}_DIFF.sql3
+      ${IGPROF_ANAL} ${xmode} ${tool_dir}/${sample}/IgProf.1.gz   | sqlite3 ${At_Event_1}
+      ${IGPROF_ANAL} ${xmode} ${tool_dir}/${sample}/IgProf.${nidx}.gz | sqlite3 ${At_Event_N}
+      ${IGPROF_ANAL} ${xmode} ${IG_OUT}     | sqlite3 ${At_Event_END}
+# -->        ${IGPROF_ANAL} ${xmode} -b ${tool_dir}/${sample}/IgProf.1.gz --diff-mode ${tool_dir}/${sample}/IgProf.${nidx}.gz | sqlite3 ${DIFF_N_1} 
+   done
+    
+done

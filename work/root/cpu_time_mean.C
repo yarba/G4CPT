@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <iomanip>
 
@@ -8,60 +9,11 @@ int cpu_time_mean()
 
    // read performance data
 
-//   const int ns = 48;
-   // const int ns = 4;
-   const int ns = 52; // 48 "original"
+   const int ns = 53; // 48 "original"
                       // + added gamma 250MeV & 1GeV with Auger ON/OFF
-		      // NOT YET: + added higgs+0-field
-
+		      // + added higgs+0-field
 
 /*
-   const int nb = 16;
-
-   char *release[nb] = {"10.2.p03static",
-                        "10.3.p03static",
-			//			"10.4.p02rrr",
-			"10.4.p03static",
-//			"10.5.p01",
-			"10.5.p01static",
-			"10.5.r02static",
-			"10.5.r03rr",
-			"10.5.r04rrr",
-			"10.5.r05",
-			"10.5.r06rr",
-			"10.5.r07rr",
-			"10.5.r08rr",
-			"10.5.r09rr",
-			"10.5.r10",
-			"10.6.c00",
-			"10.6.c01",
-			"10.6"
-   }; // internal name used for profiling jobs
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			//			"10.4.p02",
-			"10.4.p03", 
-//			"10.5.p01",
-			"10.5.p01", //  static",
-			"10.5.r02",
-			"10.5.r03",
-			"10.5.r04", // --> rrr",
-			"10.5.r05",
-			"10.5.r06", // --> rr",
-			"10.5.r07",
-			"10.5.r08",
-			"10.5.r09",
-			"10.5.r10",
-			"10.6.c00",
-			"10.6.c01",
-			"10.6"
-   }; // legend for plots
-
-//   const int iref = 2; //reference 10.4.p03
-   const int iref = 3; //reference 10.5.p01 (static,rerun)
-*/
-
    const int nb = 21;
 
    char *release[nb] = {"10.2.p03static",
@@ -114,7 +66,32 @@ int cpu_time_mean()
 			"10.7"
    }; // legend for plots
 
-   const int iref = 4; //reference 10.6
+*/
+
+   const int nb = 7;
+
+   std::string release[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7",
+			"10.7.p01",
+			"10.7.r01",
+			"10.7.r02",
+			"10.7.r03"
+   }; // internal name used for profiling jobs
+
+   std::string version[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7rr",
+			"10.7.p01",
+			"10.7.r01",
+			"10.7.r02",
+			"10.7.r03"
+   }; // legend for plots
+
+
+   const int iref = 2; //reference 10.7
 
 
 
@@ -123,7 +100,8 @@ int cpu_time_mean()
 
    for(int i = 0 ; i < nb ; i++) {
 // --> migrate     sprintf(cfilename,"/g4/g4p/work/root/sprof/cpu_summary_%s_SimplifiedCalo.data",release[i]);  
-     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_SimplifiedCalo.data",release[i]);  
+// --> migrate again -->      sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_SimplifiedCalo.data",release[i]);  
+     sprintf(cfilename,"/work1/g4p/g4p/G4CPT/work/root/sprof/cpu_summary_%s_SimplifiedCalo.data",release[i].c_str());  
      cfile[i] = fopen(cfilename,"r");
    }
 
@@ -203,7 +181,8 @@ int cpu_time_mean()
    for(int i = 0 ; i < nb ; i++) 
    {
 
-     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);       
+     // --> migrate (again) --> sprintf(cfilename,"/lfstev/g4p/g4p/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i]);       
+     sprintf(cfilename,"/work1/g4p/g4p/G4CPT/work/root/sprof/cpu_summary_%s_cmsExp.data",release[i].c_str());       
      cfile[i] = fopen(cfilename,"r");
 
      fscanf(cfile[i],"%f %f %s %s", &mcputime, &ecputime, sample, processor);
@@ -327,11 +306,12 @@ int cpu_time_mean()
      }
      hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,hmin[i],hmax[i]);
 
-     hhf[i]->SetBit(TH1::kCanRebin);   
+     // hhf[i]->SetBit(TH1::kCanRebin);   
+     hhf[i]->SetCanExtend(true);   
      
      for(int j = 1 ; j <= nb ; j++) {
        //       hhf[i]->GetXaxis()->SetBinLabel(j,release[j-1]);
-       hhf[i]->GetXaxis()->SetBinLabel(j,version[j-1]);
+       hhf[i]->GetXaxis()->SetBinLabel(j,version[j-1].c_str());
      }
      
      hhf[i]->GetYaxis()->SetTitleSize(0.05);
@@ -353,21 +333,27 @@ int cpu_time_mean()
      hgr1[i]->Draw("P");
      
      lg1[i] = new TLegend(0.18,0.78,0.72,0.88);
-     lg1[i]->AddEntry(hgr1[i],"AMD Opteron 6128 HE @2.00 GHz","PL");
+     // --> lg1[i]->AddEntry(hgr1[i],"AMD Opteron 6128 HE @2.00 GHz","PL");
+     lg1[i]->AddEntry(hgr1[i],"Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz","PL");
      lg1[i]->Draw();
      
      if ( i == ns )
      {
-        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());     
+        // --> sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());     
+        sprintf(pstitle,"/work1/g4p/g4p/webpages/g4p/summary/sprof/cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());     
 // -->        sprintf(pstitle,"cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());
      }
      else
      {
-        sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_%s.png",(sample_id[i]).c_str());
+        // --> sprintf(pstitle,"/home/g4p/webpages/g4p/summary/sprof/cpu_time_%s.png",(sample_id[i]).c_str());
+        sprintf(pstitle,"/work1/g4p/g4p/webpages/g4p/summary/sprof/cpu_time_%s.png",(sample_id[i]).c_str());
 // -->        sprintf(pstitle,"cpu_time_%s.png",(sample_id[i]).c_str());
      }
      cv[i]->Update(); 
      cv[i]->Print(pstitle); 
    }
+
+   return 0;
+
 }
 

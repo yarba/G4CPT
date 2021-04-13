@@ -153,7 +153,7 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
    #
    export XERCESC_DIR
-   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
+   export LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
    unset env_sh;
 

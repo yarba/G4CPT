@@ -59,11 +59,11 @@ if [ x"$confirm" = x"yes" ]; then
     cp -r ${G4P_CGI_DIR} ${OINK_CGI_DIR}
     echo " copy dir ${G4P_WEB_DIR} to ${OINK_WEB_DIR} "
     cp -r ${G4P_WEB_DIR} ${OINK_WEB_DIR}
-    echo "... Hold on copying summary plots ... "
-#    echo " copy all PNG from ${G4P_SPROF_DIR} to ${OINK_SPROF_DIR} "
-#    cp ${G4P_SPROF_DIR}/*.png ${OINK_SPROF_DIR}
-#    echo " copy all PNG from ${G4P_IGPROF_DIR} to ${OINK_IGPROF_DIR} "
-#    cp ${G4P_IGPROF_DIR}/*.png ${OINK_IGPROF_DIR}
+# -->    echo "... Hold on copying summary plots ... "
+    echo " copy all PNG from ${G4P_SPROF_DIR} to ${OINK_SPROF_DIR} "
+    cp ${G4P_SPROF_DIR}/*.png ${OINK_SPROF_DIR}
+    echo " copy all PNG from ${G4P_IGPROF_DIR} to ${OINK_IGPROF_DIR} "
+    cp ${G4P_IGPROF_DIR}/*.png ${OINK_IGPROF_DIR}
 else
     echo "... Copying to /web/sites/g4cpt.fnal.gov is cancelled ... "
     exit 1

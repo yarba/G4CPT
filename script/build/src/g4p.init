@@ -14,7 +14,7 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=10.7.r02a
+G4P_GEANT4_RELEASE=10.7.r03
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
