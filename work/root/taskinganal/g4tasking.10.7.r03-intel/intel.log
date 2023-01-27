@@ -1,0 +1,973 @@
+ sprof_dir = /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel 
+... make plots by throughput_cmsExpTasking_pi_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("throughput_cmsExpTasking_pi_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("throughput_cmsExpTasking_pi_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_pi_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_pi_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core Total CPU and RMS 0 6.4484 0
+i-core Total CPU and RMS 1 5.7794 0
+i-core Total CPU and RMS 2 11.6752 1.68587e-07
+i-core Total CPU and RMS 4 23.0239 0
+i-core Total CPU and RMS 6 34.1197 0
+i-core Total CPU and RMS 8 43.7378 0.000204244
+i-core Total CPU and RMS 10 55.9843 0.00324042
+i-core Total CPU and RMS 12 65.2733 0.00471175
+i-core Total CPU and RMS 14 76.9597 0.00680413
+i-core Total CPU and RMS 16 89.8761 0.00822203
+Info in <TCanvas::Print>: png file throughput_cmsExpTasking_pi_E5.png has been created
+(int) 0
+... make plots by throughput_cmsExpTasking_pi_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("throughput_cmsExpTasking_pi_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("throughput_cmsExpTasking_pi_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_pi_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_pi_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core Total CPU and RMS 0 0.804825 0
+i-core Total CPU and RMS 1 0.809276 0
+i-core Total CPU and RMS 2 1.5687 2.98023e-08
+i-core Total CPU and RMS 4 3.16231 0
+i-core Total CPU and RMS 6 4.6366 1.69113e-06
+i-core Total CPU and RMS 8 6.11455 3.40517e-05
+i-core Total CPU and RMS 10 7.54031 7.466e-05
+i-core Total CPU and RMS 12 8.99656 2.92002e-07
+i-core Total CPU and RMS 14 10.7456 0.000114502
+i-core Total CPU and RMS 16 12.6641 0.000153212
+Info in <TCanvas::Print>: png file throughput_cmsExpTasking_pi_E50.png has been created
+(int) 0
+... make plots by throughput_cmsExpTasking_elec_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("throughput_cmsExpTasking_elec_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("throughput_cmsExpTasking_elec_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_elec_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_elec_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core Total CPU and RMS 0 6.59513 0
+i-core Total CPU and RMS 1 6.33056 0
+i-core Total CPU and RMS 2 12.7377 0
+i-core Total CPU and RMS 4 25.0292 0
+i-core Total CPU and RMS 6 36.1036 4.76837e-07
+i-core Total CPU and RMS 8 48.1451 0.00177076
+i-core Total CPU and RMS 10 57.6495 0.00283593
+i-core Total CPU and RMS 12 72.7688 0.00553259
+i-core Total CPU and RMS 14 82.4352 0.00530318
+i-core Total CPU and RMS 16 100.568 0.0106725
+Info in <TCanvas::Print>: png file throughput_cmsExpTasking_elec_E5.png has been created
+(int) 0
+... make plots by throughput_cmsExpTasking_elec_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("throughput_cmsExpTasking_elec_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("throughput_cmsExpTasking_elec_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_elec_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/throughput_cmsExpTasking_elec_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core Total CPU and RMS 0 0.818788 0
+i-core Total CPU and RMS 1 0.81448 0
+i-core Total CPU and RMS 2 1.60106 0
+i-core Total CPU and RMS 4 3.15187 0
+i-core Total CPU and RMS 6 4.72697 1.6049e-06
+i-core Total CPU and RMS 8 6.20901 2.7044e-05
+i-core Total CPU and RMS 10 7.71094 8.45376e-05
+i-core Total CPU and RMS 12 9.1978 9.26339e-05
+i-core Total CPU and RMS 14 10.8076 0.000133068
+i-core Total CPU and RMS 16 13.0954 0.00016153
+Info in <TCanvas::Print>: png file throughput_cmsExpTasking_elec_E50.png has been created
+(int) 0
+... make plots by cpu_cores_cmsExpTasking_pi_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("cpu_cores_cmsExpTasking_pi_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("cpu_cores_cmsExpTasking_pi_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_pi_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_pi_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+pi E5 i-core Mean CPU and RMS 0 0.15511 0.0473374
+pi E5 i-core Mean CPU and RMS 1 0.17298 0.0519984
+pi E5 i-core Mean CPU and RMS 2 0.170132 0.0519385
+pi E5 i-core Mean CPU and RMS 4 0.169476 0.0513731
+pi E5 i-core Mean CPU and RMS 6 0.169169 0.0518352
+pi E5 i-core Mean CPU and RMS 8 0.171392 0.0550459
+pi E5 i-core Mean CPU and RMS 10 0.167371 0.0529398
+pi E5 i-core Mean CPU and RMS 12 0.17263 0.0542024
+pi E5 i-core Mean CPU and RMS 14 0.1729 0.055216
+pi E5 i-core Mean CPU and RMS 16 0.173334 0.0551554
+Using serial Mean CPU and RMS 0.15511 0.0473374
+Info in <TCanvas::Print>: png file cpu_cores_cmsExpTasking_pi_E5.png has been created
+(int) 0
+... make plots by cpu_cores_cmsExpTasking_pi_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("cpu_cores_cmsExpTasking_pi_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("cpu_cores_cmsExpTasking_pi_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_pi_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_pi_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+pi E50 i-core Mean CPU and RMS 0 1.24231 0.225152
+pi E50 i-core Mean CPU and RMS 1 1.23561 0.23187
+pi E50 i-core Mean CPU and RMS 2 1.2622 0.233829
+pi E50 i-core Mean CPU and RMS 4 1.24898 0.227476
+pi E50 i-core Mean CPU and RMS 6 1.24689 0.230007
+pi E50 i-core Mean CPU and RMS 8 1.24132 0.229823
+pi E50 i-core Mean CPU and RMS 10 1.23848 0.22973
+pi E50 i-core Mean CPU and RMS 12 1.24845 0.230529
+pi E50 i-core Mean CPU and RMS 14 1.23687 0.225935
+pi E50 i-core Mean CPU and RMS 16 1.23731 0.233226
+Using serial Mean CPU and RMS 1.24231 0.225152
+Info in <TCanvas::Print>: png file cpu_cores_cmsExpTasking_pi_E50.png has been created
+(int) 0
+... make plots by cpu_cores_cmsExpTasking_elec_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("cpu_cores_cmsExpTasking_elec_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("cpu_cores_cmsExpTasking_elec_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_elec_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_elec_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+elec E5 i-core Mean CPU and RMS 0 0.151584 0.0185086
+elec E5 i-core Mean CPU and RMS 1 0.157935 0.0188364
+elec E5 i-core Mean CPU and RMS 2 0.156407 0.0195253
+elec E5 i-core Mean CPU and RMS 4 0.158539 0.0194214
+elec E5 i-core Mean CPU and RMS 6 0.159508 0.0194348
+elec E5 i-core Mean CPU and RMS 8 0.15761 0.0190935
+elec E5 i-core Mean CPU and RMS 10 0.161225 0.0195894
+elec E5 i-core Mean CPU and RMS 12 0.154672 0.0188293
+elec E5 i-core Mean CPU and RMS 14 0.161893 0.0195186
+elec E5 i-core Mean CPU and RMS 16 0.156925 0.01941
+Using serial Mean CPU and RMS 0.151584 0.0185086
+Info in <TCanvas::Print>: png file cpu_cores_cmsExpTasking_elec_E5.png has been created
+(int) 0
+... make plots by cpu_cores_cmsExpTasking_elec_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("cpu_cores_cmsExpTasking_elec_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("cpu_cores_cmsExpTasking_elec_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_elec_E50.C:16:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/cpu_cores_cmsExpTasking_elec_E50.C:16:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+elec E50 i-core Mean CPU and RMS 0 1.22121 0.0748602
+elec E50 i-core Mean CPU and RMS 1 1.2279 0.0795611
+elec E50 i-core Mean CPU and RMS 2 1.24796 0.0775023
+elec E50 i-core Mean CPU and RMS 4 1.2566 0.0769958
+elec E50 i-core Mean CPU and RMS 6 1.22483 0.0718006
+elec E50 i-core Mean CPU and RMS 8 1.22126 0.0726281
+elec E50 i-core Mean CPU and RMS 10 1.21275 0.0717451
+elec E50 i-core Mean CPU and RMS 12 1.2222 0.0729968
+elec E50 i-core Mean CPU and RMS 14 1.23896 0.0730332
+elec E50 i-core Mean CPU and RMS 16 1.20965 0.0720644
+Using serial Mean CPU and RMS 1.22121 0.0748602
+Info in <TCanvas::Print>: png file cpu_cores_cmsExpTasking_elec_E50.png has been created
+(int) 0
+... make plots by scaling_cmsExpTasking_pi_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("scaling_cmsExpTasking_pi_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("scaling_cmsExpTasking_pi_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+Error in <TApplication::ExecuteFile>: macro /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/scaling_cmsExpTasking_pi_E5.C not found in path .:/cvmfs/larsoft.opensciencegrid.org/products/root/v6_18_04d/Linux64bit+3.10-2.17-e19-prof/macros
+... make plots by scaling_cmsExpTasking_pi_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("scaling_cmsExpTasking_pi_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("scaling_cmsExpTasking_pi_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+Error in <TApplication::ExecuteFile>: macro /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/scaling_cmsExpTasking_pi_E50.C not found in path .:/cvmfs/larsoft.opensciencegrid.org/products/root/v6_18_04d/Linux64bit+3.10-2.17-e19-prof/macros
+... make plots by scaling_cmsExpTasking_elec_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("scaling_cmsExpTasking_elec_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("scaling_cmsExpTasking_elec_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+Error in <TApplication::ExecuteFile>: macro /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/scaling_cmsExpTasking_elec_E5.C not found in path .:/cvmfs/larsoft.opensciencegrid.org/products/root/v6_18_04d/Linux64bit+3.10-2.17-e19-prof/macros
+... make plots by scaling_cmsExpTasking_elec_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("scaling_cmsExpTasking_elec_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("scaling_cmsExpTasking_elec_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+Error in <TApplication::ExecuteFile>: macro /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/scaling_cmsExpTasking_elec_E50.C not found in path .:/cvmfs/larsoft.opensciencegrid.org/products/root/v6_18_04d/Linux64bit+3.10-2.17-e19-prof/macros
+... make plots by meminfo_cmsExpTasking_pi_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("meminfo_cmsExpTasking_pi_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("meminfo_cmsExpTasking_pi_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_pi_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_pi_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 367.499 231.918
+i-core VSIZE and RSS 1 437.555 282.281
+i-core VSIZE and RSS 2 509.555 334.993
+i-core VSIZE and RSS 4 653.75 440.63
+i-core VSIZE and RSS 6 797.883 557.182
+i-core VSIZE and RSS 8 941.895 667.067
+i-core VSIZE and RSS 10 1086.16 756.783
+i-core VSIZE and RSS 12 1230.17 885.639
+i-core VSIZE and RSS 14 1374.18 968.02
+i-core VSIZE and RSS 16 1518.19 1075.03
+Info in <TCanvas::Print>: png file meminfo_cmsExpTasking_pi_E5.png has been created
+(int) 0
+... make plots by meminfo_cmsExpTasking_pi_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("meminfo_cmsExpTasking_pi_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("meminfo_cmsExpTasking_pi_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_pi_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_pi_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 368.953 233.446
+i-core VSIZE and RSS 1 437.551 283.893
+i-core VSIZE and RSS 2 509.555 341.779
+i-core VSIZE and RSS 4 653.746 445.37
+i-core VSIZE and RSS 6 797.883 564.438
+i-core VSIZE and RSS 8 941.895 660.116
+i-core VSIZE and RSS 10 1086.16 767.462
+i-core VSIZE and RSS 12 1230.17 875.005
+i-core VSIZE and RSS 14 1374.18 982.847
+i-core VSIZE and RSS 16 1518.19 1116.03
+Info in <TCanvas::Print>: png file meminfo_cmsExpTasking_pi_E50.png has been created
+(int) 0
+... make plots by meminfo_cmsExpTasking_elec_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("meminfo_cmsExpTasking_elec_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("meminfo_cmsExpTasking_elec_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_elec_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_elec_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 365.849 230.251
+i-core VSIZE and RSS 1 437.551 280.492
+i-core VSIZE and RSS 2 509.559 331.702
+i-core VSIZE and RSS 4 653.75 434.399
+i-core VSIZE and RSS 6 797.887 536.832
+i-core VSIZE and RSS 8 941.895 639.446
+i-core VSIZE and RSS 10 1086.16 741.928
+i-core VSIZE and RSS 12 1230.17 844.904
+i-core VSIZE and RSS 14 1374.18 947.129
+i-core VSIZE and RSS 16 1518.18 1051.52
+Info in <TCanvas::Print>: png file meminfo_cmsExpTasking_elec_E5.png has been created
+(int) 0
+... make plots by meminfo_cmsExpTasking_elec_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("meminfo_cmsExpTasking_elec_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("meminfo_cmsExpTasking_elec_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_elec_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/meminfo_cmsExpTasking_elec_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 366.633 231.195
+i-core VSIZE and RSS 1 437.551 281.345
+i-core VSIZE and RSS 2 509.555 333.335
+i-core VSIZE and RSS 4 653.746 437.334
+i-core VSIZE and RSS 6 797.887 540.758
+i-core VSIZE and RSS 8 941.898 644.946
+i-core VSIZE and RSS 10 1086.16 748.929
+i-core VSIZE and RSS 12 1230.17 853.055
+i-core VSIZE and RSS 14 1374.18 957.049
+i-core VSIZE and RSS 16 1518.19 1062.63
+Info in <TCanvas::Print>: png file meminfo_cmsExpTasking_elec_E50.png has been created
+(int) 0
+... make plots by memeff_cmsExpTasking_pi_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("memeff_cmsExpTasking_pi_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("memeff_cmsExpTasking_pi_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_pi_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_pi_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 367.499 231.918
+i-core VSIZE and RSS 1 437.555 282.281
+i-core VSIZE and RSS 2 509.555 334.993
+i-core VSIZE and RSS 4 653.75 440.63
+i-core VSIZE and RSS 6 797.883 557.182
+i-core VSIZE and RSS 8 941.895 667.067
+i-core VSIZE and RSS 10 1086.16 756.783
+i-core VSIZE and RSS 12 1230.17 885.639
+i-core VSIZE and RSS 14 1374.18 968.02
+i-core VSIZE and RSS 16 1518.19 1075.03
+Info in <TCanvas::Print>: png file memeff_cmsExpTasking_pi_E5.png has been created
+(int) 0
+... make plots by memeff_cmsExpTasking_pi_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("memeff_cmsExpTasking_pi_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("memeff_cmsExpTasking_pi_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_pi_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_pi_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 368.953 233.446
+i-core VSIZE and RSS 1 437.551 283.893
+i-core VSIZE and RSS 2 509.555 341.779
+i-core VSIZE and RSS 4 653.746 445.37
+i-core VSIZE and RSS 6 797.883 564.438
+i-core VSIZE and RSS 8 941.895 660.116
+i-core VSIZE and RSS 10 1086.16 767.462
+i-core VSIZE and RSS 12 1230.17 875.005
+i-core VSIZE and RSS 14 1374.18 982.847
+i-core VSIZE and RSS 16 1518.19 1116.03
+Info in <TCanvas::Print>: png file memeff_cmsExpTasking_pi_E50.png has been created
+(int) 0
+... make plots by memeff_cmsExpTasking_elec_E5 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("memeff_cmsExpTasking_elec_E5")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("memeff_cmsExpTasking_elec_E5") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_elec_E5.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_elec_E5.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 365.849 230.251
+i-core VSIZE and RSS 1 437.551 280.492
+i-core VSIZE and RSS 2 509.559 331.702
+i-core VSIZE and RSS 4 653.75 434.399
+i-core VSIZE and RSS 6 797.887 536.832
+i-core VSIZE and RSS 8 941.895 639.446
+i-core VSIZE and RSS 10 1086.16 741.928
+i-core VSIZE and RSS 12 1230.17 844.904
+i-core VSIZE and RSS 14 1374.18 947.129
+i-core VSIZE and RSS 16 1518.18 1051.52
+Info in <TCanvas::Print>: png file memeff_cmsExpTasking_elec_E5.png has been created
+(int) 0
+... make plots by memeff_cmsExpTasking_elec_E50 ...
+   ------------------------------------------------------------
+  | Welcome to ROOT 6.18/04                  https://root.cern |
+  |                               (c) 1995-2019, The ROOT Team |
+  | Built for linuxx8664gcc on Sep 11 2019, 15:38:23           |
+  | From tags/v6-18-04@v6-18-04                                |
+  | Try '.help', '.demo', '.license', '.credits', '.quit'/'.q' |
+   ------------------------------------------------------------
+
+
+Processing /work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/make_plots.C("memeff_cmsExpTasking_elec_E50")...
+input_line_9:2:13: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+ make_plots("memeff_cmsExpTasking_elec_E50") /* invoking function corresponding to '.x' */
+            ^
+In file included from input_line_10:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:448:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH1F* h1, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:43: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                          ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:62: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                             ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/MyPad.C:470:81: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+void setHistogram(TH2F* h2, char* title = "", char* xtitle = "", char* ytitle = "")
+                                                                                ^
+In file included from input_line_14:1:
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_elec_E50.C:15:19: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                  ^
+/work1/g4p/g4p/G4CPT/work/root/taskinganal/src/intel/memeff_cmsExpTasking_elec_E50.C:15:26: warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
+   MakePad1x1(pd2,"pad2","pad2");
+                         ^
+i-core VSIZE and RSS 0 366.633 231.195
+i-core VSIZE and RSS 1 437.551 281.345
+i-core VSIZE and RSS 2 509.555 333.335
+i-core VSIZE and RSS 4 653.746 437.334
+i-core VSIZE and RSS 6 797.887 540.758
+i-core VSIZE and RSS 8 941.898 644.946
+i-core VSIZE and RSS 10 1086.16 748.929
+i-core VSIZE and RSS 12 1230.17 853.055
+i-core VSIZE and RSS 14 1374.18 957.049
+i-core VSIZE and RSS 16 1518.19 1062.63
+Info in <TCanvas::Print>: png file memeff_cmsExpTasking_elec_E50.png has been created
+(int) 0

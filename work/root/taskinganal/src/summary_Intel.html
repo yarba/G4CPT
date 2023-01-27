@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Geant4 Tasking CPU Performance - Single Pions</title>
+
+  <meta name="keywords" content="Geant4Tasking CPU Performance, profiling, fast, software performance, Fermilab" />
+  <style>
+body {
+font-family: sans-serif;
+}
+
+table {
+  border: 1px;
+  border-style: solid;
+  margin-bottom: 30px;
+}
+th {
+  font-family: sans-serif;
+}
+td, th {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+  </style>
+</head>
+
+<body>
+<h1> <font color=ff0080>Geant4 Tasking (G4P_VERSION_CMSEXPMT) Performance - Single Electrons/Pions</font></h1>
+
+<h2><font color=ff0080>cmsExpTasking: PhysicsList = FTFP_BERT, Magnetic Field = 3.8T</font></h2>
+
+
+<h2> Processor: IntelXeonCPUE52650v2@2.60GHzS, 16 cores <br></h2>
+OSS: Linux kernel 3.10.0-1160.6.1.el7.x86_64 GCC 8.3.0 <br>
+
+<h2> <font color=ff0080> Weak Scaling (a fixed number of events per thread)</font></h2>
+The number of events per thread = 1024 <br>
+The total number of events processed = 1024*(number of threads)
+
+<h3>Electron Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="Intel/throughput_cmsExpTasking_elec_E5.png" width="50%" height="60%"/> 
+<img src="Intel/cpu_cores_cmsExpTasking_elec_E5.png" width="50%" height="60%"/> <br>
+<img src="Intel/meminfo_cmsExpTasking_elec_E5.png" width="50%" height="60%"/>
+<img src="Intel/memeff_cmsExpTasking_elec_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Electron Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="Intel/throughput_cmsExpTasking_elec_E50.png" width="50%" height="60%"/> 
+<img src="Intel/cpu_cores_cmsExpTasking_elec_E50.png" width="50%" height="60%"/> <br> 
+<img src="Intel/meminfo_cmsExpTasking_elec_E50.png" width="50%" height="60%"/>
+<img src="Intel/memeff_cmsExpTasking_elec_E50.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 5 GeV</h3>
+<nobr>
+<img src="Intel/throughput_cmsExpTasking_pi_E5.png" width="50%" height="60%"/> 
+<img src="Intel/cpu_cores_cmsExpTasking_pi_E5.png" width="50%" height="60%"/> <br>
+<img src="Intel/meminfo_cmsExpTasking_pi_E5.png" width="50%" height="60%"/>
+<img src="Intel/memeff_cmsExpTasking_pi_E5.png" width="50%" height="60%"/>
+</nobr>
+
+<h3>Pion Beam Energy = 50 GeV</h3>
+<nobr>
+<img src="Intel/throughput_cmsExpTasking_pi_E50.png" width="50%" height="60%"/> 
+<img src="Intel/cpu_cores_cmsExpTasking_pi_E50.png" width="50%" height="60%"/> <br>
+<img src="Intel/meminfo_cmsExpTasking_pi_E50.png" width="50%" height="60%"/>
+<img src="Intel/memeff_cmsExpTasking_pi_E50.png" width="50%" height="60%"/>
+</nobr>
+
+</body><html>

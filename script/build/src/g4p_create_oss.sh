@@ -263,6 +263,9 @@ for tool in osspcsamp ossusertime osshwcsamp igprof ; do
     if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
          x"${APPLICATION_NAME}" = x"SimplifiedCaloMT" ]; then
 
+      ln -s ${g4p_dir}/${APPLICATION_NAME}/SimplifiedCalo.gdml \
+            ${work_dir}/SimplifiedCalo.gdml
+
       if [ x"${exp_sample}" = x"e-100MeV" ]; then
         ln -s ${INPUT_DIR}/e-100MeV_event.data ${work_dir}/hepevt.data
       else 

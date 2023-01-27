@@ -25,12 +25,6 @@ APPLICATION_RELEASE=$5
 #
 DOWNLOAD_DIR="${PROJECT_DIR}/download"
 
-#check where ups products are available and set necessary products
-#if [ -z "${UPS_DIR}" ] ; then 
-#  source /products/setup
-#  setup cmake
-#  setup gcc v4_8_2 -f Linux64bit+2.6-2.12
-#fi
 #-----------------------------------------------------------------------
 # Check whether the geant4 tarball exists for the selected release
 #-----------------------------------------------------------------------
@@ -51,12 +45,23 @@ echo " G4DATASETS_DIR = ${G4DATASETS_DIR} "
 #-----------------------------------------------------------------------
 
 unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
+
 #
 # --> Jan.2021 migration to WC-IC
 module load gnu8/8.3.0
-module load cmake/3.15.4
+#
+# provisions for future...
+# --> module load gnu11/11.3.0
+
+# --> need higher revision starting 11.0.c00 --> module load cmake/3.15.4
+module load cmake/3.21.3
+
 unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
 unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
+#
+# provisions for future...
+# --> unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
+# --> unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Specific Flags for CMMSSW: Compiler and CLHEP 
@@ -158,6 +163,10 @@ cd ${BUILD_DIR}
 
 # --> Jan.2021 migration to WC-IC
 XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+#
+# provisions for future...
+# --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+#
 export XERCESC_DIR
 
 cmake -DCMAKE_CXX_COMPILER=${G4P_CXX} \
@@ -171,6 +180,7 @@ cmake -DCMAKE_CXX_COMPILER=${G4P_CXX} \
       -DGEANT4_USE_GDML=ON \
       -DXERCESC_ROOT_DIR=${XERCESC_DIR} \
       -DGEANT4_USE_SYSTEM_EXPAT=OFF \
+      -DGEANT4_BUILD_MULTITHREADED=ON \
       -DBUILD_SHARED_LIBS=OFF \
       -DBUILD_STATIC_LIBS=ON \
       ${INSTALL_DIR}/source ${INSTALL_DIR}

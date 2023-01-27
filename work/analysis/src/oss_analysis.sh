@@ -88,7 +88,7 @@ fi
 for ossexp in ${thelist}; do
   TAR_DIR=${PBS_DIR}/${PROJECT}/${ossexp}/${SAMPLE_NAME}
   echo "... Counting tarballs in ${TAR_DIR} ..."
-  TARBALL_NUMBER=`for ff in \`find ${TAR_DIR} -name g4profiling_\*.tgz -size +1c -print\`; do ls -la $ff; done | wc -l`
+  TARBALL_NUMBER=`for ff in \`find ${TAR_DIR} -name g4profiling_\*.tgz -size +1c -print | grep -v resu \`; do ls -la $ff; done | wc -l`
   RETURN_CODE=$?
   if (( ${RETURN_CODE} )) ;
   then
@@ -106,15 +106,46 @@ done
 
 #---------------------------------------------------------------------------------------------
 
+# weed out corrupted ossusertime outputs
+#
+# tlist=`ls ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz `
+tlist=`zgrep -ai "Error during termination" ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz |\
+	awk -F ":" '{print $1}'`
+#for tf in ${tlist}; do
+#echo " ... Removing problematic ${tf} ... "
+#rm -f ${tf}
+#done
+
+# now redefine tlist for further processing
+#
 tlist=`ls ${PBS_DIR}/${PROJECT}/oss*/${SAMPLE_NAME}/g4profiling_*tgz `
 
 for tfile in $tlist ; do
   echo "... Processing $tfile ..."
   tar xzf ${tfile}
+  
+# (alternative way to) weed out problematic messages 
+# from post-processing of ossusrtime outputs
+#
+problematic_list=`grep "Error during termination" * | awk -F ":" '{print $1}'`
+for ptf in ${problematic_list} ; do
+#     more ${ptf} | grep -v "Error during termination" > ${ptf}.save
+#     mv ${ptf}.save ${ptf}
+# --->   problematic_line=`grep "Error during" ${ptf} | awk -F ":" '{print $2}'`
+   problematic_line=`grep "Error during" ${ptf}`
+# --->   echo " problematic_line = ${problematic_line}"
+   sed -i "s%${problematic_line}%%" ${ptf}
+done
+#problematic_list=`grep "catch_signal 11" * | awk -F ":" '{print $1}'`
+#for ptf in ${problematic_list}; do
+#     sed -i "s%catch_signal 11% %" ${ptf}
+#done
+  
   idx=`echo ${tfile} |awk '{split($0,tid,"ling_"); print tid["2"]}' |\
                       awk '{split($0,sid,"."); print sid["1"]}'`
 
-  TDTXT_NUMBER=`egrep "TimeReport> Time report complete in " trialdata_${idx}.txt | wc -l`
+# --->  TDTXT_NUMBER=`egrep "TimeReport> Time report complete in " trialdata_${idx}.txt | wc -l`
+  TDTXT_NUMBER=`egrep "TimeReport> Time report complete in " trialdata_${idx}.txt | egrep -v G4WT | wc -l`
 
   #remove this line after tests
   sed -i "s%Memory \[VSIZE,RSS,SHR\] report complete in%Memory report complete in%" stdout_${idx}.txt
@@ -131,6 +162,8 @@ for tfile in $tlist ; do
 done
 
 #post oss data preparation to take advantage of with the current analysis 
+
+echo "... Preparing ossdata_idx_names"
 namelist=`ls ${SAMPLE_DIR}/profdata_*_names`
 for ff in $namelist ; do
   idx=`echo ${ff} |awk '{split($0,id,"data_"); print id["2"]}' | awk '{split($0,sid,"_name"); print sid["1"]}'`
@@ -138,25 +171,48 @@ for ff in $namelist ; do
        head -n 300 | awk '{if(NF==3) print $0}' > ossdata_${idx}_names 
 done
 
+echo "... Preparing ossdata_idx_libraries"
 liblist=`ls ${SAMPLE_DIR}/profdata_*_libraries`
 for ff in $liblist ; do
   idx=`echo ${ff} |awk '{split($0,id,"data_"); print id["2"]}' | awk '{split($0,sid,"_lib"); print sid["1"]}'`
-  tail -n +9 ${ff} | awk '{print $4" "$1" "$2" "$3/100.}' > ossdata_${idx}_libraries 
+#   tail -n +9 ${ff} | awk '{print $4" "$1" "$2" "$3/100.}' > ossdata_${idx}_libraries 
+  tail -n +7 ${ff} | awk '{if ( NF == 4 && $1 ~ /^[0-9]/ && $2 ~ /^[0-9]/) print $4" "$1" "$2" "$3/100.}' > ossdata_${idx}_libraries 
+#   extra check/repair for "remains" of mailformed header(s), etc.
+  while read line; do
+    nwrd=`echo $line | wc -w`
+    if [ $nwrd != 4 ]; then 
+      if [ $nwrd != 0 ]; then 
+        sed -i "s%${line}%%" ossdata_${idx}_libraries
+      fi
+    fi 
+  done < ossdata_${idx}_libraries
+  # remove empty lines
+  sed -i '/^\s*$/d' ossdata_${idx}_libraries
 done
 
+echo "... Preparing ossdata_idx_paths"
 pathlist=`ls ${SAMPLE_DIR}/profdata_*_paths`
 for ff in $pathlist ; do
   idx=`echo ${ff} |awk '{split($0,id,"data_"); print id["2"]}' | awk '{split($0,sid,"_path"); print sid["1"]}'`
   incl_time=`tail -n +8 ${ff} | head -1 |awk '{print $1}'`
+# -->  echo " incl_time = ${incl_time}"
   tail -n +8 ${ff} | awk -v scale=${incl_time} '{split($2,fname,"\\(") ; print fname["1"]" "$1" "$1/scale}' | grep -v "cxx17" | \
        head -n 300 | awk '{if(NF==3) print $0}' > ossdata_${idx}_paths 
+# -->  cp profdata_${idx}_paths /work1/g4p/g4p/G4CPT/work/${SAMPLE_NAME}_profdata_${idx}_paths
+# -->  cp ossdata_${idx}_paths /work1/g4p/g4p/G4CPT/work/${SAMPLE_NAME}_ossdata_${idx}_paths
 done
 
+echo "... Preparing ossdata_idx_hwcsamp"
 hwclist=`ls ${SAMPLE_DIR}/profdata_*_hwcsamp`
 for ff in $hwclist ; do
   idx=`echo ${ff} |awk '{split($0,id,"data_"); print id["2"]}' | awk '{split($0,sid,"_hwcsamp"); print sid["1"]}'`
   tail -n +8 ${ff} | awk '{split($9,fname,"\\(") ; if($6 ~ /^[0-9]*$/) print fname["1"]" "$2" "$3/$4" "$3" "$4" "$5" "$6}' | \
        grep -v "cxx17" | head -n 300 | awk '{if(NF==7) print $0}' > ossdata_${idx}_hwcsamp 
+  nlines=`more ossdata_${idx}_hwcsamp | wc -l`
+  if [ $nlines -lt 2 ]; then
+    rm ossdata_${idx}_hwcsamp
+# -->    rm ${ff}
+  fi
 done
 #some of hwcsamp output has a null field (empty) for fp_ops, so check that the last field is numberic
 #---------------------------------------------------------------------------------------------
@@ -189,7 +245,13 @@ ${SRC_DIR}/oss_make_dataframes.rscript ${SAMPLE_DIR} ${NOHWC}
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
 then
-    echo "... Problems generating dataframes ... Aborting ..."
+    echo "... Problems generating dataframes ... Cleaning & Aborting ..."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
     exit 1
 fi
 
@@ -201,7 +263,13 @@ ${SRC_DIR}/make_stepping_dataframe.rscript ${SAMPLE_DIR}
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
 then
-    echo "... Problems generating stepping dataframe ... Aborting ..."
+    echo "... Problems generating stepping dataframe ... Cleaning & Aborting ..."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
     exit 1
 fi
 
@@ -213,7 +281,13 @@ ${SRC_DIR}/make_standard_plots_oss.rscript ${SAMPLE_DIR} ${NEVENTS} ${NOHWC}
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
 then
-    echo "... Problems generating stepping plots ... Aborting ..."
+    echo "... Problems generating standard plots ... Cleaning & Aborting ..."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
     exit 1
 fi
 #if [ x"${SAMPLE_NAME}" = x"higgs.FTFP_BERT.1400.4" ]; then
@@ -223,7 +297,13 @@ ${SRC_DIR}/make_stepping_plots.rscript ${SAMPLE_DIR} ${NEVENTS}
 RETURN_CODE=$?
 if (( ${RETURN_CODE} )) ;
 then
-    echo "... Problems generating stepping plots ... Aborting ..."
+    echo "... Problems generating stepping plots ... Cleaning & Aborting ..."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
     exit 1
 fi
 #//<---this part is working. uncomment above section after testing
@@ -274,7 +354,13 @@ if [ ${APPLHEAD} = "Simp" ]
 #            fi
 	else 
 	    echo "Problems creating ${WEB_TAGET_DIR}"
-	    echo "Aborting."
+	    echo "Cleaning & Aborting."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
 	    exit 1
 	fi
     fi
@@ -314,7 +400,13 @@ if [ ${APPLHEAD} = "cmsE" ]
 #            fi
 	else 
 	    echo "Problems creating ${WEB_TAGET_DIR}"
-	    echo "Aborting."
+	    echo "Cleaning & Aborting."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
 	    exit 1
 	fi
     fi
@@ -347,7 +439,13 @@ if [ ${APPLHEAD} = "lArT" ]
     	    sed "s/G4P_SAMPLE_NAME/${SAMPLE_NAME}/" ${SRC_DIR}/lArTestPlots_bySampleExt.html > ${WEB_TAGET_DIR}/index.html
 	else 
 	    echo "Problems creating ${WEB_TAGET_DIR}"
-	    echo "Aborting."
+	    echo "Cleaning & Aborting."
+##clean up
+rm -f ${SAMPLE_DIR}/profdata_*_*
+rm -f ${SAMPLE_DIR}/ossdata_*_*
+rm -f ${SAMPLE_DIR}/*.openss
+rm -f ${SAMPLE_DIR}/*.txt
+rm -f ${SAMPLE_DIR}/*.rda
 	    exit 1
 	fi
     fi

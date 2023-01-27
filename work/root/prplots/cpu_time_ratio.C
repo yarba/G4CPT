@@ -9,27 +9,27 @@ int cpu_time_ratio()
 
    const int ns = 9;
 
-   const int nb = 6;
+   const int nb = 5;
 
-   char *release[nb] = {
-                        "10.1.p03static",
-			"10.2.p03static",
-                        "10.3.p03static",
-			"10.4.p03static",
-			"10.5.p01static",
-			"10.6"
-   };
-
-   char *version[nb] = {
-                        "10.1.p03",
-			"10.2.p03",
-			"10.3.p03",
-			"10.4.p03",
+//   char *release[nb] = {
+   std::string release[nb] = {
 			"10.5.p01",
- 			"10.6"
+			"10.6.p03",
+			"10.7.p03",
+			"11.0-serial",
+			"11.0"
    };
 
-   const int iref = 4; //reference 10.5.p01
+//   char *version[nb] = {
+   std::string version[nb] = {
+			"10.5.p01",
+ 			"10.6.p03",
+			"10.7.p03",
+			"11.0-serial",
+			"11.0"
+   };
+
+   const int iref = 2; //reference 10.7.p03
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -39,11 +39,13 @@ int cpu_time_ratio()
 
    for(int i = 0 ; i < nb ; i++) {
 //     sprintf(cfilename,"/g4/g4p/work/root/prplot.10.5/cpu_summary_%s_cmsExp.data",release[i]);  
-     sprintf(cfilename,"/lfstev/g4p/g4p/work/root/prplots/cpu_summary_%s_cmsExp.data",release[i]);  
+     sprintf(cfilename,"/work1/g4p/g4p/G4CPT/work/root/prplots/cpu_summary_%s_cmsExp.data",
+                       release[i].c_str());  
      cfile[i] = fopen(cfilename,"r");
 
 //     sprintf(cfilename_s,"/g4/g4p/work/root/prplot.10.5/cpu_summary_%s_SimplifiedCalo.data",release[i]);  
-     sprintf(cfilename_s,"/lfstev/g4p/g4p/work/root/prplots/cpu_summary_%s_SimplifiedCalo.data",release[i]);  
+     sprintf(cfilename_s,"/work1/g4p/g4p/G4CPT/work/root/prplots/cpu_summary_%s_SimplifiedCalo.data",
+                         release[i].c_str());  
      cfile_s[i] = fopen(cfilename_s,"r");
    }
 
@@ -194,7 +196,8 @@ int cpu_time_ratio()
    //			 "50 GeV e^{-}","50 GeV #pi^{-}","50 GeV proton"};
 
 
-   char* ggtitle[ns] = {"H #rightarrow ZZ @ #sqrt{s}=14TeV",
+//   char* ggtitle[ns] = {"H #rightarrow ZZ @ #sqrt{s}=14TeV",
+   std::string ggtitle[ns] = {"H #rightarrow ZZ @ #sqrt{s}=14TeV",
 			"1 GeV e^{-} ",
 			"50 GeV e^{-} ",
                         "1 GeV #pi^{-}",
@@ -216,10 +219,11 @@ int cpu_time_ratio()
      sprintf(htitle,"",(sample_id[i]).c_str());
      hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.6,1.4);
 
-     hhf[i]->SetBit(TH1::kCanRebin);   
+//     hhf[i]->SetBit(TH1::kCanRebin);   
+     hhf[i]->SetCanExtend(true);   
      
      for(int j = 1 ; j <= nb ; j++) {
-       hhf[i]->GetXaxis()->SetBinLabel(j,version[j-1]);
+       hhf[i]->GetXaxis()->SetBinLabel(j,version[j-1].c_str());
      }
      
      hhf[i]->GetYaxis()->SetTitleSize(0.052);
@@ -227,7 +231,7 @@ int cpu_time_ratio()
      hhf[i]->GetYaxis()->SetTitleColor(4);
      hhf[i]->GetYaxis()->SetNdivisions(8);
      hhf[i]->GetXaxis()->SetTitleSize(0.055);
-     hhf[i]->GetXaxis()->SetTitleOffset(1.2);
+     hhf[i]->GetXaxis()->SetTitleOffset(1.1); // 1.2);
      hhf[i]->GetXaxis()->SetTitleColor(4);
      hhf[i]->GetXaxis()->SetLabelSize(0.075);
 
@@ -265,7 +269,7 @@ int cpu_time_ratio()
      tnd2->SetTextSize(0.06);
      tnd2->SetTextColor(kBlack);
 
-     sprintf(htitle,"%s",ggtitle[i]);
+     sprintf(htitle,"%s",ggtitle[i].c_str());
      tnd2->DrawLatex(0.2,1.42,htitle);
 
      TLatex *tnd0 = new TLatex();
@@ -280,14 +284,15 @@ int cpu_time_ratio()
      tnd1->SetTextSize(0.06);
      tnd1->SetTextColor(kBlack);
 //     tnd1->DrawLatex(1.5,1.32,"AMD Opteron 6128 HE @2.00 GHz");
-     tnd1->DrawLatex(1.,1.32,"AMD Opteron 6128 HE @2.00 GHz");
+//     tnd1->DrawLatex(1.,1.32,"AMD Opteron 6128 HE @2.00 GHz");
+     tnd1->DrawLatex(0.3,1.32,"Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz");
 
      TLatex *tnd11 = new TLatex();
      tnd11->SetTextFont(12);
      tnd11->SetTextSize(0.06);
      tnd11->SetTextColor(kBlack);
 //     tnd11->DrawLatex(2.8,1.24,"GCC4.9.2/Linux x86_64");
-     tnd11->DrawLatex(1.8,1.24,"GCC7.1.0/Linux x86_64");
+     tnd11->DrawLatex(1.3,1.24,"GCC8.3.0/Linux x86_64");
 
      // check if proper directory exists
      string outdir = "/geant4-perf/g4p/prplots." + std::string(release[nb-1]);
@@ -303,11 +308,14 @@ int cpu_time_ratio()
      //     sprintf(pstitle,"./cpu_time_cmsExp_%s.png",(sample_id[i]).c_str());
      // sprintf(pstitle,"/geant4-perf/g4p/prplots.10.5/geant4_cpu_performance_ratio_%s.png",(sample_id[i]).c_str());
 
-     string outfile = outdir + "/geant4_cpu_performance_ratio_" + sample_id[i] + ".png";
+     std::string outfile = outdir + "/geant4_cpu_performance_ratio_" + sample_id[i] + ".png";
 
      cv[i]->Update(); 
      // cv[i]->Print(pstitle); 
      cv[i]->Print( outfile.c_str() );
    }
+   
+   return 0;
+   
 }
 

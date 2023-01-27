@@ -27,9 +27,17 @@ DOWNLOAD_DIR="${PROJECT_DIR}/download"
 # --> Jan.2021 migration ot WC-IC
 #
 module load gnu8/8.3.0
-module load cmake/3.15.4
+# --> module load cmake/3.15.4
+#
+# provisions for future...
+# --> module load gnu11/11.3.0
+
+module load cmake/3.21.3
 
 COMPILER_DIR="/opt/ohpc/pub/compiler/gcc/8.3.0"
+#
+# provisions for future...
+# --> COMPILER_DIR="/srv/software/gnu11/11.3.0"
 
 CFG_DIR="${PWD}/../cfg"
 SRC_DIR="${PWD}"
@@ -46,13 +54,6 @@ APPLICATION_DIR=${GEANT4_BASE}/${APPLICATION_NAME}
 
 echo "... SUBMIT_RUN_DIR = ${SUBMIT_RUN_DIR} ..."
 
-#
-#if [ ! -d ${APP_DESTINATION}/build ]; then
-#   mkdir -p ${APP_DESTINATION}/build && echo "... Creating, ${APP_DESTINATION}/build ..."
-#fi
-#
-#APPLICATION_DIR=${APP_DESTINATION}/build/g4.${GEANT4_RELEASE}/${APPLICATION_NAME}
-
 unset BUILD_DIR;
 BUILD_DIR=${GEANT4_BASE}/geant4.${GEANT4_RELEASE}-build
 
@@ -64,33 +65,27 @@ unset GEANT4VG_BASE
 unset BUILDVG_BASE
 
 unset BUILD_DIR_AUX;
+
 if [ x"${APPLICATION_NAME}" = x"cmsExpMT" -o \
      x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
+
   #copy non-MT version assuming that it is available
   BUILD_DIR_AUX=${BUILD_DIR}
 
   #re-define envs for MT
-  GEANT4MT_BASE=${PROJECT_DIR}/build/g4mt.${GEANT4_RELEASE}
-  BUILDMT_DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}-build
+  #
+  # GEANT4MT_BASE=${PROJECT_DIR}/build/g4mt.${GEANT4_RELEASE}
+  # BUILDMT_DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}-build
+  #
+  # As of Aug.2021, unify "non-MT" and MT apps under one build
+  # since we'll build with MT extension from now on
+  #
+  GEANT4MT_BASE=${PROJECT_DIR}/build/g4.${GEANT4_RELEASE}
+  BUILDMT_DIR=${GEANT4MT_BASE}/geant4.${GEANT4_RELEASE}-build
+  #
   # --> DO NOT migrate --> 
+  #
   APPLICATION_DIR=${GEANT4MT_BASE}/${APPLICATION_NAME}
-#  if [ ! -d ${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE} ]; then
-#     mkdir -p ${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE} && echo "... Creating, ${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE} ..."
-#  fi
-#  APPLICATION_DIR=${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME}
-
-# These were provisions for building in g4/g4p but running out of /lfstev/g4p/g4p
-# However, it's causing strange behaviour of VSIZE so we've reverted to original scheme
-#
-#  if [ ! -d ${SUBMIT_RUN_DIR}/build ]; then
-#     mkdir -p ${SUBMIT_RUN_DIR}/build && echo "... Creating, ${SUBMIT_RUN_DIR}/build..."
-#  fi
-#  if [ ! -d ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE} ]; then
-#     mkdir -p ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE} && echo "... Creating, ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE} ..."
-#  fi
-#  if [ ! -d ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME} ]; then
-#     mkdir -p ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME} && echo "... Creating, ${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME} ..."
-#  fi
 
 fi
 
@@ -118,9 +113,6 @@ fi
 
 if [ x"${APPLICATION_NAME}" = x"cmsExpMT" -o \
      x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
-#if [ x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
-#  pushd ${APP_DESTINATION}/build/g4mt.${GEANT4_RELEASE}
-#elif [ x"${APPLICATION_NAME}" = x"lArTestMT"]; then
   pushd ${GEANT4MT_BASE}
 elif [[ ${APPLICATION_NAME} =~ "VG" ]]; then
   pushd ${GEANT4VG_BASE}
@@ -152,6 +144,9 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    #
    XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
    #
+   # provisions for future...
+   # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3   
+   #
    export XERCESC_DIR
    export LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
@@ -179,7 +174,7 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    echo -e "\nexport LD_LIBRARY_PATH=\${G4P_G4DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
    echo "export LD_LIBRARY_PATH=${COMPILER_DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
    echo "export LD_LIBRARY_PATH=${COMPILER_DIR}/lib64:\${LD_LIBRARY_PATH}" >> ${env_sh} 
-   echo "export LD_LIBRARY_PATH=${XERCESC_DIR}/lib:\${LD_LIBRARY_PATH}" >> ${env_sh} 
+   echo "export LD_LIBRARY_PATH=${XERCESC_DIR}/lib64:\${LD_LIBRARY_PATH}" >> ${env_sh} 
 
    #set the default gdml file and magnetic field map for cmsExp 
 # --->   if [ x"${APPLICATION_NAME}" = x"cmsExp" -o x"${APPLICATION_NAME}" = x"cmsExpMT" ]; then
@@ -211,6 +206,9 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
   # --> Jan.2021 migration to WC-IC
   #
   XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+  #
+  # provisions for future...
+  # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
   export XERCESC_DIR
   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
@@ -223,7 +221,7 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
       #cat ${SRC_DIR}/g4p_setup_cvmfs.sh >> ${env_sh}
       cat ${SRC_DIR}/g4p_setup_gcc.sh >> ${env_sh}
 
-      #CMake maual setup to link geant4 data: add locations of data to env file
+      #CMake manual setup to link geant4 data: add locations of data to env file
       echo "#CMake manual setup to link geant4 data" >> ${env_sh} 
       echo "export G4P_G4DIR=${GEANT4_BASE}/geant4.${GEANT4_RELEASE}" >> ${env_sh}
 
@@ -261,25 +259,38 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
       # ---> ---> env_sh=${APPLICATION_DIR}/setenv.sh
       #
       # create job submit dir under $SUBMIT_RUN_DIR
-      APPLICATION_RUN=${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME}
+      #
+      # APPLICATION_RUN=${SUBMIT_RUN_DIR}/build/g4mt.${GEANT4_RELEASE}/${APPLICATION_NAME}
+      #
+      # As of Aug.2021 unify non-MT and MT apps under the same build
+      # since we'll be building with MT extension from now on...
+      #
+      APPLICATION_RUN=${SUBMIT_RUN_DIR}/build/g4.${GEANT4_RELEASE}/${APPLICATION_NAME}
       env_sh=${APPLICATION_RUN}/setenv.sh
       
       # add cvmfs setup to setenv.sh
       #cat ${SRC_DIR}/g4p_setup_cvmfs.sh >> ${env_sh}
       cat ${SRC_DIR}/g4p_setup_gcc.sh >> ${env_sh}
 
-      #CMake maual setup to link geant4 data: add locations of data to env file
+      #CMake manual setup to link geant4 data: add locations of data to env file
       echo "#CMake manual setup to link geant4 data" >> ${env_sh} 
-      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}" >> ${env_sh}
+# --> consolidate apps -->      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}" >> ${env_sh}
+      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4.${GEANT4_RELEASE}" >> ${env_sh}
 
       echo "...Building ${APPLICATION_NAME} ... with ${BUILDMT_DIR}"
       cmake -DGeant4_DIR=${BUILDMT_DIR} -DProject=cmsExpMT .. 
       make -j1
+      
+#      echo "...Building cmsExpRMF ... with ${BUILD_DIR_AUX}"
+#      cmake -DGeant4_DIR=${BUILDMT_DIR} -DProject=cmsExpRMF -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_STANDARD=17 ..
+#      make -j1
 
       # if APPLICATION_NAME=cmsExpMT, also need to build non-MT version of exe
-      echo "...Building cmsExp ... with ${BUILD_DIR_AUX}"
-      cmake -DGeant4_DIR=${BUILD_DIR_AUX} -DProject=cmsExp .. 
-      make -j1
+      # ... NOT any longer since summer 2021...
+      #
+#      echo "...Building cmsExp ... with ${BUILD_DIR_AUX}"
+#      cmake -DGeant4_DIR=${BUILD_DIR_AUX} -DProject=cmsExp .. 
+#      make -j1
 
   elif [ x"${APPLICATION_NAME}" = x"lArTestMT" ]; then
       env_sh=${GEANT4MT_BASE}/${APPLICATION_NAME}/setenv.sh
@@ -290,7 +301,8 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
 
       #CMake maual setup to link geant4 data: add locations of data to env file
       echo "#CMake manual setup to link geant4 data" >> ${env_sh} 
-      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}" >> ${env_sh}
+# --> consolidate apps -->      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4mt.${GEANT4_RELEASE}" >> ${env_sh}
+      echo "export G4P_G4DIR=${GEANT4MT_BASE}/geant4.${GEANT4_RELEASE}" >> ${env_sh}
 
       echo "...Building ${APPLICATION_NAME} ... with ${BUILDMT_DIR}"
       cmake -DGeant4_DIR=${BUILDMT_DIR} -DProject=lArTestMT .. 

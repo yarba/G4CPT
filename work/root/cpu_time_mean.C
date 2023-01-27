@@ -16,82 +16,115 @@ int cpu_time_mean()
 /*
    const int nb = 21;
 
-   char *release[nb] = {"10.2.p03static",
-                        "10.3.p03static",
-			"10.4.p03static",
-			"10.5.p01static",
-			"10.6",
-			"10.6.p01",
-			"10.6.p02.cand00",
-			"10.6.p03",
-			"10.6.r01",
-			"10.6.r02",
-			"10.6.r03",
-			"10.6.r04",
-			"10.6.r05",
-//			"10.7.b.c00",
-//			"10.7.b.c01",
-			"10.6.r06",
-			"10.6.r07",
-			"10.6.r08",
-			"10.6.r09",
-			"10.6.r10",
-			"10.7.cand00",
-			"10.7.cand01",
-			"10.7"
-   }; // internal name used for profiling jobs
-
-   char *version[nb] = {"10.2.p03",
-                        "10.3.p03",
-			"10.4.p03", 
-			"10.5.p01", 
-			"10.6",
-			"10.6.p01",
-			"10.6.p02",
-			"10.6.p03",
-			"10.6.r01",
-			"10.6.r02",
-			"10.6.r03",
-			"10.6.r04",
-			"10.6.r05",
-//			"10.7.beta-c00",
-//			"10.7.beta-c01",
-			"10.7.beta"
-			"10.6.r07",
-			"10.6.r08",
-			"10.6.r09",
-			"10.6.r10",
-			"10.7.cand00",
-			"10.7.cand01",
-			"10.7"
-   }; // legend for plots
-
-*/
-
-   const int nb = 7;
-
    std::string release[nb] = {
 			"10.5.p01",
 			"10.6.p03",
 			"10.7",
 			"10.7.p01",
+			"10.7.p02",
+			"10.7.p03.c00",
+			"10.7.p03",
 			"10.7.r01",
 			"10.7.r02",
-			"10.7.r03"
+			"10.7.r03",
+			"10.7.r04",
+			"10.7.r05",
+			"10.7.r06",
+			"10.7.r06-tasking",
+			"10.7.r07-serial",
+			"10.7.r07",
+			"10.7.r08-serial",
+			"10.7.r08-mt",
+			"10.7.r09-mt",
+//			"11.0.c00",
+//			"11.0.c01",
+			"11.0-serial",
+			"11.0"
    }; // internal name used for profiling jobs
 
    std::string version[nb] = {
 			"10.5.p01",
 			"10.6.p03",
-			"10.7rr",
+			"10.7",
 			"10.7.p01",
+			"10.7.p02",
+			"10.7.p03.c00",
+			"10.7.p03",
 			"10.7.r01",
 			"10.7.r02",
-			"10.7.r03"
+			"10.7.r03",
+			"10.7.r04",
+			"10.7.r05",
+			"10.7.r06",
+			"10.7.r06-mt",
+			"10.7.r07-serial",
+			"10.7.r07-mt",
+			"10.7.r08-serial",
+			"10.7.r08-mt",
+			"10.7.r09-mt",
+//			"11.0.c00",
+//			"11.0.c01",
+			"11.0-serial",
+			"11.0"
    }; // legend for plots
 
+*/
 
-   const int iref = 2; //reference 10.7
+   const int nb = 23;
+
+   std::string release[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7.p03",
+			"10.7.p04",
+			"11.0-serial",
+			"11.0",
+			"11.0.p01.c00",
+			"11.0.p02",
+			"11.0.p03",
+			"11.0.r01",
+			"11.0.r02",
+			"11.0.r03",
+			"11.0.r04",
+			"11.0.r05",
+			"11.0.r06",
+			"11.0.r07",
+			"11.0.r08",
+			"11.0.r09",
+			"11.1.c00",
+			"11.1.c01",
+			"11.1.c02",
+			"11.1",
+			"11.1.gcc11"
+   }; // internal name used for profiling jobs
+
+   std::string version[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7.p03",
+			"10.7.p04",
+			"11.0-serial",
+			"11.0",
+			"11.0.p01",
+			"11.0.p02",
+			"11.0.p03",
+			"11.0.r01",
+			"11.0.r02",
+			"11.0.r03",
+			"11.0.r04",
+			"11.0.r05",
+			"11.0.r06",
+			"11.0.r07",
+			"11.0.r08",
+			"11.0.r09",
+			"11.1.c00",
+			"11.1.c01",
+			"11.1.c02",
+			"11.1",
+			"11.1.gcc11"
+   }; // legend for plots
+
+   const int iref = 4; //reference 11.0
 
 
 
@@ -127,7 +160,7 @@ int cpu_time_mean()
 
        if(i==iref) { 
 	 sample_id[j] = sample;
-         hmax[j] = mcputime*1.2;
+         hmax[j] = mcputime*1.3;
          hmin[j] = mcputime*0.8;
          // TMP reset due to jumps in Shielding CPU
          // cout << " sample_id[" << j << "] = " << sample_id[j] << endl;
@@ -192,7 +225,7 @@ int cpu_time_mean()
      if(i==iref) 
      { 
 	 sample_id[ns] = sample;
-         hmax[ns] = mcputime*1.2;
+         hmax[ns] = mcputime*1.3;
          hmin[ns] = mcputime*0.8;
      }
 

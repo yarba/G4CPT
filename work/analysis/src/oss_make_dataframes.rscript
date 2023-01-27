@@ -115,8 +115,14 @@ gc()
 
 
 print("Creating LIBRARIES dataframe...")
+print("Loading files")
 libraries <- load.libraries(dirname)
 save(libraries, file = file.path(dirname, "libraries-premerged.rda"))
+# print("===========")
+# print("View the rda")
+# print("===========")
+# the following will print out up to 100 fisrt lines
+# head(libraries, n=100)
 libraries <- merge(libraries, runmeta)
 medians <- aggregate(  samples~lib+mname+g4version
                      , data = libraries

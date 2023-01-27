@@ -85,6 +85,12 @@ elif [ x"${APPLICATION_NAME}" = x"lArTest" ]; then
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/bin/${APPLICATION_NAME} \
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/setenv_pbs.sh \
  ${g4prefix}.${GEANT4_RELEASE}/lArTest/lArBox.gdml
+elif [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" ]; then
+ tar --exclude=\.svn -czf ${TMP_TARBALL} \
+ ${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}/lib \
+ ${g4prefix}.${GEANT4_RELEASE}/*/bin/${app_exe_name} \
+ ${g4prefix}.${GEANT4_RELEASE}/*/setenv_pbs.sh \
+ ${g4prefix}.${GEANT4_RELEASE}/*/*.gdml 
 else
  tar --exclude=\.svn -czf ${TMP_TARBALL} \
  ${g4prefix}.${GEANT4_RELEASE}/${geant4prefix}.${GEANT4_RELEASE}/lib \

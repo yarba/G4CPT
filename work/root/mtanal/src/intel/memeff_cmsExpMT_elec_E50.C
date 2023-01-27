@@ -8,7 +8,7 @@ int memeff_cmsExpMT_elec_E50()
    gROOT->Reset();
 
    TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
-   c2->SetTitle("Geant4 MT Performance: cmsExpMT");
+   c2->SetTitle("Geant4 MT/Tasking Performance: cmsExpMT, Tasking RM");
 
    c2->cd();
    TPad *pd2[1];
@@ -143,7 +143,7 @@ int memeff_cmsExpMT_elec_E50()
    hhf3->GetXaxis()->SetTitleOffset(1.2);
    hhf3->GetXaxis()->SetTitleColor(4);
    hhf3->SetXTitle("N Core");
-   hhf3->SetYTitle("[Mem(MT)/Ncore]/Mem(SEQUENTIAL)");
+   hhf3->SetYTitle("[Mem(Tasking)/Ncore]/Mem(SEQUENTIAL)");
    hhf3->Draw();
    
    hgr4->SetMarkerColor(kRed);

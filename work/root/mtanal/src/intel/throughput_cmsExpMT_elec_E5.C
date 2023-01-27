@@ -8,7 +8,7 @@ int throughput_cmsExpMT_elec_E5()
    gROOT->Reset();
 
    TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
-   c2->SetTitle("Geant4 MT Performance: cmsExpMT");
+   c2->SetTitle("Geant4 MT/Tasking Performance: cmsExpMT, Tasking RM");
 
    c2->cd();
    TPad *pd2[1];
@@ -149,8 +149,8 @@ int throughput_cmsExpMT_elec_E5()
    llow->Draw();
 
    TLegend *lg1 = new TLegend(0.18,0.74,0.58,0.86);
-   lg1->AddEntry(hgr3,"cmsExpMT","PL");
-   lg1->AddEntry(hgr2,"cmsExp","PL");
+   lg1->AddEntry(hgr3,"cmsExpTasking","PL");
+   lg1->AddEntry(hgr2,"cmsExpSequential","PL");
    lg1->SetTextSize(0.03);
    lg1->Draw();
 

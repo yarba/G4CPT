@@ -46,7 +46,8 @@ unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
 #
 # --> Jan.2021 migration to WC-IC
 module load gnu8/8.3.0
-module load cmake/3.15.4
+# --> need higher revision starting 11.0.c00 --> module load cmake/3.15.4
+module load cmake/3.21.3
 unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
 unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
 
@@ -96,7 +97,10 @@ cd ${BUILD_DIR}
 XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
 export XERCESC_DIR
 
-VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.8
+VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.2.0
+# --> before 11.0.r06/11.1.b01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.18
+# --> before 11.0.r01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.16
+# --> before 11.0.b01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.8
 # --> 10.6-series or older --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.5
 export VecGeom_DIR
 
@@ -110,6 +114,7 @@ cmake -DCMAKE_CXX_COMPILER=g++ \
       -DGEANT4_USE_GDML=ON \
       -DXERCESC_ROOT_DIR=${XERCESC_DIR} \
       -DGEANT4_USE_SYSTEM_EXPAT=OFF \
+      -DGEANT4_BUILD_MULTITHREADED=ON \
       -DGEANT4_USE_USOLIDS=ON \
       -DBUILD_SHARED_LIBS=OFF \
       -DBUILD_STATIC_LIBS=ON \

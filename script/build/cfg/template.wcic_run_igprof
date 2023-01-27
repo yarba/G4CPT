@@ -58,6 +58,9 @@ mkdir ${TMP_IGPROF_DIR}
 
 TMP_IG_LOG="${TMP_IGPROF_DIR}/IgProf_G4P_SAMPLE.log"
 
+export G4RUN_MANAGER_TYPE=Serial
+# export G4RUN_MANAGER_TYPE=Tasking
+# export G4FORCENUMBEROFTHREADS=1
 
 if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
      x"${EXE_NAME}" = x"cmsExpMT" ]; then
@@ -65,6 +68,8 @@ if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
 elif [ x"${EXE_NAME}" = x"lArTest" ]; then
   cp ${APPLICATION_DIR}/lArBox.gdml .
   igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} lArBox.gdml ${CFG_FILE} >& ${TMP_IG_LOG}
+# --> MT elif [ x"${EXE_NAME}" = x"SimplifiedCalo" ]; then
+# --> MT  igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} -m ${CFG_FILE} >& ${TMP_IG_LOG}   
 else
   igprof -d -mp -z -o ${IG_OUT} ${EXE_NAME} ${CFG_FILE} >& ${TMP_IG_LOG}
 fi

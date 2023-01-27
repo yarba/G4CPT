@@ -70,6 +70,9 @@ extract.expid <- function(filename)
 ### -------------------
 read.one.libraryfile <- function(filename)
   {
+    
+    print(filename)
+    
     expid <- extract.expid(filename)
     runid <- extract.runid(filename)
     tmp <- read.table(filename, header=FALSE, stringsAsFactors=FALSE)

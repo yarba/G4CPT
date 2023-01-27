@@ -9,7 +9,7 @@ tar xzf ${RAMDISK_DIR}/${TARBALL_NAME} -C ${RAMDISK_DIR}
 
 echo " Parallel jobs start at `date` "
 
-srun -l $1
+srun --cpu-bind=rank,verbose -l $1
 
 echo " Parallel jobs end at `date` "
 

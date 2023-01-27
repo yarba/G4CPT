@@ -8,7 +8,7 @@ int cpu_cores_cmsExpMT_elec_E5()
    gROOT->Reset();
 
    TCanvas* c2 = new TCanvas("c2","c2",0,0,500,400);
-   c2->SetTitle("Geant4 MT Performance: cmsExpMT");
+   c2->SetTitle("Geant4 MT/Tasking Performance: cmsExpMT, Tasking RM");
 
    c2->cd();
    TPad *pd2[1];
@@ -161,8 +161,8 @@ int cpu_cores_cmsExpMT_elec_E5()
    lg1->Draw();
    */
 
-   TLegend *lg1 = new TLegend(0.18,0.74,0.58,0.86);
-   lg1->AddEntry(hgr3,"cmsExp/cmsExpMT","PL");
+   TLegend *lg1 = new TLegend(0.18,0.74,0.78,0.86);
+   lg1->AddEntry(hgr3,"cmsExpSerial/cmsExpTasking","PL");
    lg1->SetTextSize(0.04);
    lg1->Draw();
 

@@ -63,31 +63,18 @@ sample_list=`ls ${PBS_DIR}/${PROJ_NAME}/osshwcsamp |grep -v higgs |grep -v "e\-1
 # --> if [ x"${xapp}" = x"cmsExp" ]; then
 if [[ ${xapp} =~ "cmsExp" ]]; then
 sample_list=""
-fi
-
-# PR plots (uncomment as needed)
-#sample_list="higgs.FTFP_BERT.1400.4 
-#e-.FTFP_BERT.1.4 
+#
+# PR plots
+#
+#sample_list="e-.FTFP_BERT.1.4 
 #e-.FTFP_BERT.50.4 
 #pi-.FTFP_BERT.1.4 
 #pi-.FTFP_BERT.50.4 
 #anti_proton.FTFP_BERT.1.4
 #anti_proton.FTFP_BERT.50.4
 #proton.FTFP_BERT.1.4
-#proton.FTFP_BERT.50.4
-#"
-
-# 10.4.r09 extra processing !!!
-# sample_list="pi-.QGSP_BERT.1.4 pi-.QGSP_BERT.50.4 pi-.QGSP_BIC.50.4 pi-.FTFP_INCLXX.1.4 proton.Shielding.1.4 proton.Shielding.5.4"
-
-# MaxLifeTime study
-#sample_list="pi-.FTFP_BERT.5.0
-#pi-.FTFP_BERT.5.4
-#pi-.FTFP_BERT.50.0
-#pi-.FTFP_BERT.50.4
-#proton.FTFP_BERT.5.4
-#proton.FTFP_BERT.50.4
-#" 
+#proton.FTFP_BERT.50.4"
+fi
 
 echo " sample_list = $sample_list"
 
@@ -136,7 +123,6 @@ for sample in ${sample_list} ; do
 #    mv ${ANAL_DIR}/${sample} ${ANAL_DIR_DESTI}/${sample}
  fi
 done
-
 
 if [ x"${xapp}" = x"lArTest" ]; then
   echo "... processed lArTest samples ..."

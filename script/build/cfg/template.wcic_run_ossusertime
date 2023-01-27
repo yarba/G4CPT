@@ -48,9 +48,14 @@ cd ${PBS_WORK_DIR}
 export HOME=/work1/g4p/${USER}
 module load gnu8/8.3.0
 module load binutils/2.31.90
+# --> module load gnu9/9.3.0
+#
 export SPACK_ROOT=/work1/g4p/g4p/products/spack
 . ${SPACK_ROOT}/share/spack/setup-env.sh
-spack load openspeedshop
+#
+spack load openspeedshop%gcc@8.3.0
+# --> spack load binutils@2.31.1%gcc@9.3.0
+# --> spack load openspeedshop%gcc@9.3.0
 
 
 mkdir ${PBS_WORK_DIR}/raw
@@ -62,6 +67,10 @@ export OPENSS_DB_DIR=${PBS_WORK_DIR}/db
 source ${APPLICATION_DIR}/setenv_pbs.sh
 
 export PATH=${APPLICATION_DIR}/bin:${PATH}
+
+export G4RUN_MANAGER_TYPE=Serial
+# --> export G4RUN_MANAGER_TYPE=Tasking
+# --> export G4FORCENUMBEROFTHREADS=1
 
 if [ ! -f ${INPUT_FILE} ]
 then
@@ -79,6 +88,9 @@ then
 
   if [ x"${EXE_NAME}" = x"cmsExp" -o x"${EXE_NAME}" = x"cmsExpMT" ]; then
     ln -s ../cmsExp.gdml cmsExp.gdml
+  fi
+  if [ x"${EXE_NAME}" = x"SimplifiedCalo" ]; then
+    ln -s ${APPLICATION_DIR}/SimplifiedCalo.gdml SimplifiedCalo.gdml
   fi
 fi
 
@@ -116,6 +128,8 @@ if [ x"${EXE_NAME}" = x"SimplifiedCaloMT" -o \
 elif [ x"${EXE_NAME}" = x"lArTest" ]; then
   cp ${APPLICATION_DIR}/lArBox.gdml .
   ossusertime "${EXE_NAME_FOR_OSS} lArBox.gdml ${CFG_FILE}" ${SAMPLE_FREQUENCY} > tmp.stdout 2> tmp.stderr &
+# --> MT elif [ x"${EXE_NAME}" = x"SimplifiedCalo" ]; then
+# --> MT  ossusertime "${EXE_NAME_FOR_OSS} -m ${CFG_FILE}" ${SAMPLE_FREQUENCY} > tmp.stdout 2> tmp.stderr &
 else
   ossusertime "${EXE_NAME_FOR_OSS} ${CFG_FILE}" ${SAMPLE_FREQUENCY} > tmp.stdout 2> tmp.stderr &
 fi
