@@ -16,21 +16,21 @@ int cpu_time_mean()
    std::string release[nb] = {
 			"10.5.p01",
 			"10.6.p03",
-			"10.7.p03",
-			"11.0-serial",
-			"11.0"
+			"10.7.p04",
+			"11.0.p03",
+			"11.1.gcc11"
    };
 
 //   char *version[nb] = {
    std::string version[nb] = {
 			"10.5.p01",
 			"10.6.p03",
-			"10.7.p03",
-			"11.0-serial",
-			"11.0"
+			"10.7.p04",
+			"11.0.p03",
+			"11.1"
    };
 
-   const int iref = 2; //reference 10.7.p03
+   const int iref = 3; //reference 11.0.p03
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -67,10 +67,11 @@ int cpu_time_mean()
    for(int i = 0 ; i < nb ; i++) {
      for(int j = 0 ; j < ns ; j++) {
        fscanf(cfile[i],"%f %f %s %s", &mcputime, &ecputime, sample, processor);
+       
        amd_cputime[j][i] = mcputime;
        amd_error[j][i] = ecputime;
 
-       if(i==iref) { //10.0 (reference)
+       if(i==iref) { //11.0.p03 (reference)
 	 sample_id[j] = sample;
          hmax[j] = mcputime*1.4;
          hmin[j] = mcputime*0.6;
@@ -291,7 +292,8 @@ int cpu_time_mean()
      tnd11->SetTextSize(0.06);
      tnd11->SetTextColor(kBlack);
 //     tnd11->DrawLatex(2.8,jpos[i],"GCC4.9.2/Linux x86_64");
-     tnd11->DrawLatex(1.3,jpos[i],"GCC8.3.0/Linux x86_64");
+//     tnd11->DrawLatex(1.3,jpos[i],"GCC8.3.0/Linux x86_64");
+     tnd11->DrawLatex(1.3,jpos[i],"GCC11.3.0/Linux x86_64");
 
      // check if proper directory exists
      string outdir = "/geant4-perf/g4p/prplots." + std::string(release[nb-1]);

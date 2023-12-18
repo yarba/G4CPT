@@ -45,11 +45,14 @@ echo " G4DATASETS_DIR = ${G4DATASETS_DIR} "
 unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
 #
 # --> Jan.2021 migration to WC-IC
-module load gnu8/8.3.0
+# --> module load gnu8/8.3.0
+module load gnu11/11.3.0
 # --> need higher revision starting 11.0.c00 --> module load cmake/3.15.4
 module load cmake/3.21.3
-unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
-unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
+# --> unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
+# --> unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
+unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
+unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Create the directory structure
@@ -94,10 +97,15 @@ cd ${BUILD_DIR}
 # configure with cmake
 #-----------------------------------------------------------------------
 # --> Jan.2021 migration to WC-IC
-XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+# --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
 export XERCESC_DIR
 
-VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.2.0
+# starting 11.1
+VecGeom_DIR=/work1/g4p/g4p/products/gcc-11.3.0/VecGgeom/build/VecGeom.1.2.6
+# 1.2.0 up to 11.1
+# --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.2.0
+# VecGeom_DIR=/work1/g4p/g4p/products/gcc-11.3.0/VecGgeom/build/VecGeom.1.2.0
 # --> before 11.0.r06/11.1.b01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.18
 # --> before 11.0.r01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.16
 # --> before 11.0.b01 --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.1.8

@@ -103,7 +103,7 @@ sample_list="higgs.FTFP_BERT.1400.4
 # --> if [ x"${APPLICATION_NAME}" = x"cmsExp" ]; then
 if [[ ${APPLICATION_NAME} =~ "cmsExp" ]]; then
 sample_list="higgs.FTFP_BERT.1400.4"
-# --> PR plots --> sample_list="higgs.FTFP_BERT.1400.4
+# --> PR plots -- > sample_list="higgs.FTFP_BERT.1400.4
 #e-.FTFP_BERT.1.4 
 #e-.FTFP_BERT.50.4 
 #pi-.FTFP_BERT.1.4 

@@ -206,7 +206,13 @@ echo "... Preparing ossdata_idx_hwcsamp"
 hwclist=`ls ${SAMPLE_DIR}/profdata_*_hwcsamp`
 for ff in $hwclist ; do
   idx=`echo ${ff} |awk '{split($0,id,"data_"); print id["2"]}' | awk '{split($0,sid,"_hwcsamp"); print sid["1"]}'`
-  tail -n +8 ${ff} | awk '{split($9,fname,"\\(") ; if($6 ~ /^[0-9]*$/) print fname["1"]" "$2" "$3/$4" "$3" "$4" "$5" "$6}' | \
+#
+# --> In earlier releases of OSS the function name was in the 9th position of each line in the output
+# --> Apparently since transition to OSS 2.4.1 it moved to 10th position
+# --> In principle, if it's always the last position one can use $NF instead of explicit $9 or $10
+#
+# -->  tail -n +8 ${ff} | awk '{split($9,fname,"\\(") ; if($6 ~ /^[0-9]*$/) print fname["1"]" "$2" "$3/$4" "$3" "$4" "$5" "$6}' | \
+  tail -n +8 ${ff} | awk '{split($10,fname,"\\(") ; if($6 ~ /^[0-9]*$/) print fname["1"]" "$2" "$3/$4" "$3" "$4" "$5" "$6}' | \
        grep -v "cxx17" | head -n 300 | awk '{if(NF==7) print $0}' > ossdata_${idx}_hwcsamp 
   nlines=`more ossdata_${idx}_hwcsamp | wc -l`
   if [ $nlines -lt 2 ]; then

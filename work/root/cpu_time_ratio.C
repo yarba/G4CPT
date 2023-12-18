@@ -12,61 +12,6 @@ int cpu_time_ratio()
 		      // + added higgs+0-field
 
 /*
-   const int nb = 21;
-
-   std::string release[nb] = {
-			"10.5.p01",
-			"10.6.p03",
-			"10.7",
-			"10.7.p01",
-			"10.7.p02",
-			"10.7.p03.c00",
-			"10.7.p03",
-			"10.7.r01",
-			"10.7.r02",
-			"10.7.r03",
-			"10.7.r04",
-			"10.7.r05",
-			"10.7.r06",
-			"10.7.r06-tasking",
-			"10.7.r07-serial",
-			"10.7.r07",
-			"10.7.r08-serial",
-			"10.7.r08-mt",
-			"10.7.r09-mt",
-//			"11.0.c00",
-//			"11.0.c01",
-			"11.0-serial",
-			"11.0"
-   }; // internal name used for profiling jobs
-
-   std::string version[nb] = {
-			"10.5.p01",
-			"10.6.p03",
-			"10.7",
-			"10.7.p01",
-			"10.7.p02",
-			"10.7.p03.c00",
-			"10.7.p03",
-			"10.7.r01",
-			"10.7.r02",
-			"10.7.r03",
-			"10.7.r04",
-			"10.7.r05",
-			"10.7.r06",
-			"10.7.r06-mt",
-			"10.7.r07-serial",
-			"10.7.r07-mt",
-			"10.7.r08-serial",
-			"10.7.r08-mt",
-			"10.7.r09-mt",
-//			"11.0.c00",
-//			"11.0.c01",
-			"11.0-serial",
-			"11.0"
-   }; // legend for plots
-*/
-
    const int nb = 23;
 
    std::string release[nb] = {
@@ -120,8 +65,71 @@ int cpu_time_ratio()
 			"11.1",
 			"11.1.gcc11"
    }; // legend for plots
+*/
 
-   const int iref = 4; //reference 11.0
+   const int nb = 27;
+
+   std::string release[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7.p04",
+			"11.0.p03",
+			"11.0.p03.gcc11",
+			"11.0.p04",
+			"11.1",
+			"11.1.gcc11",
+			"11.1.p01",
+			"11.1.p01r",
+			"11.1.p02",
+			"11.1.p03",
+			"11.1.r01",
+			"11.1.r02",
+			"11.1.r03",
+			"11.1.r04",
+			"11.1.r05",
+			"11.1.r05r",
+			"11.1.r06",
+			"11.1.r07",
+			"11.1.r08",
+			"11.1.r08r",
+			"11.1.r09",
+			"11.1.r10",
+			"11.2.c00",
+			"11.2.c01",
+			"11.2.c02"
+   }; // internal name used for profiling jobs
+
+   std::string version[nb] = {
+			"10.5.p01.gcc8",
+			"10.6.p03.gcc8",
+			"10.7.p04.gcc8",
+			"11.0.p03.gcc8",
+			"11.0.p03",
+			"11.0.p04",
+			"11.1.gcc8",
+			"11.1",
+			"11.1.p01",
+			"11.1.p01r",
+			"11.1.p02",
+			"11.1.p03",
+			"11.1.r01",
+			"11.1.r02",
+			"11.1.r03",
+			"11.1.r04",
+			"11.1.r05",
+			"11.1.r05r",
+			"11.1.r06",
+			"11.1.r07",
+			"11.1.r08",
+			"11.1.r08r",
+			"11.1.r09",
+			"11.1.r10",
+			"11.2.c00",
+			"11.2.c01",
+			"11.2.c02"
+   }; // legend for plots
+
+   const int iref = 7; //reference 11.1(gcc11)
 
    char cfilename[256];
    FILE *cfile[nb];    
@@ -155,7 +163,7 @@ int cpu_time_ratio()
 	 sample_id[j] = sample;
 //         hmax[j] = mcputime*1.2;
 //         hmin[j] = mcputime*0.8;
-         hmax[j] = mcputime*1.35;
+         hmax[j] = mcputime*1.5;
          hmin[j] = mcputime*0.8;
        }
      }
@@ -178,7 +186,7 @@ int cpu_time_ratio()
      if(i==iref) 
      { 
 	 sample_id[ns] = sample;
-         hmax[ns] = mcputime*1.35;
+         hmax[ns] = mcputime*1.5;
          hmin[ns] = mcputime*0.8;
      }
 
@@ -335,7 +343,7 @@ int cpu_time_ratio()
         hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.4,1.3);
         }
         else {
-        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.3);
+        hhf[i] = new TH2F(hname,htitle, nb,0,nb,1,0.8,1.5);
         }
      }
 

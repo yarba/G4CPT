@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-module load gnu8/8.3.0
+# module load gnu8/8.3.0
+module load gnu11/11.3.0
 
-G4P_IGPROF_DIR=/srv/software/profilers/igprof
+# G4P_IGPROF_DIR=/srv/software/profilers/igprof
+G4P_IGPROF_DIR=/work1/g4p/g4p/products/gcc-11.3.0/IgProf/igprof-5.9.18-install
 export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
 
 tool_dir=G4P_EXP_DIR/igprof

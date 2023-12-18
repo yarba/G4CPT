@@ -27,11 +27,32 @@ source setenv.sh
 # Setup OSS
 #
 export HOME=/work1/g4p/${USER}
-module load gnu8/8.3.0
-module load binutils/2.31.90
-export SPACK_ROOT=/work1/g4p/g4p/products/spack
+# module load gnu8/8.3.0
+# module load binutils/2.31.90
+# export SPACK_ROOT=/work1/g4p/g4p/products/spack
+# . ${SPACK_ROOT}/share/spack/setup-env.sh
+# spack load openspeedshop%gcc@8.3.0
+#
+# migration to gcc11
+#
+module load gnu11/11.3.0
+export SPACK_ROOT=/srv/software/spack-2cfac3
+#
 . ${SPACK_ROOT}/share/spack/setup-env.sh
-spack load openspeedshop%gcc@8.3.0
+#
+source /srv/software/src/openspeedshop/build/load.sh
+#
+export PATH=/srv/software/oss-dev/bin:$PATH
+export LD_LIBRARY_PATH=/srv/software/oss-dev/lib64:$LD_LIBRARY_PATH
+#
+# NOTE: spack load dyninst@10.1.0 does NOT extend LD_LIBRARY_PATH properly, 
+#       so we have (tmp) to do it manually
+export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/dyninst-10.1.0-m2ohol2n2pg4df5ejbkaazofk6zy2lgp/lib:$LD_LIBRARY_PATH
+#
+# NOTE : spack load papi@6.0.0.1 does NOT expand LD_LIBRARY_PATH properly,
+#        so we have (tmp) to do it manually
+export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/papi-6.0.0.1-m3tascwjob6dspilo3vlwhv3edli36we/lib:$LD_LIBRARY_PATH
+
 
 node=G4PMT_NODE
 particle=G4PMT_PID

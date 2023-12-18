@@ -46,17 +46,31 @@ cd ${PBS_WORK_DIR}
 # Setup OSS
 #
 export HOME=/work1/g4p/${USER}
-module load gnu8/8.3.0
-module load binutils/2.31.90
-# --> module load gnu9/9.3.0
 #
-export SPACK_ROOT=/work1/g4p/g4p/products/spack
+# --> module load gnu8/8.3.0
+# --> module load binutils/2.31.90
+# --> export SPACK_ROOT=/work1/g4p/g4p/products/spack
+# provisions for future upgrade...
+module load gnu11/11.3.0
+export SPACK_ROOT=/srv/software/spack-2cfac3
+#
 . ${SPACK_ROOT}/share/spack/setup-env.sh
-spack load openspeedshop%gcc@8.3.0
 #
-# --> spack load binutils@2.31.1%gcc@9.3.0
-# --> spack load openspeedshop%gcc@9.3.0
-
+source /srv/software/src/openspeedshop/build/load.sh
+#
+# --> spack load openspeedshop%gcc@8.3.0
+#
+# provisions for future upgrade...
+export PATH=/srv/software/oss-dev/bin:$PATH
+export LD_LIBRARY_PATH=/srv/software/oss-dev/lib64:$LD_LIBRARY_PATH
+#
+# NOTE: spack load dyninst@10.1.0 does NOT extend LD_LIBRARY_PATH properly, 
+#       so we have (tmp) to do it manually
+export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/dyninst-10.1.0-m2ohol2n2pg4df5ejbkaazofk6zy2lgp/lib:$LD_LIBRARY_PATH
+#
+# NOTE : spack load papi@6.0.0.1 does NOT expand LD_LIBRARY_PATH properly,
+#        so we have (tmp) to do it manually
+export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/papi-6.0.0.1-m3tascwjob6dspilo3vlwhv3edli36we/lib:$LD_LIBRARY_PATH
 
 mkdir ${PBS_WORK_DIR}/raw
 mkdir ${PBS_WORK_DIR}/db
@@ -174,7 +188,8 @@ echo " Starting openss at `date` "
 
 echo "expview" > hwcsamp.oss
 echo "exit" >> hwcsamp.oss
-openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp-0.openss < hwcsamp.oss >& profdata_${QLOOP}_hwcsamp
+# --> openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp-0.openss < hwcsamp.oss >& profdata_${QLOOP}_hwcsamp
+openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp.openss < hwcsamp.oss >& profdata_${QLOOP}_hwcsamp
 # below is an update, as an attemp to avoid "hanging" jobs in the intel12 queue...
 # ... which does NOT seem to work...
 # so we're removing this step from the workflow, and will add it to analysis 
@@ -184,7 +199,9 @@ openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp-0.openss < hwcsamp.oss >& 
 
 # output tar file
 TAR_FILE=${PBS_WORK_DIR}/g4profiling_${QLOOP}.tgz
-mv ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp-0.openss \
+# --> mv ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp-0.openss \
+# -->   ${PBS_WORK_DIR}/${EXE_NAME}-hwcsamp_${QLOOP}.openss
+mv ${PBS_WORK_DIR}/db/${EXE_NAME}-hwcsamp.openss \
    ${PBS_WORK_DIR}/${EXE_NAME}-hwcsamp_${QLOOP}.openss
 
 echo "tar file for this loop: ${TAR_FILE}" >> ${NOTE_FILE}

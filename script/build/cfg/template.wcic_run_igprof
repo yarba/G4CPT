@@ -28,9 +28,11 @@ cd ${OUTPUT_DIR}
 # bin and lib path for igprof, and lib64 path for igprof-analysis 
 #-----------------------------------------------------------------------
 
-module load gnu8/8.3.0
+# module load gnu8/8.3.0
+module load gnu11/11.3.0
 
-G4P_IGPROF_DIR=/srv/software/profilers/igprof
+# G4P_IGPROF_DIR=/srv/software/profilers/igprof
+G4P_IGPROF_DIR=/work1/g4p/g4p/products/gcc-11.3.0/IgProf/igprof-5.9.18-install
 
 export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib

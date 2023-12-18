@@ -48,20 +48,20 @@ unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
 
 #
 # --> Jan.2021 migration to WC-IC
-module load gnu8/8.3.0
+# --> module load gnu8/8.3.0
 #
-# provisions for future...
-# --> module load gnu11/11.3.0
+# provisions for future upgrade...
+module load gnu11/11.3.0
 
 # --> need higher revision starting 11.0.c00 --> module load cmake/3.15.4
 module load cmake/3.21.3
 
-unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
-unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
+# --> unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
+# --> unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
 #
-# provisions for future...
-# --> unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
-# --> unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
+# provisions for future upgrade...
+unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
+unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Specific Flags for CMMSSW: Compiler and CLHEP 
@@ -162,10 +162,10 @@ cd ${BUILD_DIR}
 #FLAG_TESTR="-O3 -g -fno-omit-frame-pointer -DG4FPE_DEBUG -DG4DEBUG_VERBOSE" 
 
 # --> Jan.2021 migration to WC-IC
-XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+# --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
 #
-# provisions for future...
-# --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+# provisions for future upgrade...
+XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
 #
 export XERCESC_DIR
 

@@ -26,18 +26,18 @@ DOWNLOAD_DIR="${PROJECT_DIR}/download"
 #
 # --> Jan.2021 migration ot WC-IC
 #
-module load gnu8/8.3.0
+# --> module load gnu8/8.3.0
 # --> module load cmake/3.15.4
 #
-# provisions for future...
-# --> module load gnu11/11.3.0
+# provisions for future upgrade...
+module load gnu11/11.3.0
 
 module load cmake/3.21.3
 
-COMPILER_DIR="/opt/ohpc/pub/compiler/gcc/8.3.0"
+# --> COMPILER_DIR="/opt/ohpc/pub/compiler/gcc/8.3.0"
 #
-# provisions for future...
-# --> COMPILER_DIR="/srv/software/gnu11/11.3.0"
+# provisions for future upgrade...
+COMPILER_DIR="/srv/software/gnu11/11.3.0"
 
 CFG_DIR="${PWD}/../cfg"
 SRC_DIR="${PWD}"
@@ -142,10 +142,10 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    #
    # --> Jn.2021 migration to WC-IC
    #
-   XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
+   # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
    #
    # provisions for future...
-   # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3   
+   XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3   
    #
    export XERCESC_DIR
    export LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
@@ -205,10 +205,10 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
   #
   # --> Jan.2021 migration to WC-IC
   #
-  XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
+  # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
   #
-  # provisions for future...
-  # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+  # provisions for future upgrade...
+  XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
   export XERCESC_DIR
   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 
