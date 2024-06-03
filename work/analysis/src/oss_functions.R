@@ -225,6 +225,9 @@ read.one.callpathsfile <- function(filename)
 ### -------------------
 read.one.hwcsampfile <- function(filename)
   {
+    
+    print(filename)
+    
     expid <- extract.expid(filename)
     runid <- extract.runid(filename)
     tmp <- read.table(filename, header=FALSE, stringsAsFactors=FALSE)
@@ -440,6 +443,9 @@ load.callpaths <- function(subdir)
 ### -------------------
 load.hwcsamp <- function(subdir)
   {
+    
+    print(subdir)
+
     tmp <- do.call( rbind
                    , lapply( get.files.for("hwcsamp", subdir)
                             , read.one.hwcsampfile

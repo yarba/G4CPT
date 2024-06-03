@@ -108,13 +108,21 @@ done
 
 # weed out corrupted ossusertime outputs
 #
-# tlist=`ls ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz `
-tlist=`zgrep -ai "Error during termination" ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz |\
+# *** tlist=`ls ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz `
+## tlist=`zgrep -ai "Error during termination" ${PBS_DIR}/${PROJECT}/ossusertime/${SAMPLE_NAME}/g4profiling_*tgz |\
+##	awk -F ":" '{print $1}'`
+## #for tf in ${tlist}; do
+## #echo " ... Removing problematic ${tf} ... "
+## #rm -f ${tf}
+## #done
+
+tlist=`zgrep -ai "No valid experiment" ${PBS_DIR}/${PROJECT}/oss*/${SAMPLE_NAME}/g4profiling_*tgz |\
 	awk -F ":" '{print $1}'`
-#for tf in ${tlist}; do
-#echo " ... Removing problematic ${tf} ... "
-#rm -f ${tf}
-#done
+
+for tf in ${tlist}; do
+## --> rm -rf ${tf}
+mv ${tf} ${tf}-problematic
+done
 
 # now redefine tlist for further processing
 #
@@ -155,7 +163,8 @@ done
      rm *_${idx}*
   else
     sed -i "s/G4WORKDIR/G4TOPDIR/" run_env_${idx}.txt
-    echo "G4WORKDIR=/uscms_data/d2/${USER}/g4p/g4.${GEANT_RELEASE}/unmodified/work/SimplifiedCalo" >> run_env_${idx}.txt
+    # --> echo "G4WORKDIR=/uscms_data/d2/${USER}/g4p/g4.${GEANT_RELEASE}/unmodified/work/SimplifiedCalo" >> run_env_${idx}.txt
+    echo "G4WORKDIR=/uscms_data/d2/${USER}/g4p/g4.${GEANT_RELEASE}/unmodified/work/${APPLICATION}" >> run_env_${idx}.txt
       #we may concatenate all log files, but let's keep it last one for now
       cp stdout_${idx}.txt g4p_${SAMPLE_NAME}.log
   fi
@@ -216,11 +225,12 @@ for ff in $hwclist ; do
        grep -v "cxx17" | head -n 300 | awk '{if(NF==7) print $0}' > ossdata_${idx}_hwcsamp 
   nlines=`more ossdata_${idx}_hwcsamp | wc -l`
   if [ $nlines -lt 2 ]; then
+    echo "problematic ossdata_${idx}_hwcsamp"
     rm ossdata_${idx}_hwcsamp
 # -->    rm ${ff}
   fi
 done
-#some of hwcsamp output has a null field (empty) for fp_ops, so check that the last field is numberic
+#some of hwcsamp output has a null field (empty) for fp_ops, so check that the last field is numeric
 #---------------------------------------------------------------------------------------------
 
 
@@ -238,9 +248,19 @@ pushd ${BASE_DIR}
 path_to_rscript=$(which Rscript)
 if [ ! -x "$path_to_rscript" ]; then
 echo " Adding path to Rscript "
-PATH=/work1/g4p/g4p/products/spack/opt/spack/linux-scientific7-ivybridge/gcc-8.3.0/r-4.0.2-gsbftm26sqrpj6jjsqljzumj4452vuct/bin:$PATH
-# . /work1/g4p/g4p/products/spack/share/spack/setup-env.sh
-# spack load r
+# PATH=/work1/g4p/g4p/products/spack/opt/spack/linux-scientific7-ivybridge/gcc-8.3.0/r-4.0.2-gsbftm26sqrpj6jjsqljzumj4452vuct/bin:$PATH
+ 
+#
+# NOTE: R/Rscript can be setup either way, via just PATH
+#       or via full-scale spack load
+
+PATH=/work1/g4p/g4p/products-el8/spack/opt/spack/linux-almalinux8-ivybridge/gcc-11.4.0/r-4.2.2-j33gywwmz5bhv6vzvbdv7mbicdkr57hi/bin:$PATH
+
+# export HOME=/work1/g4p/g4p/products-el8
+# export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+# . ${SPACK_ROOT}/share/spack/setup-env.sh
+# spack load r@4.2.2
+
 echo " Rscript: `which Rscript`"
 fi
 

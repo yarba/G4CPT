@@ -29,6 +29,8 @@ for pid in pi- e- ; do
 # --> migrate    sbatch --nodes=1 --partition intel12 --time=24:00:00 --array=1-${Queue} -A g4p $Executable
 # --> Jan.2021 migration to WC-IC
 # NOTE: no need to specify time as 24hrs is default with qos=regular
-    sbatch -N 1 -c 1 -p cpu_gce --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Executable
+##    sbatch -N 1 -c 1 -p cpu_gce --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Executable
+# migration to EL8 
+    sbatch -N 1 -c 1 -p wc_cpu --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Executable
   done
 done

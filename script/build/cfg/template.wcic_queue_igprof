@@ -9,4 +9,6 @@ cd ${WORK_DIR}
 Master=G4P_RUN_MASTER
 Executable=G4P_RUN_SHELL
 
-sbatch -N 1 -c 1 -p cpu_gce --exclusive -A g4p $Master $Executable
+## sbatch -N 1 -c 1 -p cpu_gce --exclusive -A g4p $Master $Executable
+# migration to EL8
+sbatch -N 1 -c 1 -p wc_cpu --exclusive -A g4p $Master $Executable

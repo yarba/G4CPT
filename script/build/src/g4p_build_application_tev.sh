@@ -29,15 +29,21 @@ DOWNLOAD_DIR="${PROJECT_DIR}/download"
 # --> module load gnu8/8.3.0
 # --> module load cmake/3.15.4
 #
-# provisions for future upgrade...
-module load gnu11/11.3.0
+# provisions for future upgrade on WC-IC...
+## module load gnu11/11.3.0
+# migration to EL8 and gcc/11.4.0
+module load gcc/11.4.0
 
-module load cmake/3.21.3
+## module load cmake/3.21.3
+# migration to EL8 
+module load cmake  # 3.27.3 will be loaded by default
 
 # --> COMPILER_DIR="/opt/ohpc/pub/compiler/gcc/8.3.0"
 #
-# provisions for future upgrade...
-COMPILER_DIR="/srv/software/gnu11/11.3.0"
+# provisions for future upgrade on WC-IC...
+## COMPILER_DIR="/srv/software/gnu11/11.3.0"
+# migration to EL8 and gcc/11.4.0
+COMPILER_DIR="/srv/software/el8/x86_64/eb/GCCcore/11.4.0"
 
 CFG_DIR="${PWD}/../cfg"
 SRC_DIR="${PWD}"
@@ -144,8 +150,10 @@ if [[ ${APPLICATION_NAME} =~ "VG" ]]; then
    #
    # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3   
    #
-   # provisions for future...
-   XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3   
+   # provisions for future on WC-IC...
+   ## XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3 
+   # migration to EL8 and gcc/11.4.0 
+   XERCESC_DIR=/work1/g4p/g4p/products-el8/spack/opt/spack/linux-almalinux8-ivybridge/gcc-11.4.0/xerces-c-3.2.3-zgaruhzlzpjxhvg4kf7nrljpzmz3e64j
    #
    export XERCESC_DIR
    export LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
@@ -207,8 +215,10 @@ if [ x"${APPLICATION_NAME}" = x"SimplifiedCalo" -o \
   #
   # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
   #
-  # provisions for future upgrade...
-  XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+  # provisions for future upgrade on WC-IC...
+  ## XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+  # migration to EL8 and gcc/11.4.0
+  XERCESC_DIR=/work1/g4p/g4p/products-el8/spack/opt/spack/linux-almalinux8-ivybridge/gcc-11.4.0/xerces-c-3.2.3-zgaruhzlzpjxhvg4kf7nrljpzmz3e64j
   export XERCESC_DIR
   export=LD_LIBRARY_PATH=$XERCESC_DIR/lib:${LD_LIBRARY_PATH}
 

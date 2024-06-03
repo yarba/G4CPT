@@ -12,62 +12,7 @@ int mem_count_ratio()
 		      // + higgs+0-field
 
 /*
-   const int nb = 23;
-
-   std::string release[nb] = {
-			"10.5.p01",
-			"10.6.p03",
-			"10.7.p03",
-			"10.7.p04",
-			"11.0-serial",
-			"11.0",
-			"11.0.p01.c00",
-			"11.0.p02",
-			"11.0.p03",
-			"11.0.r01",
-			"11.0.r02",
-			"11.0.r03",
-			"11.0.r04",
-			"11.0.r05",
-			"11.0.r06",
-			"11.0.r07",
-			"11.0.r08",
-			"11.0.r09",
-			"11.1.c00",
-			"11.1.c01",
-			"11.1.c02",
-			"11.1",
-			"11.1.gcc11"
-   }; // internal name used for profiling jobs
-
-   std::string version[nb] = {
-			"10.5.p01",
-			"10.6.p03",
-			"10.7.p03",
-			"10.7.p04",
-			"11.0-serial",
-			"11.0",
-			"11.0.p01",
-			"11.0.p02",
-			"11.0.p03",
-			"11.0.r01",
-			"11.0.r02",
-			"11.0.r03",
-			"11.0.r04",
-			"11.0.r05",
-			"11.0.r06",
-			"11.0.r07",
-			"11.0.r08",
-			"11.0.r09",
-			"11.1.c00",
-			"11.1.c01",
-			"11.1.c02",
-			"11.1",
-			"11.1.gcc11"
-   }; // legend for plots
-*/
-
-   const int nb = 25;
+   const int nb = 26;
 
    std::string release[nb] = {
 			"10.5.p01",
@@ -94,7 +39,8 @@ int mem_count_ratio()
 			"11.1.r10",
 			"11.2.c00",
 			"11.2.c01",
-			"11.2.c02"
+			"11.2.c02",
+			"11.2"
    }; // internal name used for profiling jobs
 
    std::string version[nb] = {
@@ -122,10 +68,36 @@ int mem_count_ratio()
 			"11.1.r10",
 			"11.2.c00",
 			"11.2.c01",
-			"11.2.c02"
+			"11.2.c02",
+			"11.2"
+   }; // legend for plots
+*/
+
+   const int nb = 8;
+
+   std::string release[nb] = {
+			"10.5.p01",
+			"10.6.p03",
+			"10.7.p04",
+			"11.0.p03",
+			"11.0.p03.gcc11",
+			"11.0.p04",
+			"11.1.p03",
+			"11.2"
+   }; // internal name used for profiling jobs
+
+   std::string version[nb] = {
+			"10.5.p01.gcc8",
+			"10.6.p03.gcc8",
+			"10.7.p04.gcc8",
+			"11.0.p03.gcc8",
+			"11.0.p03",
+			"11.1.p03",
+			"11.0.p04",
+			"11.2"
    }; // legend for plots
 
-   const int iref = 7; //reference 11.1(gcc11)
+   const int iref = 7; //reference 11.1(sl7+gcc11)
 
 
    char cfilename[256];

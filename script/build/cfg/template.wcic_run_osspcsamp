@@ -44,34 +44,44 @@ cd ${PBS_WORK_DIR}
 
 # --> Jan.2021 migration to WC-IC
 #
-# Setup OSS
+# Setup OSS (SL7)
 #
-export HOME=/work1/g4p/${USER}
+## export HOME=/work1/g4p/${USER}
 #
 # --> module load gnu8/8.3.0
 # --> module load binutils/2.31.90
 # --> export SPACK_ROOT=/work1/g4p/g4p/products/spack
 # provisions for future upgrade...
-module load gnu11/11.3.0
-export SPACK_ROOT=/srv/software/spack-2cfac3
+## module load gnu11/11.3.0
+## export SPACK_ROOT=/srv/software/spack-2cfac3
 #
-. ${SPACK_ROOT}/share/spack/setup-env.sh
+## . ${SPACK_ROOT}/share/spack/setup-env.sh
 #
-source /srv/software/src/openspeedshop/build/load.sh
+## source /srv/software/src/openspeedshop/build/load.sh
 #
 # --> spack load openspeedshop%gcc@8.3.0
 #
 # provisions for future upgrade...
-export PATH=/srv/software/oss-dev/bin:$PATH
-export LD_LIBRARY_PATH=/srv/software/oss-dev/lib64:$LD_LIBRARY_PATH
+## export PATH=/srv/software/oss-dev/bin:$PATH
+## export LD_LIBRARY_PATH=/srv/software/oss-dev/lib64:$LD_LIBRARY_PATH
 #
 # NOTE: spack load dyninst@10.1.0 does NOT extend LD_LIBRARY_PATH properly, 
 #       so we have (tmp) to do it manually
-export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/dyninst-10.1.0-m2ohol2n2pg4df5ejbkaazofk6zy2lgp/lib:$LD_LIBRARY_PATH
+## export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/dyninst-10.1.0-m2ohol2n2pg4df5ejbkaazofk6zy2lgp/lib:$LD_LIBRARY_PATH
 #
 # NOTE : spack load papy@6.0.0.1 does NOT expand LD_LIBRARY_PATH properly,
 #        so we have (tmp) to do it manually
-export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/papi-6.0.0.1-m3tascwjob6dspilo3vlwhv3edli36we/lib:$LD_LIBRARY_PATH
+## export LD_LIBRARY_PATH=/srv/software/spack-2cfac3/opt/spack/linux-scientific7-ivybridge/gcc-11.3.0/papi-6.0.0.1-m3tascwjob6dspilo3vlwhv3edli36we/lib:$LD_LIBRARY_PATH
+
+
+# setup OSS - migration to EL8 and gcc/11.4.0
+#
+module load gcc/11.4.0
+export HOME=/work1/g4p/g4p/products-el8
+export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+. ${SPACK_ROOT}/share/spack/setup-env.sh
+spack load openspeedshop@develop
+
 
 mkdir ${PBS_WORK_DIR}/raw
 mkdir ${PBS_WORK_DIR}/db
@@ -179,15 +189,15 @@ echo " Starting openss at `date` "
 #
 echo "expview" > names.oss
 echo "exit" >> names.oss
-# --> openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp-0.openss < names.oss >& profdata_${QLOOP}_names
-openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp.openss < names.oss >& profdata_${QLOOP}_names
+openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp-0.openss < names.oss >& profdata_${QLOOP}_names
+# --> openss -cli -f ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp.openss < names.oss >& profdata_${QLOOP}_names
 
 # output tar file
 TAR_FILE=${PBS_WORK_DIR}/g4profiling_${QLOOP}.tgz
-# --> mv ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp-0.openss \
-# -->   ${PBS_WORK_DIR}/${EXE_NAME}-pcsamp_${QLOOP}.openss
-mv ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp.openss \
-   ${PBS_WORK_DIR}/${EXE_NAME}-pcsamp_${QLOOP}.openss
+mv ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp-0.openss \
+  ${PBS_WORK_DIR}/${EXE_NAME}-pcsamp_${QLOOP}.openss
+# --> mv ${PBS_WORK_DIR}/db/${EXE_NAME}-pcsamp.openss \
+# -->    ${PBS_WORK_DIR}/${EXE_NAME}-pcsamp_${QLOOP}.openss
 
 echo "tar file for this loop: ${TAR_FILE}" >> ${NOTE_FILE}
 echo "PID for this loop: ${PROC_ID}"       >> ${NOTE_FILE}

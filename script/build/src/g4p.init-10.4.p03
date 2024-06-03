@@ -14,16 +14,16 @@
 #
 #G4P_GEANT4_RELEASE=10.5.cf274b0
 #
-G4P_GEANT4_RELEASE=11.2.r05
+G4P_GEANT4_RELEASE=10.4.p03
 
 #application name
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp,cmsExpMT,lArTest]
 #G4P_APPLICATION_NAME=[SimplifiedCalo,cmsExp]
 # G4P_APPLICATION_NAME=cmsExp
-G4P_APPLICATION_NAME=cmsExpVG
+# G4P_APPLICATION_NAME=cmsExpVG
 # G4P_APPLICATION_NAME=cmsExpMT
 # G4P_APPLICATION_NAME=lArTest
-# G4P_APPLICATION_NAME=SimplifiedCalo
+G4P_APPLICATION_NAME=SimplifiedCalo
 
 #clhep version
 #
@@ -40,11 +40,7 @@ G4P_APPLICATION_NAME=cmsExpVG
 # 10.5.beta, etc.
 # G4P_CLHEP_RELEASE=2.4.1.2
 # 10.7, etc.
-# G4P_CLHEP_RELEASE=2.4.4.0
-# 11.0-beta, etc.
-# G4P_CLHEP_RELEASE=2.4.4.1
-# 11.1
-G4_CLHEP_RELEASE=2.4.6.4
+G4P_CLHEP_RELEASE=2.4.4.0
 
 #g4p experiment number:
 G4P_EXP_NUM=01
@@ -308,91 +304,20 @@ WEB_DIR=/home/g4p/
 # same as above plus...
 # G4PARTICLEXS3.1.1
 #
-# 10.7.r05
-# same as above plus...
-# G4EMLOW7.16
-#
-# 11.0.beta-cand00
-# same as above plus...
-# G4EMLOW7.17
-#
-# 10.7.r07
-# same as above plus...
-# G4PARTICLEXS4.0
-#
-# 10.7.r09
-# same as above plus...
-# G4EMLOW8.0   # WITHDRAWN last minute due to problems in early testing; do NOT USE
-# G4TENDL1.4   # NOTE: the 1.4 was already in place before, need to double check...
-#
-# 110.0 (apparently starting 11.0.c01)
-# G4EMLOW8.0 - restored from withdraw of 10.7.r09
-#
-# NOTE: It looks like G4NEUTRONXS & G4TENDL are obsolete, at least as of 11.0
-#
-# 11.0.r03
-# same as above plus...
-# G4EMLOW8.1
-#
-# 11.0.r04
-# same as above plus...
-# G4NDL4.7
-#
-# 11.0.r09
-# same as above plus...
-# G4EMLOW8.2
-#
-# 11.1.r01
-# same as above plus...
-# G4ABLA3.2
-#
-# 11.1.r02
-# same as above plus...
-# G3EMLOW8.3
-#
-# 11.1.r04
-# same as above plus...
-# G4ABLA3.3
-#
-# 11.1.r05 (or perhaps earlier ?)
-# same as above plus...
-# G4INCL1.1
-#
-# 11.1.r06
-# same as above plus...
-# G4EMLOW8.4
-#
-# 11.1.r10
-# same as above plis...
-# G4EMLOw8.5
-# G4INCL1.2
-#
-# 11.2.r03
-# same as above plus...
-# G4PARTICLEXS4.1
-#
-# 11.2.r04
-# same as above plus...
-# G4EMLOW8.6
-#
-# 11.2.r05
-# same as above plus...
-# G4NDL4.7.1
-# G4NUDEXLIB.1.0 - NEW ONE, but is OPTIONAL (non-default)
 #------------------------------------------------------------------------------
-# set G4LEDATA  path-to-data/G4EMLOW8.6
-# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.7
-# set G4NEUTRONHPDATA path-to-data/G4NDL4.7.1
-# set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.6
-# set G4ABLADATA path-to-data/G4ABLA3.3
-# set G4REALSURFACEDATA path-to-data/RealSurface2.2
+# set G4LEDATA  path-to-data/G4EMLOW7.3
+# set G4LEVELGAMMADATA path-to-data/PhotonEvaporation5.2
+# set G4NEUTRONHPDATA path-to-data/G4NDL4.5
+# set G4RADIOACTIVEDATA path-to-data/RadioactiveDecay5.2
+# set G4ABLADATA path-to-data/G4ABLA3.1
+# set G4REALSURFACEDATA path-to-data/RealSurface2.1.1
 # set G4NEUTRONXSDATA path-to-data/G4NEUTRONXS1.4
 # set G4PIIDATA path-to-data/G4PII1.3
-# set G4SAIDXSDATA path-to-data/G4SAIDDATA2.0
-# set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.3
-# set G4TENDL path-to-data/G4TENDL1.4
-# set G4INCLDATA path-to-data/G4INCL1.2
-# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS4.1
+# set G4SAIDXSDATA path-to-data/G4SAIDDATA1.1
+# set G4ENSDFSTATEDATA path-to-data/G4ENSDFSTATE2.2
+# set G4TENDL path-to-data/G4TENDL1.3.2
+# set G4INCLDATA path-to-data/G4INCL1.0
+# set G4PARTICLEXSDATA path-to-data/G4PARTICLEXS3.1.1
 #------------------------------------------------------------------------------
 # The list of samples for Standalone Applications
 # index particle.physics.energy.Bfield.nqueue.events

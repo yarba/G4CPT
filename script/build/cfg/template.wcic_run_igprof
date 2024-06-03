@@ -29,13 +29,19 @@ cd ${OUTPUT_DIR}
 #-----------------------------------------------------------------------
 
 # module load gnu8/8.3.0
-module load gnu11/11.3.0
-
+## module load gnu11/11.3.0
 # G4P_IGPROF_DIR=/srv/software/profilers/igprof
-G4P_IGPROF_DIR=/work1/g4p/g4p/products/gcc-11.3.0/IgProf/igprof-5.9.18-install
+## G4P_IGPROF_DIR=/work1/g4p/g4p/products/gcc-11.3.0/IgProf/igprof-5.9.18-install
+## export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
+## export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib
 
-export PATH=${PATH}:${G4P_IGPROF_DIR}/bin
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${G4P_IGPROF_DIR}/lib
+# migration to EL8 and gcc/11.4.0
+module load gcc/11.4.0
+export HOME=/work1/g4p/g4p/products-el8
+export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+. ${SPACK_ROOT}/share/spack/setup-env.sh
+spack load igprof@5.9.18
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SPACK_ROOT}/opt/spack/linux-almalinux8-ivybridge/gcc-11.4.0/igprof-5.9.18-omfvd7pk52kkdimgjcjldllkn5pokv34/lib
 
 # path for application
 source ${APPLICATION_DIR}/setenv_pbs.sh

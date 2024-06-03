@@ -150,9 +150,20 @@ gc()
 if ( length(args) == 1 | ( length(args) > 1 && sapply(args[2],tolower) != "nohwcsamp" ) )
 {
 print("Creating HWCSAMP dataframe...")
+print("Loading HWCSAMP files")
 hwcsamp <- load.hwcsamp(dirname)
 save(hwcsamp, file = file.path(dirname, "hwcsamp-premerged.rda"))
+print("Saved hwcsamp-premerged.rda")
+
+print("===========")
+print("View the hwcsamp-premerged.rda")
+print("===========")
+# the following will print out up to 100 fisrt lines
+head(hwcsamp, n=100)
+
+
 hwcsamp <- merge(hwcsamp, runmeta)
+print("Merged hwcsamp")
 
 medians <- aggregate(  cbind(ptime, cpi, cyc, ins, fp, ld)~mangled+mname+g4version, data = hwcsamp, FUN = median)
 names(medians) <- c(  "mangled", "mname", "g4version", "ptime.median", "cpi.median", "tot_cyc.median", "tot_ins.median", "fp_ops.median", "ld_ins.median")

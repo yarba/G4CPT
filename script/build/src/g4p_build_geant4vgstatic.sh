@@ -46,13 +46,22 @@ unset G4P_USE_CLHEP ; G4P_USE_CLHEP=0
 #
 # --> Jan.2021 migration to WC-IC
 # --> module load gnu8/8.3.0
-module load gnu11/11.3.0
+## module load gnu11/11.3.0
+# migration to EL8 and gcc/11.4.0
+module load gcc/11.4.0
+
 # --> need higher revision starting 11.0.c00 --> module load cmake/3.15.4
-module load cmake/3.21.3
+## module load cmake/3.21.3
+# migration to EL8 
+module load cmake # 3.27.3 will be loadedd by default
+
 # --> unset G4P_CXX ; G4P_CXX=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/g++
 # --> unset G4P_CC  ; G4P_CC=/opt/ohpc/pub/compiler/gcc/8.3.0/bin/gcc
-unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
-unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
+## unset G4P_CXX ; G4P_CXX=/srv/software/gnu11/11.3.0/bin/g++
+## unset G4P_CC  ; G4P_CC=/srv/software/gnu11/11.3.0/bin/gcc
+# migration to EL8 and gcc1/11.4.0
+unset G4P_CXX ; G4P_CXX=/srv/software/el8/x86_64/eb/GCCcore/11.4.0/bin/g++
+unset G4P_CC  ; G4P_CC=/srv/software/el8/x86_64/eb/GCCcore/11.4.0/bin/gcc
 
 #-----------------------------------------------------------------------
 # Create the directory structure
@@ -98,11 +107,17 @@ cd ${BUILD_DIR}
 #-----------------------------------------------------------------------
 # --> Jan.2021 migration to WC-IC
 # --> XERCESC_DIR=/work1/g4p/g4p/products/gcc-8.3.0/XercesC/xerces-c-3.2.3
-XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+## XERCESC_DIR=/work1/g4p/g4p/products/gcc-11.3.0/XercesC/xerces-c-3.2.3
+
+# migration to EL8 and gcc/11.4.0
+XERCESC_DIR=/work1/g4p/g4p/products-el8/spack/opt/spack/linux-almalinux8-ivybridge/gcc-11.4.0/xerces-c-3.2.3-zgaruhzlzpjxhvg4kf7nrljpzmz3e64j
+
 export XERCESC_DIR
 
 # starting 11.1
-VecGeom_DIR=/work1/g4p/g4p/products/gcc-11.3.0/VecGgeom/build/VecGeom.1.2.6
+# --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-11.3.0/VecGgeom/build/VecGeom.1.2.6
+# migration to EL8
+VecGeom_DIR=/work1/g4p/g4p/products-el8/gcc-11.4.0/VecGeom/build/VecGeom.1.2.6
 # 1.2.0 up to 11.1
 # --> VecGeom_DIR=/work1/g4p/g4p/products/gcc-8.3.0/VecGeom/build/VecGeom.1.2.0
 # VecGeom_DIR=/work1/g4p/g4p/products/gcc-11.3.0/VecGgeom/build/VecGeom.1.2.0

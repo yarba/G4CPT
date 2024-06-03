@@ -9,4 +9,6 @@ echo " Script = ${Script} "
 
 echo " Staring ${Script} at `date` "
 
-sbatch -N 1 -n 1 -c 1 -p cpu_gce --nodelist=wcwn089 --exclusive --qos=regular  --time=23:00:00 -A g4p $Script
+## sbatch -N 1 -n 1 -c 1 -p cpu_gce --nodelist=wcwn089 --exclusive --qos=regular  --time=23:00:00 -A g4p $Script
+# migration to EL8
+sbatch -N 1 -n 1 -c 1 -p wc_cpu --nodelist=wcwn089 --exclusive --qos=regular  --time=23:00:00 -A g4p $Script

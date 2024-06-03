@@ -10,4 +10,6 @@ Master=G4P_RUN_MASTER
 Executable=G4P_RUN_SHELL
 Queue=G4P_NUM_QUEUE
 
-sbatch -N 1 -n 15 -c 1 -p cpu_gce --array=1-6 --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Master $Executable
+## sbatch -N 1 -n 15 -c 1 -p cpu_gce --array=1-6 --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Master $Executable
+# migration to EL8
+sbatch -N 1 -n 15 -c 1 -p wc_cpu --array=1-6 --exclusive --qos=regular --reservation=g4p_pct_batch -A g4p $Master $Executable
